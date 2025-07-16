@@ -1200,48 +1200,186 @@
 
 // MOORE'S ALGORITHM
 
+// #include<iostream>
+// #include<vector>
+// #include<algorithm>
+// using namespace std;
+
+// int majorElm(vector<int> vec){
+//     int n = vec.size();
+//     int freq = 0, ans = 0;
+//     for(int i=0; i<n; i++){
+//         if(freq == 0){
+//             ans = vec[i];
+//         }
+//         if(ans == vec[i]){
+//             freq++;
+//         }
+//         else{
+//             freq--;
+//         }
+//     }
+
+//     int count = 0;
+//     for(int i: vec){
+//         if(ans == i){
+//             count++;
+//         }
+//     }
+//     if(count>n/2){
+//         return ans;
+//     }
+//     else{
+//         return -1;
+//     }
+// }
+
+// int main(){
+//     vector<int> Arr = {1,2,2,1,1};
+//     int x = majorElm(Arr);
+//     if(x != -1){
+//     cout<<"The Majority Element of this Array is : "<<x<<endl;
+//     }
+//     else{
+//         cout<<"The Majority Element does not exist."<<endl;
+//     }
+    
+// }
+
+// BINARY EXPONENTIATION [Time Complexity - O(logn)]
+
+// #include <iostream>
+// using namespace std;
+
+// double pow(double x, int n){
+//     if(n==0) return 1;
+//     if(x==0) return 0;
+//     if(x==1) return 1;
+//     if(x== -1 && n%2 == 0) return 1;
+//     if(x== -1 && n%2 != 0) return -1;
+
+//     long binForm = n;
+//     if(n<0){
+//         x = 1/x;
+//         binForm = -binForm;
+//     }
+//     double ans = 1;
+//     while (binForm > 0){
+//         if((binForm%2) ==1){
+//             ans *= x;
+//         }
+//         x *= x;
+//         binForm /= 2;
+//     }
+//     return ans;
+// }
+
+// int main(){
+//     double x = 3;
+//     int n = 5;
+//     cout<<"Answer = "<<pow(x,n)<<endl;
+//     return 0;
+// }
+
+
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+
+// int max_Profit(vector<int> price){
+//     int maxProfit = 0;
+//     int bestBuy = price[0];
+//     for(int i=1; i< price.size(); i++){
+//         if(price[i] > bestBuy){
+//             maxProfit = max(maxProfit, price[i]-bestBuy);
+//         }
+//         bestBuy = min (bestBuy,price[i]);
+//     }
+//     return maxProfit;
+// }
+
+// int main(){
+//     vector<int> price = {7,1,5,3,6,4};
+//     cout<< "The Maximum Profit Possible is "<<max_Profit(price)<<endl;
+//     return 0;
+// }
+
+// CONTAINER WITH MOST WATER PROBLEM
+
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// int maxWater(vector<int> height){
+//     int maxArea = 0, h, b;
+//     for(int i=0; i < height.size(); i++){
+//         for(int j=i+1;j < height.size(); j++){
+//             h = min(height[i],height[j]);
+//             b = j-i;
+//             int area= h*b;
+//             maxArea = max(area,maxArea);
+//         }
+//     }
+//     return maxArea;
+// }
+
+// int main(){
+//     vector<int> height = {1,8,6,2,5,4,8,3,7};
+//     cout<<"The Area for Maximum Water : "<<maxWater(height)<<endl;
+//     return 0;
+// }
+
+// CONTAINER WITH MOST WATER PROBLEM (2 pointer approach)
+
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// int maxWater(vector<int> height){
+//     int maxArea = 0;
+//     int n = height.size();
+//     int st = 0, end = n-1;
+//     while(st<end){
+//     int h = min(height[st],height[end]);
+//     int b = end-st;
+//     int area = h*b;
+//     maxArea = max(maxArea,area);
+//     height[st]<height[end]? st++: end--;
+//     }
+//     return maxArea;
+// }
+
+// int main(){
+//     vector<int> height = {1,8,6,2,5,4,8,3,7};
+//     cout<<"The Area for Maximum Water : "<<maxWater(height)<<endl;
+//     return 0;
+// }
+
+//PRODUCT OF ARRAY EXCEPT ITSELF 
+
 #include<iostream>
 #include<vector>
-#include<algorithm>
 using namespace std;
 
-int majorElm(vector<int> vec){
-    int n = vec.size();
-    int freq = 0, ans = 0;
+vector<int> productExceptSelf(vector<int>& nums){
+        int n = nums.size();
+    vector<int> ans(n,1);
     for(int i=0; i<n; i++){
-        if(freq == 0){
-            ans = vec[i];
-        }
-        if(ans == vec[i]){
-            freq++;
-        }
-        else{
-            freq--;
+        for(int j=0; j<n; j++){
+            if(j != i){
+                ans[i] *= nums[j];
+            }
         }
     }
-
-    int count = 0;
-    for(int i: vec){
-        if(ans == i){
-            count++;
-        }
-    }
-    if(count>n/2){
-        return ans;
-    }
-    else{
-        return -1;
-    }
+    return ans;
 }
 
 int main(){
-    vector<int> Arr = {1,2,2,1,1};
-    int x = majorElm(Arr);
-    if(x != -1){
-    cout<<"The Majority Element of this Array is : "<<x<<endl;
+    vector<int> nums = {1,2,3,4};
+    int n = nums.size();
+    vector<int> ans = productExceptSelf(nums);
+    for(int i=0; i<n; i++){
+        cout<<ans[i]<<"  ";
     }
-    else{
-        cout<<"The Majority Element does not exist."<<endl;
-    }
-    
+    return 0;
 }
