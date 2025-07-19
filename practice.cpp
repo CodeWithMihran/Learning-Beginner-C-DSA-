@@ -1627,7 +1627,7 @@ int singleElemSearch(vector<int> nums){
 }
 
 int main(){
-    vector<int> nums = {1,2,2,3,3,4,4,8,8};
+    vector<int> nums = {1,1,2,3,3,4,4,8,8};
     cout<<"The Single Element in the Array is : "<<singleElemSearch(nums)<<endl;
     return 0;
 }
