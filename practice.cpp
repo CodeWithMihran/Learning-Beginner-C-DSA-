@@ -1419,29 +1419,136 @@
 
 //PRODUCT OF ARRAY EXCEPT ITSELF (PREFIX AND SUFFIX METHOD) SPACE COMPLEXITY = O(1)
 
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// vector<int> productExceptSelf(vector<int>& nums){
+//     int n = nums.size();
+//     vector<int> ans(n,1);
+//     for(int i=1; i<n; i++){
+//         ans[i] = ans[i-1]*nums[i-1];
+//     }
+//     int suffix = 1;
+//     for(int i=n-2; i>=0; i--){
+//         suffix *= nums[i+1];
+//         ans[i] *= suffix;
+//     }
+//     return ans;
+// }
+
+// int main(){
+//     vector<int> nums = {1,2,3,4};
+//     vector<int> ans = productExceptSelf(nums);
+//     for(int i=0; i<nums.size(); i++){
+//         cout<< ans[i]<<" ";
+//     }
+//     return 0;
+// }
+
+// Binary Search (Iterative Method)
+
+// #include<iostream>
+// #include<vector>
+// #include<algorithm>
+// using namespace std;
+
+// int binarySearch(vector<int>& nums, int t){
+//     int n = nums.size();
+//     int st = 0, end = n-1;
+//     while (st <= end){
+//         int mid = st+ (end-st)/2;
+//         if(nums[mid] > t){
+//             end = mid-1;
+//         }
+//         else if(nums[mid] < t){
+//             st = mid+1;
+//         }
+//         else{
+//             return mid;
+//         }
+//     }
+//     return -1;
+// }
+
+// int main(){
+//     vector<int> nums = {-1,0,3,4,5,9,12};
+//     int target;
+//     cout<< "Enter the target value : ";
+//     cin >> target;
+//     cout<<"Target is at Index : "<< binarySearch(nums,target)<<endl;
+//     return 0;
+// }
+
+//Binary Search (Recursive Method)
+
+// #include<iostream>
+// #include<vector>
+// #include<algorithm>
+// using namespace std;
+
+// int recBinarySearch(vector<int>& nums, int tar ,int st, int end){
+//     if (st <= end){
+//         int mid = st+ (end-st)/2;
+//         if(tar > nums[mid]){
+//             return recBinarySearch(nums, tar, mid+1, end);
+//         }
+//         else if(tar < nums[mid]){
+//             return recBinarySearch(nums, tar, st, mid-1);
+//         }
+//         else{
+//             return mid;
+//         }
+//     }
+//     return -1;
+// }
+
+// int main(){
+//     vector<int> nums = {-1,0,3,4,5,9,12};
+//     int target;
+//     cout<< "Enter the target value : ";
+//     cin >> target;
+//     cout<<"Target is at Index : "<< recBinarySearch(nums,target,0,nums.size())<<endl;
+//     return 0;
+// }
+
+// Modified Form of Binary Search (Rotated Sort Array)
+
 #include<iostream>
 #include<vector>
 using namespace std;
 
-vector<int> productExceptSelf(vector<int>& nums){
+int search(vector<int>& nums, int tar){
     int n = nums.size();
-    vector<int> ans(n,1);
-    for(int i=1; i<n; i++){
-        ans[i] = ans[i-1]*nums[i-1];
+    int st = 0, end = n-1;
+    while(st <= end){
+        int mid = st + (end-st)/2;
+        if(nums[mid] == tar){
+            return mid;
+        }
+        if(nums[st] <= nums[mid]){
+            if(nums[st] <= tar && tar <= nums[mid]){
+                end = mid-1;
+            }
+            else {
+                st = mid+1;
+            }
+        }
+        else{
+            if(nums[mid] <= tar && tar <= nums[end]){
+                st = mid+1;
+            }
+            else {
+                end = mid-1;
+            }
+        }
     }
-    int suffix = 1;
-    for(int i=n-2; i>=0; i--){
-        suffix *= nums[i+1];
-        ans[i] *= suffix;
-    }
-    return ans;
+    return -1;
 }
 
 int main(){
-    vector<int> nums = {1,2,3,4};
-    vector<int> ans = productExceptSelf(nums);
-    for(int i=0; i<nums.size(); i++){
-        cout<< ans[i]<<" ";
-    }
+    vector<int> nums = {3,4,5,6,7,0,1,2};
+    int target = 0;
+    cout<< "Your target is at index : "<<search(nums,target)<<endl;
     return 0;
 }
