@@ -1692,52 +1692,99 @@
 
 //Painter Partiotion's Problem (Binary Search)
 
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// bool isValid(vector<int>& length, int n, int m, int mid){
+//     int painters = 1, time = 0;
+//     for(int i=0; i<n; i++){
+//     if(length[i] > mid){
+//         return false;
+//     }
+//     if(time + length[i] <= mid){
+//         time += length[i];
+//     }
+//     else{
+//         painters ++;
+//         time = length[i];
+//     }
+// }
+//     return painters <= m;
+// }
+
+// int minTime(vector<int>& length, int n, int m){
+//     int sum=0;
+//     int maxm = INT16_MIN;
+//     for(int i=0; i<n; i++){
+//         sum += length[i];
+//         maxm = max(maxm,length[i]);
+//     }
+//     int st = maxm, end = sum;
+//     int ans = -1;
+//     while(st <= end){
+//         int mid = st+ (end-st)/2;
+//         if(isValid(length,n,m,mid) == true){
+//             ans = mid;
+//             end = mid-1;
+//         }
+//         else{
+//             st = mid+1;
+//         }
+//     }
+//     return ans;
+// }
+
+// int main(){
+//     vector<int> length = {40,30,10,20};
+//     int n = length.size(), m=2;
+//     cout<<"The minimum time both will take together to finish the painting is : "<<minTime(length,n,m)<<endl;
+//     return 0;
+// }
+
+// Aggressive Cows Problem (Binary Search)
+
 #include<iostream>
 #include<vector>
+#include<algorithm>
 using namespace std;
 
-bool isValid(vector<int>& length, int n, int m, int mid){
-    int painters = 1, time = 0;
-    for(int i=0; i<n; i++){
-    if(length[i] > mid){
-        return false;
+bool isPossible(vector<int>& stalls, int n, int m, int mid){
+    int cows = 1, lastpos = stalls[0];
+    for(int i=1; i<n; i++){
+        if(stalls[i]-lastpos >= mid){
+            cows++;
+            lastpos = stalls[i];
+        }
+        if(cows == m){
+            return true;
+        }
     }
-    if(time + length[i] <= mid){
-        time += length[i];
-    }
-    else{
-        painters ++;
-        time = length[i];
-    }
-}
-    return painters <= m;
+    return false;
 }
 
-int minTime(vector<int>& length, int n, int m){
-    int sum=0;
-    int maxm = INT16_MIN;
-    for(int i=0; i<n; i++){
-        sum += length[i];
-        maxm = max(maxm,length[i]);
+int largminSpacebtwCows(vector<int> &stalls, int n, int m){
+    sort(stalls.begin(),stalls.end());
+    if(m > n){
+        return -1;
     }
-    int st = maxm, end = sum;
-    int ans = -1;
+    int st = 1, end = stalls[n-1]-stalls[0], ans = -1;
     while(st <= end){
-        int mid = st+ (end-st)/2;
-        if(isValid(length,n,m,mid) == true){
+        int mid = st+(end-st)/2;
+        if(isPossible(stalls,n,m,mid) == true){
             ans = mid;
-            end = mid-1;
+            st = mid+1;
         }
         else{
-            st = mid+1;
+            end = mid-1;
         }
     }
     return ans;
 }
 
 int main(){
-    vector<int> length = {40,30,10,20};
-    int n = length.size(), m=2;
-    cout<<"The minimum time both will take together to finish the painting is : "<<minTime(length,n,m)<<endl;
+    vector<int> stalls = {1,2,8,4,9};
+    int n = stalls.size(), m = 3;
+    cout<<"The Maximum Value of the minimum number of stall between the cows are : "<<largminSpacebtwCows(stalls,n,m)<<endl;
     return 0;
 }
