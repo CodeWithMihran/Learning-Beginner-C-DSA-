@@ -1585,49 +1585,159 @@
 
 // Single Element In Sorted Array
 
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// int singleElemSearch(vector<int> nums){
+//     int n = nums.size();
+//     int st= 0, end = n-1;
+//     if(n == 1){
+//         return nums[0];
+//     }
+//     while(st <= end){
+//         int mid = st + (end-st)/2;
+//         if(mid == 0 && nums[mid] != nums[mid+1]){
+//             return nums[mid];
+//         }
+//         if(mid == (n-1) && nums[mid] != nums[mid-1]){
+//             return nums[mid];
+//         }
+//         if(nums[mid] != nums[mid-1] && nums[mid] != nums[mid+1]){
+//             return nums[mid];
+//         }
+//         if(mid % 2 == 0){
+//         if(nums[mid] == nums[mid-1]){
+//             end = mid-1;
+//         }
+//         else{
+//             st = mid+1;
+//         }
+//     }
+//     else{
+//         if(nums[mid] == nums[mid-1]){
+//             st = mid+1;
+//         }
+//         else{
+//             end = mid-1;
+//         }
+//     }
+//     }
+//     return -1;
+// }
+
+// int main(){
+//     vector<int> nums = {1,1,2,3,3,4,4,8,8};
+//     cout<<"The Single Element in the Array is : "<<singleElemSearch(nums)<<endl;
+//     return 0;
+// }
+
+// Book Allocation Problem (Binary Search)
+
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// bool isValid(vector<int>& nums,int n, int m, int mid){
+//     int student = 1, pages = 0;
+//     for(int i=0; i<nums.size(); i++){
+//         if(nums[i] > mid){
+//             return false;
+//         }
+//         if(pages+ nums[i] <= mid){
+//             pages += nums[i];
+//         }
+//         else{
+//             student++;
+//             pages = nums[i];
+//         }
+//     }
+//     if(student > m){
+//         return false;
+//     }
+//     else{
+//         return true;
+//     }
+// }
+
+// int minNumMaxPageSearch(vector<int>& nums, int n, int m){
+//     if(m>n){
+//         return -1;
+//     }
+//     int ans = -1;
+//     int sum = 0;
+//     for(int i=0; i<n; i++){
+//         sum += nums[i];
+//     }
+//     int st = 0, end = sum;
+//     while(st <= end){
+//         int mid = st +(end -st)/2;
+//         if(isValid(nums,n,m,mid) == true){
+//             end = mid-1;
+//             ans = mid;
+//         }
+//         else{
+//             st = mid+1;
+//         }
+//     }
+//     return ans;
+// }
+
+// int main(){
+//     vector<int> nums = {15,17,20};
+//     int n=nums.size(), m=2;
+//     cout<<"The Minimum number of miximum pages allowed is : "<<minNumMaxPageSearch(nums,n,m)<<endl;
+//     return 0;
+// }
+
+//Painter Partiotion's Problem (Binary Search)
+
 #include<iostream>
 #include<vector>
 using namespace std;
 
-int singleElemSearch(vector<int> nums){
-    int n = nums.size();
-    int st= 0, end = n-1;
-    if(n == 1){
-        return nums[0];
+bool isValid(vector<int>& length, int n, int m, int mid){
+    int painters = 1, time = 0;
+    for(int i=0; i<n; i++){
+    if(length[i] > mid){
+        return false;
     }
-    while(st <= end){
-        int mid = st + (end-st)/2;
-        if(mid == 0 && nums[mid] != nums[mid+1]){
-            return nums[mid];
-        }
-        if(mid == (n-1) && nums[mid] != nums[mid-1]){
-            return nums[mid];
-        }
-        if(nums[mid] != nums[mid-1] && nums[mid] != nums[mid+1]){
-            return nums[mid];
-        }
-        if(mid % 2 == 0){
-        if(nums[mid] == nums[mid-1]){
-            end = mid-1;
-        }
-        else{
-            st = mid+1;
-        }
+    if(time + length[i] <= mid){
+        time += length[i];
     }
     else{
-        if(nums[mid] == nums[mid-1]){
-            st = mid+1;
-        }
-        else{
+        painters ++;
+        time = length[i];
+    }
+}
+    return painters <= m;
+}
+
+int minTime(vector<int>& length, int n, int m){
+    int sum=0;
+    int maxm = INT16_MIN;
+    for(int i=0; i<n; i++){
+        sum += length[i];
+        maxm = max(maxm,length[i]);
+    }
+    int st = maxm, end = sum;
+    int ans = -1;
+    while(st <= end){
+        int mid = st+ (end-st)/2;
+        if(isValid(length,n,m,mid) == true){
+            ans = mid;
             end = mid-1;
         }
+        else{
+            st = mid+1;
+        }
     }
-    }
-    return -1;
+    return ans;
 }
 
 int main(){
-    vector<int> nums = {1,1,2,3,3,4,4,8,8};
-    cout<<"The Single Element in the Array is : "<<singleElemSearch(nums)<<endl;
+    vector<int> length = {40,30,10,20};
+    int n = length.size(), m=2;
+    cout<<"The minimum time both will take together to finish the painting is : "<<minTime(length,n,m)<<endl;
     return 0;
 }
