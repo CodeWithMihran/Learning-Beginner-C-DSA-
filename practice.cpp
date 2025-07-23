@@ -1883,42 +1883,44 @@
 
 // Sort Array with 0s, 1s and 2s.
 
-#include<iostream>
-#include<vector>
-using namespace std;
+// #include<iostream>
+// #include<vector>
+// using namespace std;
 
-void sorting(vector<int> &nums, int n){
-    int x=0,y=0,z=0;
-    for(int i=0; i<n; i++){
-        if(nums[i] == 0){
-            x++;
-        }
-        if(nums[i] == 1){
-            y++;
-        }
-        if(nums[i] == 2){
-            z++;
-        }
-    }
-    int index=0;
-        for(int i=0; i<x; i++){
-            nums[index++] = 0;
-        }
-        for(int i=0; i<y; i++){
-            nums[index++] = 1;
-        }
-        for(int i=0; i<z; i++){
-            nums[index++] = 2;
-    }
-}
+// void sorting(vector<int> &nums, int n){
+//     int x=0,y=0,z=0;
+//     for(int i=0; i<n; i++){
+//         if(nums[i] == 0){
+//             x++;
+//         }
+//         if(nums[i] == 1){
+//             y++;
+//         }
+//         if(nums[i] == 2){
+//             z++;
+//         }
+//     }
+//     int index=0;
+//         for(int i=0; i<x; i++){
+//             nums[index++] = 0;
+//         }
+//         for(int i=0; i<y; i++){
+//             nums[index++] = 1;
+//         }
+//         for(int i=0; i<z; i++){
+//             nums[index++] = 2;
+//     }
+// }
 
-int main(){
-    vector<int> nums = {2,0,2,1,1,0,1,2,0,0};
-    int n = nums.size();
-    sorting(nums,n);
-    cout<<"The Sorted Array : ";
-    for(int i=0; i<n; i++){
-        cout<<nums[i]<<" ";
-    }
-    return 0;
-}
+// int main(){
+//     vector<int> nums = {2,0,2,1,1,0,1,2,0,0};
+//     int n = nums.size();
+//     sorting(nums,n);
+//     cout<<"The Sorted Array : ";
+//     for(int i=0; i<n; i++){
+//         cout<<nums[i]<<" ";
+//     }
+//     return 0;
+// }
+
+// Dutch National Flag Algorithm
