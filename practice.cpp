@@ -1744,47 +1744,78 @@
 
 // Aggressive Cows Problem (Binary Search)
 
+// #include<iostream>
+// #include<vector>
+// #include<algorithm>
+// using namespace std;
+
+// bool isPossible(vector<int>& stalls, int n, int m, int mid){
+//     int cows = 1, lastpos = stalls[0];
+//     for(int i=1; i<n; i++){
+//         if(stalls[i]-lastpos >= mid){
+//             cows++;
+//             lastpos = stalls[i];
+//         }
+//         if(cows == m){
+//             return true;
+//         }
+//     }
+//     return false;
+// }
+
+// int largminSpacebtwCows(vector<int> &stalls, int n, int m){
+//     sort(stalls.begin(),stalls.end());
+//     if(m > n){
+//         return -1;
+//     }
+//     int st = 1, end = stalls[n-1]-stalls[0], ans = -1;
+//     while(st <= end){
+//         int mid = st+(end-st)/2;
+//         if(isPossible(stalls,n,m,mid) == true){
+//             ans = mid;
+//             st = mid+1;
+//         }
+//         else{
+//             end = mid-1;
+//         }
+//     }
+//     return ans;
+// }
+
+// int main(){
+//     vector<int> stalls = {1,2,8,4,9};
+//     int n = stalls.size(), m = 3;
+//     cout<<"The Maximum Value of the minimum number of stall between the cows are : "<<largminSpacebtwCows(stalls,n,m)<<endl;
+//     return 0;
+// }
+
 #include<iostream>
 #include<vector>
-#include<algorithm>
 using namespace std;
 
-bool isPossible(vector<int>& stalls, int n, int m, int mid){
-    int cows = 1, lastpos = stalls[0];
-    for(int i=1; i<n; i++){
-        if(stalls[i]-lastpos >= mid){
-            cows++;
-            lastpos = stalls[i];
+vector<int> bubbleSort(vector<int> &nums, int n){
+    for(int i=0; i<n-1; i++){
+        bool isSwap = false;
+        for(int j=0; j<n-i-1; j++){
+            if(nums[j]>nums[j+1]){
+                swap(nums[j],nums[j+1]);
+                isSwap = true;
+            }
         }
-        if(cows == m){
-            return true;
-        }
-    }
-    return false;
-}
-
-int largminSpacebtwCows(vector<int> &stalls, int n, int m){
-    sort(stalls.begin(),stalls.end());
-    if(m > n){
-        return -1;
-    }
-    int st = 1, end = stalls[n-1]-stalls[0], ans = -1;
-    while(st <= end){
-        int mid = st+(end-st)/2;
-        if(isPossible(stalls,n,m,mid) == true){
-            ans = mid;
-            st = mid+1;
-        }
-        else{
-            end = mid-1;
+        if(!isSwap){
+            break ;
         }
     }
-    return ans;
+    return nums;
 }
 
 int main(){
-    vector<int> stalls = {1,2,8,4,9};
-    int n = stalls.size(), m = 3;
-    cout<<"The Maximum Value of the minimum number of stall between the cows are : "<<largminSpacebtwCows(stalls,n,m)<<endl;
+    vector<int> nums = {2,6,4,7,5,9,3,8,1};
+    int n = nums.size();
+    cout<< "Sorted Array in Ascending Order : ";
+    vector<int> ans = bubbleSort(nums,n);
+    for(int i=0; i<n; i++){
+        cout<<ans[i]<<" ";
+    }
     return 0;
 }
