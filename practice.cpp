@@ -1789,33 +1789,136 @@
 //     return 0;
 // }
 
+//Bubble Sort
+
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// vector<int> bubbleSort(vector<int> &nums, int n){
+//     for(int i=0; i<n-1; i++){
+//         bool isSwap = false;
+//         for(int j=0; j<n-i-1; j++){
+//             if(nums[j]>nums[j+1]){
+//                 swap(nums[j],nums[j+1]);
+//                 isSwap = true;
+//             }
+//         }
+//         if(!isSwap){
+//             break ;
+//         }
+//     }
+//     return nums;
+// }
+
+// int main(){
+//     vector<int> nums = {2,6,4,7,5,9,3,8,1};
+//     int n = nums.size();
+//     cout<< "Sorted Array in Ascending Order : ";
+//     vector<int> ans = bubbleSort(nums,n);
+//     for(int i=0; i<n; i++){
+//         cout<<ans[i]<<" ";
+//     }
+//     return 0;
+// }
+
+// Selection Sort
+
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// vector<int> selectionSort(vector<int> &nums, int n){
+//     for(int i=0; i<n-1; i++){
+//         int minIndex = i;
+//         for(int j=i+1; j<n; j++){
+//             if(nums[j] < nums[minIndex]){
+//                 minIndex = j;
+//             }
+//         }
+//         swap(nums[i],nums[minIndex]);
+//     }
+//     return nums;
+// }
+
+// int main(){
+//     vector<int> nums = {2,6,4,7,5,9,3,8,1};
+//     int n = nums.size();
+//     cout<< "Sorted Array in Ascending Order : ";
+//     vector<int> ans = selectionSort(nums,n);
+//     for(int i=0; i<n; i++){
+//         cout<<ans[i]<<" ";
+//     }
+//     return 0;
+// }
+
+//Insertion Sort
+
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// void insertionSort(vector<int> &nums, int n){
+//     for(int i=1; i<n; i++){
+//         int curr = nums[i];
+//         int prev = i-1;
+//         while(prev >= 0 && nums[prev]>curr){
+//             nums[prev+1] = nums[prev];
+//             prev--;
+//         }
+//         nums[prev+1] = curr;
+//     }
+// }
+
+// int main(){
+//     vector<int> nums = {2,6,4,7,5,9,3,8,1};
+//     int n = nums.size();
+//     cout<< "Sorted Array in Ascending Order : ";
+//     insertionSort(nums,n);
+//     for(int i=0; i<n; i++){
+//         cout<<nums[i]<<" ";
+//     }
+//     return 0;
+// }
+
+// Sort Array with 0s, 1s and 2s.
+
 #include<iostream>
 #include<vector>
 using namespace std;
 
-vector<int> bubbleSort(vector<int> &nums, int n){
-    for(int i=0; i<n-1; i++){
-        bool isSwap = false;
-        for(int j=0; j<n-i-1; j++){
-            if(nums[j]>nums[j+1]){
-                swap(nums[j],nums[j+1]);
-                isSwap = true;
-            }
+void sorting(vector<int> &nums, int n){
+    int x=0,y=0,z=0;
+    for(int i=0; i<n; i++){
+        if(nums[i] == 0){
+            x++;
         }
-        if(!isSwap){
-            break ;
+        if(nums[i] == 1){
+            y++;
+        }
+        if(nums[i] == 2){
+            z++;
         }
     }
-    return nums;
+    int index=0;
+        for(int i=0; i<x; i++){
+            nums[index++] = 0;
+        }
+        for(int i=0; i<y; i++){
+            nums[index++] = 1;
+        }
+        for(int i=0; i<z; i++){
+            nums[index++] = 2;
+    }
 }
 
 int main(){
-    vector<int> nums = {2,6,4,7,5,9,3,8,1};
+    vector<int> nums = {2,0,2,1,1,0,1,2,0,0};
     int n = nums.size();
-    cout<< "Sorted Array in Ascending Order : ";
-    vector<int> ans = bubbleSort(nums,n);
+    sorting(nums,n);
+    cout<<"The Sorted Array : ";
     for(int i=0; i<n; i++){
-        cout<<ans[i]<<" ";
+        cout<<nums[i]<<" ";
     }
     return 0;
 }
