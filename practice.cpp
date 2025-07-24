@@ -1924,3 +1924,76 @@
 // }
 
 // Dutch National Flag Algorithm
+
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// void sorting(vector<int> &nums, int n){
+//     int mid = 0, high = n-1, low = 0;
+//     while(mid <= high){
+//         if(nums[mid] == 0){
+//             swap(nums[low],nums[mid]);
+//             mid++;
+//             low++;
+//         }
+//         else if(nums[mid] == 1){
+//             mid++;
+//         }
+//         else if(nums[mid] == 2){
+//             swap(nums[mid],nums[high]);
+//             high--;
+//         }
+//     }
+// }
+
+// int main(){
+//     vector<int> nums = {2,0,2,1,1,0,1,2,0,0};
+//     int n = nums.size();
+//     sorting(nums,n);
+//     cout<<"Array after sorting : ";
+//     for(int i=0; i<n; i++){
+//         cout<<nums[i]<<" ";
+//     }
+//     return 0;
+// }
+
+// Merge Two Sorted Arrays
+
+#include<iostream>
+#include<vector>
+using namespace std;
+
+void sorting(vector<int> &A, int m, vector<int> &B, int n){
+    int index = m+n-1, i = m-1, j=n-1;
+    while(i>=0 && j>=0){
+        if(A[i]>B[j]){
+            A[index] = A[i];
+            index--;
+            i--;
+        }
+        else{
+            A[index] = B[j];
+            index--;
+            j--;
+        }
+    }
+    while(j >= 0){
+        A[index] = B[j];
+        index--;
+        j--;
+    }
+}
+
+int main(){
+    vector<int> A = {1,2,3,0,0,0};
+    int m = 3;
+    vector<int> B = {2,5,6};
+    int n = B.size();
+    sorting(A,m,B,n);
+    cout<<"The Sorted Merged Array : ";
+    for(int i=0; i<m+n; i++){
+        cout<<A[i]<<" ";
+    }
+    return 0;
+}
