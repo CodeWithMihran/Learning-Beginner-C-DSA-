@@ -1960,40 +1960,86 @@
 
 // Merge Two Sorted Arrays
 
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// void sorting(vector<int> &A, int m, vector<int> &B, int n){
+//     int index = m+n-1, i = m-1, j=n-1;
+//     while(i>=0 && j>=0){
+//         if(A[i]>B[j]){
+//             A[index] = A[i];
+//             index--;
+//             i--;
+//         }
+//         else{
+//             A[index] = B[j];
+//             index--;
+//             j--;
+//         }
+//     }
+//     while(j >= 0){
+//         A[index] = B[j];
+//         index--;
+//         j--;
+//     }
+// }
+
+// int main(){
+//     vector<int> A = {1,2,3,0,0,0};
+//     int m = 3;
+//     vector<int> B = {2,5,6};
+//     int n = B.size();
+//     sorting(A,m,B,n);
+//     cout<<"The Sorted Merged Array : ";
+//     for(int i=0; i<m+n; i++){
+//         cout<<A[i]<<" ";
+//     }
+//     return 0;
+// }
+
 #include<iostream>
 #include<vector>
 using namespace std;
 
-void sorting(vector<int> &A, int m, vector<int> &B, int n){
-    int index = m+n-1, i = m-1, j=n-1;
-    while(i>=0 && j>=0){
-        if(A[i]>B[j]){
-            A[index] = A[i];
-            index--;
-            i--;
-        }
-        else{
-            A[index] = B[j];
-            index--;
-            j--;
+void nextPermutation(vector<int> &nums, int n){
+    int pivot = -1;
+    for(int i=n-2; i>=0; i--){
+        if(nums[i]<nums[i+1]){
+            pivot=i;
+            break;
         }
     }
-    while(j >= 0){
-        A[index] = B[j];
-        index--;
-        j--;
+    if(pivot == -1){
+        int st=0, end=n-1;
+        while(st<end){
+            swap(nums[st],nums[end]);
+            st++;
+            end--;
+        }
+        return;
     }
+    for(int i= n-1; i>pivot; i--){
+        if(nums[pivot]<nums[i]){
+            swap(nums[pivot],nums[i]);
+            break;
+        }
+    }
+    int st1=pivot+1, end=n-1;
+    while(st1<end){
+        swap(nums[st1],nums[end]);
+        st1++;
+        end--;
+       }
 }
 
 int main(){
-    vector<int> A = {1,2,3,0,0,0};
-    int m = 3;
-    vector<int> B = {2,5,6};
-    int n = B.size();
-    sorting(A,m,B,n);
-    cout<<"The Sorted Merged Array : ";
-    for(int i=0; i<m+n; i++){
-        cout<<A[i]<<" ";
+    vector<int> nums = {1,2,3,6,5,4};
+    int n = nums.size();
+    nextPermutation(nums,n);
+    cout<<"The next lexicography permutation is : ";
+    for(int i=0; i<n; i++){
+        cout<<nums[i]<<" ";
     }
     return 0;
 }
