@@ -1690,7 +1690,7 @@
 //     return 0;
 // }
 
-//Painter Partiotion's Problem (Binary Search)
+//Painter Partition's Problem (Binary Search)
 
 // #include<iostream>
 // #include<vector>
