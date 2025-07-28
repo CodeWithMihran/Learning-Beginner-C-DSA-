@@ -1281,6 +1281,7 @@
 //     return 0;
 // }
 
+//
 
 // #include <iostream>
 // #include <vector>
@@ -1998,48 +1999,138 @@
 //     return 0;
 // }
 
+// NEXT PERMUTATION
+
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// void nextPermutation(vector<int> &nums, int n){
+//     int pivot = -1;
+//     for(int i=n-2; i>=0; i--){
+//         if(nums[i]<nums[i+1]){
+//             pivot=i;
+//             break;
+//         }
+//     }
+//     if(pivot == -1){
+//         int st=0, end=n-1;
+//         while(st<end){
+//             swap(nums[st],nums[end]);
+//             st++;
+//             end--;
+//         }
+//         return;
+//     }
+//     for(int i= n-1; i>pivot; i--){
+//         if(nums[pivot]<nums[i]){
+//             swap(nums[pivot],nums[i]);
+//             break;
+//         }
+//     }
+//     int st1=pivot+1, end=n-1;
+//     while(st1<end){
+//         swap(nums[st1],nums[end]);
+//         st1++;
+//         end--;
+//        }
+// }
+
+// int main(){
+//     vector<int> nums = {1,2,3,6,5,4};
+//     int n = nums.size();
+//     nextPermutation(nums,n);
+//     cout<<"The next lexicography permutation is : ";
+//     for(int i=0; i<n; i++){
+//         cout<<nums[i]<<" ";
+//     }
+//     return 0;
+// }
+
+// Learning String Concepts
+
+// #include<iostream>
+// using namespace std;
+
+// int main(){
+//     char str[100];
+//     int len = 0;
+//     cout<<"Enter Your Name : ";
+//     cin.getline(str,100);
+//     for(int i=0; str[i] != '\0'; i++){
+//         len++;
+//     }
+//     cout<<"Length of the string : "<<len<<endl;
+//     return 0;
+// }
+
+// #include<iostream>
+// #include<string>
+// using namespace std;
+
+// int main(){
+//     string str;
+//     cout<<"Enter Your Name : ";
+//     getline(cin,str);
+//     cout<< "Your Name : "<<str<<endl;
+//     cout<< "Length of he string : "<<str.length()<<endl;
+//     return 0;
+// }
+
+// Reverse a String
+
+// #include<iostream>
+// #include<string>
+// using namespace std;
+
+// int main(){
+//     string word;
+//     cout<<"Input the word : ";
+//     getline(cin,word);
+//     int st=0, end = word.length()-1;
+//     while(st<=end){
+//         swap(word[st++],word[end--]);
+//     }
+//     cout<<"Your reversed word : "<<word<<endl;
+//     return 0;
+// }
+
+// Valid Palindrome
+
 #include<iostream>
-#include<vector>
+#include<string>
 using namespace std;
 
-void nextPermutation(vector<int> &nums, int n){
-    int pivot = -1;
-    for(int i=n-2; i>=0; i--){
-        if(nums[i]<nums[i+1]){
-            pivot=i;
-            break;
+bool isAlphaNum(char ch){
+    if((ch >= 0 && ch<=9) ||
+        (tolower(ch) >= 'a' && tolower(ch) <= 'z')){
+            return true;
         }
-    }
-    if(pivot == -1){
-        int st=0, end=n-1;
-        while(st<end){
-            swap(nums[st],nums[end]);
+    return false;
+}
+
+bool isPalindrome(string s){
+    int st = 0, end = s.size()-1;
+    while(st<end){
+        if(!isAlphaNum(s[st])){
+            st++;   continue;
+        }
+        if(!isAlphaNum(s[end])){
+            end--;  continue;
+        }
+        if(tolower(s[st]) != tolower(s[end])){
+            return false;
+        }
+        else{
             st++;
             end--;
         }
-        return;
     }
-    for(int i= n-1; i>pivot; i--){
-        if(nums[pivot]<nums[i]){
-            swap(nums[pivot],nums[i]);
-            break;
-        }
-    }
-    int st1=pivot+1, end=n-1;
-    while(st1<end){
-        swap(nums[st1],nums[end]);
-        st1++;
-        end--;
-       }
+    return true;
 }
 
 int main(){
-    vector<int> nums = {1,2,3,6,5,4};
-    int n = nums.size();
-    nextPermutation(nums,n);
-    cout<<"The next lexicography permutation is : ";
-    for(int i=0; i<n; i++){
-        cout<<nums[i]<<" ";
-    }
+    string s = "Racecar";
+    cout<<isPalindrome(s)<<endl;
     return 0;
 }
