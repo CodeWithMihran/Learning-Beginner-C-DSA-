@@ -2158,44 +2158,117 @@
 
 // Permutation in String
 
+// #include<iostream>
+// #include<string>
+// using namespace std;
+
+// bool isFreqSame(int freq1[], int freq2[]){
+//     for(int i=0; i<26; i++){
+//         if(freq1[i] != freq2[i]){
+//             return false;
+//         }
+//     }
+//     return true;
+// }
+
+// bool checkInclusion(string s1, string s2){
+//     int freq[26] = {0};
+//     for(int i=0; i< s1.length(); i++){
+//         freq[s1[i] - 'a']++;
+//     }
+//     int windSize = s1.length();
+//     for(int i=0; i<s2.length(); i++){
+//         int windIdx = 0, idx = i;
+//         int windFreq[26] = {0};
+//         while(windIdx < windSize && idx < s2.length()){
+//             windFreq[s2[idx]-'a']++;
+//             windIdx++; idx++;  
+//         }
+//         if(isFreqSame(freq,windFreq)){
+//             return true;
+//         }
+//     }
+//     return false;
+// }
+
+// int main(){
+//     string s1 = "ab";
+//     string s2 = "eidbaooo";
+//     string s3 = "eidboaoo";
+//     cout<<checkInclusion(s1,s2)<<endl;
+//     cout<<checkInclusion(s1,s3)<<endl;
+//     return 0;
+// }
+
+// Reverse Word in String 
+
+// #include<iostream>
+// #include<algorithm>
+// #include<string>
+// using namespace std;
+
+// string reverseWords(string s){
+//     reverse(s.begin(),s.end());
+//     string ans = "";
+//     for(int i=0; i<s.length(); i++){
+//         string word = "";
+//         while(i<s.length() && s[i] != ' '){
+//         word += s[i];
+//         i++;
+//         }
+//         reverse(word.begin(), word.end());
+//         if(word.length() > 0){
+//           ans += " "+ word;
+//         }
+//     }
+//     return ans.substr(1);
+// }
+    
+
+// int main(){
+//     string s = "the sky is blue";
+//     string ans = reverseWords(s);
+//     cout<<ans<<endl;
+//     return 0;
+// }
+
+// String Compression
+
 #include<iostream>
+#include<vector>
 #include<string>
 using namespace std;
 
-bool isFreqSame(int freq1[], int freq2[]){
-    for(int i=0; i<26; i++){
-        if(freq1[i] != freq2[i]){
-            return false;
+vector<char> compressString(vector<char> &chars){
+    int idx = 0;
+    for(int i=0; i<chars.size(); i++){
+        char ch = chars[i];
+        int count = 0;
+        while(i<chars.size() && chars[i] == ch){
+            i++;  count++;
         }
-    }
-    return true;
-}
-
-bool checkInclusion(string s1, string s2){
-    int freq[26] = {0};
-    for(int i=0; i< s1.length(); i++){
-        freq[s1[i] - 'a']++;
-    }
-    int windSize = s1.length();
-    for(int i=0; i<s2.length(); i++){
-        int windIdx = 0, idx = i;
-        int windFreq[26] = {0};
-        while(windIdx < windSize && idx < s2.length()){
-            windFreq[s2[idx]-'a']++;
-            windIdx++; idx++;  
+        if (count == 1){
+            chars[idx++] = ch;
         }
-        if(isFreqSame(freq,windFreq)){
-            return true;
+        else{
+            chars[idx++] = ch;
+            string str = to_string(count);
+            for(char dig: str){
+                chars[idx++] = dig;
+            }
         }
+        i--;
     }
-    return false;
+    chars.resize(idx);
+    return chars;
 }
 
 int main(){
-    string s1 = "ab";
-    string s2 = "eidbaooo";
-    string s3 = "eidboaoo";
-    cout<<checkInclusion(s1,s2)<<endl;
-    cout<<checkInclusion(s1,s3)<<endl;
+    vector<char> chars = {'a', 'a', 'b', 'b', 'c', 'c', 'c'};
+    vector<char> compressed = compressString(chars);
+    cout<<"Compressed String : ";
+    for(int i=0; i<compressed.size(); i++){
+        cout<< compressed[i]<<" ";
+    }
     return 0;
 }
