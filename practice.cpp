@@ -2137,21 +2137,65 @@
 
 // Remove All Occurrences of a Substring
 
+// #include<iostream>
+// #include<string>
+// using namespace std;
+
+// string removeOccurences(string s, string part){
+//     while (s.length()>0 && s.find(part) < s.length()){
+//         s.erase(s.find(part), part.length());
+//     }
+//     return s;
+// }
+
+// int main(){
+//     string s = "daabcbaabcbc";
+//     string part = "abc";
+//     string ans = removeOccurences(s,part);
+//     cout<<"String after removing Occurences : "<<ans<<endl;
+//     return 0;
+// }
+
+// Permutation in String
+
 #include<iostream>
 #include<string>
 using namespace std;
 
-string removeOccurences(string s, string part){
-    while (s.length()>0 && s.find(part) < s.length()){
-        s.erase(s.find(part), part.length());
+bool isFreqSame(int freq1[], int freq2[]){
+    for(int i=0; i<26; i++){
+        if(freq1[i] != freq2[i]){
+            return false;
+        }
     }
-    return s;
+    return true;
+}
+
+bool checkInclusion(string s1, string s2){
+    int freq[26] = {0};
+    for(int i=0; i< s1.length(); i++){
+        freq[s1[i] - 'a']++;
+    }
+    int windSize = s1.length();
+    for(int i=0; i<s2.length(); i++){
+        int windIdx = 0, idx = i;
+        int windFreq[26] = {0};
+        while(windIdx < windSize && idx < s2.length()){
+            windFreq[s2[idx]-'a']++;
+            windIdx++; idx++;  
+        }
+        if(isFreqSame(freq,windFreq)){
+            return true;
+        }
+    }
+    return false;
 }
 
 int main(){
-    string s = "daabcbaabcbc";
-    string part = "abc";
-    string ans = removeOccurences(s,part);
-    cout<<"String after removing Occurences : "<<ans<<endl;
+    string s1 = "ab";
+    string s2 = "eidbaooo";
+    string s3 = "eidboaoo";
+    cout<<checkInclusion(s1,s2)<<endl;
+    cout<<checkInclusion(s1,s3)<<endl;
     return 0;
 }
