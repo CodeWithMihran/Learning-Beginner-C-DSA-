@@ -2234,41 +2234,128 @@
 
 // String Compression
 
+// #include<iostream>
+// #include<vector>
+// #include<string>
+// using namespace std;
+
+// vector<char> compressString(vector<char> &chars){
+//     int idx = 0;
+//     for(int i=0; i<chars.size(); i++){
+//         char ch = chars[i];
+//         int count = 0;
+//         while(i<chars.size() && chars[i] == ch){
+//             i++;  count++;
+//         }
+//         if (count == 1){
+//             chars[idx++] = ch;
+//         }
+//         else{
+//             chars[idx++] = ch;
+//             string str = to_string(count);
+//             for(char dig: str){
+//                 chars[idx++] = dig;
+//             }
+//         }
+//         i--;
+//     }
+//     chars.resize(idx);
+//     return chars;
+// }
+
+// int main(){
+//     vector<char> chars = {'a', 'a', 'b', 'b', 'c', 'c', 'c'};
+//     vector<char> compressed = compressString(chars);
+//     cout<<"Compressed String : ";
+//     for(int i=0; i<compressed.size(); i++){
+//         cout<< compressed[i]<<" ";
+//     }
+//     return 0;
+// }
+
+// Some DSA Maths Logic with Code
+
+// Prime Number
+
+// #include<iostream>
+// using namespace std;
+
+// bool isPrime(int n){
+//      for(int i=2; i*i <= n; i++){
+//         if(n % i == 0){
+//             return false;
+//         }
+//      }
+//      return true;
+// }
+
+// int main(){
+//     int n;
+//     cout<<"Enter the number : ";
+//     cin >> n;
+//     if(!isPrime(n)){
+//         cout<<n<<" is not a Prime Number."<<endl;
+//     }
+//     else{
+//         cout<<n<<" is a Prime Number."<<endl;
+//     }
+//     return 0;
+// }
+
+// Count of Prime Number upto n.
+
+// #include<iostream>
+// using namespace std;
+
+// int countPrime(int n){
+//     int count = 0;
+//     for(int i=2; i<=n; i++){
+//         bool isPrime = true;
+//         for(int j=2; j*j <= i; j++){
+//         if(i % j == 0){
+//             isPrime = false;
+//             break;
+//         }
+//       }
+//       if(isPrime){
+//         count++;
+//       }
+//     }
+//     return count;
+// }
+
+// int main(){
+//     int n;
+//     cout<<"Enter the number : ";
+//     cin >> n;
+//     cout<<"No. of Prime Numbers upto '"<<n<<"' is "<<countPrime(n)<<endl;
+//     return 0;
+// }
+
+// Sieve of Eratosthenes 
+
 #include<iostream>
 #include<vector>
-#include<string>
 using namespace std;
 
-vector<char> compressString(vector<char> &chars){
-    int idx = 0;
-    for(int i=0; i<chars.size(); i++){
-        char ch = chars[i];
-        int count = 0;
-        while(i<chars.size() && chars[i] == ch){
-            i++;  count++;
-        }
-        if (count == 1){
-            chars[idx++] = ch;
-        }
-        else{
-            chars[idx++] = ch;
-            string str = to_string(count);
-            for(char dig: str){
-                chars[idx++] = dig;
+int countPrime(int n){
+    vector<bool> isPrime(n+1,true);
+    int count = 0;
+    for(int i=2; i<n; i++){
+        if(isPrime[i]){
+            count++;
+            for(int j=i*i; j<n; j=j+i){
+                isPrime[j] = false;
             }
         }
-        i--;
     }
-    chars.resize(idx);
-    return chars;
+    return count;
 }
 
 int main(){
-    vector<char> chars = {'a', 'a', 'b', 'b', 'c', 'c', 'c'};
-    vector<char> compressed = compressString(chars);
-    cout<<"Compressed String : ";
-    for(int i=0; i<compressed.size(); i++){
-        cout<< compressed[i]<<" ";
-    }
+    int n;
+    cout<<"Enter the number : ";
+    cin >> n;
+    cout<<"No. of Prime Numbers upto '"<<n<<"' is "<<countPrime(n)<<endl;
     return 0;
 }
