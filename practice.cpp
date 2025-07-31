@@ -2334,28 +2334,97 @@
 
 // Sieve of Eratosthenes 
 
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// int countPrime(int n){
+//     vector<bool> isPrime(n+1,true);
+//     int count = 0;
+//     for(int i=2; i<n; i++){
+//         if(isPrime[i]){
+//             count++;
+//             for(int j=i*i; j<n; j=j+i){
+//                 isPrime[j] = false;
+//             }
+//         }
+//     }
+//     return count;
+// }
+
+// int main(){
+//     int n;
+//     cout<<"Enter the number : ";
+//     cin >> n;
+//     cout<<"No. of Prime Numbers upto '"<<n<<"' is "<<countPrime(n)<<endl;
+//     return 0;
+// }
+
+// Digits in a number
+
+// #include<iostream>
+// using namespace std;
+
+// int countDigits(int n){
+//     int count = 0;
+//     while(n != 0){
+//         int digit = n%10;
+//         count++;
+//         n /= 10;
+//     }
+//     return count;
+// }
+
+// int main(){
+//     int n;
+//     cout<<"Enter the number : ";
+//     cin >> n;
+//     cout<<"Number of digits in your number are : "<<countDigits(n)<<endl;
+//     return 0;
+// }
+
+// Shortcut Method to find the number of digits in a number
+
+// #include<iostream>
+// #include<math.h>
+// using namespace std;
+
+// int main(){
+//     int n;
+//     cout<<"ENter the number : ";
+//     cin >> n;
+//     cout<<"Number of digits in your number are : "<<(int)(log10(n)+1)<<endl;
+//     return 0;
+// }
+
+// Armstrong Number
+
 #include<iostream>
-#include<vector>
 using namespace std;
 
-int countPrime(int n){
-    vector<bool> isPrime(n+1,true);
-    int count = 0;
-    for(int i=2; i<n; i++){
-        if(isPrime[i]){
-            count++;
-            for(int j=i*i; j<n; j=j+i){
-                isPrime[j] = false;
-            }
-        }
+bool isArmstrong(int n){
+    int copyN=n;
+    int ans = 0;
+    while(n != 0){
+        int x = n % 10;
+        ans += (x*x*x);
+        n /= 10;
     }
-    return count;
+    if(ans == copyN){
+        return true;
+    }
+    return false;
 }
 
 int main(){
     int n;
     cout<<"Enter the number : ";
     cin >> n;
-    cout<<"No. of Prime Numbers upto '"<<n<<"' is "<<countPrime(n)<<endl;
+    if(isArmstrong(n)){
+        cout<<"Given number is an Armstrong."<<endl;
+    }
+    else{
+        cout<<"Given number is not an Armstrong."<<endl;
+    }
     return 0;
 }
