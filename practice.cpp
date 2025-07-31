@@ -2554,37 +2554,212 @@
 
 // Palindrome Number :
 
+// #include<iostream>
+// using namespace std;
+
+// int reverse(int n){
+//     int revNum = 0;
+//     while(n != 0){
+//         int dig = n % 10;
+//         if(revNum > INT16_MAX/10 || revNum < INT16_MIN/10){
+//             return 0;
+//         }
+//         revNum = (revNum * 10) + dig;
+//         n = n/10;
+//     }
+//     return revNum;
+// }
+
+//     bool isPalindrome(int x) {
+//         if(x < 0) return false;
+//         int revNum = reverse(x);
+//         return x == revNum;
+//     }
+
+//     int main(){
+//     int n;
+//     cout<<"Enter the number : ";
+//     cin >> n;
+//     if(isPalindrome(n)){
+//         cout<<"The given number is a Palindrome."<<endl;
+//     }
+//     else{
+//         cout<<"The given number is not a Palindrome."<<endl;
+//     }
+//     return 0;
+// }
+
+// Learning Matrix Concept
+// 2D Matrix
+
+// #include<iostream>
+// using namespace std;
+
+// int main(){
+//     int matrix[4][3] = {{1,2,3},{4,5,6},{7,8,9},{10,11,12}};
+//     int rows = 4;
+//     int cols = 3;
+//     for(int i=0; i<rows; i++){
+//         for(int j=0; j<cols; j++){
+//             cin >> matrix[i][j];
+//         }
+//     }
+//     for(int i=0; i<rows; i++){
+//         for(int j=0; j<cols; j++){
+//             cout<<matrix[i][j]<<" ";
+//         }
+//         cout<<endl;
+//     }
+//     return 0;
+// }
+
+// Linear Search
+
+// #include<iostream>
+// using namespace std;
+
+// bool linearSearch(int matrix[][3], int rows, int cols, int key){
+//     for(int i=0; i<rows; i++){
+//         for(int j=0; j<cols; j++){
+//             if( matrix[i][j] == key){
+//                 return true;
+//             }
+//         }
+//     }
+//     return false;
+// }
+
+// int main(){
+//     int matrix[4][3] = {{1,2,3},{4,5,6},{7,8,9},{10,11,12}};
+//     int rows = 4;
+//     int cols = 3;
+//     int key = 8;
+//     cout<<linearSearch(matrix,rows,cols,key)<<endl;
+//     return 0;
+// }
+
+// #include<iostream>
+// #include<utility>
+// using namespace std;
+
+// pair<int,int> linearSearch(int matrix[][3], int rows, int cols, int key){
+//     pair<int, int> indices = {-1,-1};
+//     for(int i=0; i<rows; i++){
+//         for(int j=0; j<cols; j++){
+//             if( matrix[i][j] == key){
+//                 indices = {i,j};
+//             }
+//         }
+//     }
+//     return indices;
+// }
+
+// int main(){
+//     int matrix[4][3] = {{1,2,3},{4,5,6},{7,8,9},{10,11,12}};
+//     int rows = 4;
+//     int cols = 3;
+//     int key = 8;
+//     pair<int,int> indices = linearSearch(matrix,rows,cols,key);
+//     cout<<"The Key is located at : ["<<indices.first<<"] ["<<indices.second<<"]"<<endl;
+//     return 0;
+// }
+
+// Maximum Row Sum
+
+// #include<iostream>
+// using namespace std;
+
+// int maxmRowSum(int matrix[][3], int rows, int cols){
+//     int maxSum = INT16_MIN;
+//     for(int i=0; i<rows; i++){
+//         int sum = 0;
+//         for(int j=0; j<cols; j++){
+//             sum += matrix[i][j];
+//         }
+//         maxSum = max(maxSum, sum);
+//     }
+//     return maxSum;
+// }
+
+// int main(){
+//     int matrix[3][3] = {{1,2,3},{4,5,6},{7,8,9}};
+//     int rows = 3;
+//     int cols = 3;
+//     cout<<"Maximum Row Sum of the matrix : "<<maxmRowSum(matrix,rows,cols)<<endl;
+//     return 0;
+// }
+
+// Maximum Coloumn Sum
+
+// #include<iostream>
+// using namespace std;
+
+// int maxmColSum(int matrix[][3], int rows, int cols){
+//     int maxSum = INT16_MIN;
+//     for(int i=0; i<rows; i++){
+//         int sum = 0;
+//         for(int j=0; j<cols; j++){
+//             sum += matrix[j][i];
+//         }
+//         maxSum = max(maxSum, sum);
+//     }
+//     return maxSum;
+// }
+
+// int main(){
+//     int matrix[3][3] = {{1,2,3},{4,5,6},{7,8,9}};
+//     int rows = 3;
+//     int cols = 3;
+//     cout<<"Maximum Coloumn Sum of the matrix : "<<maxmColSum(matrix,rows,cols)<<endl;
+//     return 0;
+// }
+
+// Diagonal Sum
+
+// #include<iostream>
+// using namespace std;
+
+// int diagonalSum(int matrix[][3], int n){
+//     int sum = 0;
+//     for(int i=0; i<n; i++){
+//         for(int j=0; j<n; j++){
+//             if(i ==j){
+//                 sum += matrix[i][j];
+//             }
+//             else if(j == n-1-i){
+//                 sum += matrix[i][j];
+//             }
+//         }
+//     }
+//     return sum;
+// }
+
+// int main(){
+//     int matrix[3][3] = {{1,2,3},{4,5,6},{7,8,9}};
+//     int n = 3;
+//     cout<<"Sum of diagonal elements are : "<<diagonalSum(matrix,n)<<endl;
+//     return 0;
+// }
+
+// 2nd Method
+
 #include<iostream>
 using namespace std;
 
-int reverse(int n){
-    int revNum = 0;
-    while(n != 0){
-        int dig = n % 10;
-        if(revNum > INT16_MAX/10 || revNum < INT16_MIN/10){
-            return 0;
+int diagonalSum(int matrix[][3], int n){
+    int sum = 0;
+    for(int i=0; i<n; i++){
+        sum += matrix[i][i];
+        if(i != n-1-i){
+            sum += matrix[i][n-1-i];
         }
-        revNum = (revNum * 10) + dig;
-        n = n/10;
     }
-    return revNum;
+    return sum;
 }
 
-    bool isPalindrome(int x) {
-        if(x < 0) return false;
-        int revNum = reverse(x);
-        return x == revNum;
-    }
-
-    int main(){
-    int n;
-    cout<<"Enter the number : ";
-    cin >> n;
-    if(isPalindrome(n)){
-        cout<<"The given number is a Palindrome."<<endl;
-    }
-    else{
-        cout<<"The given number is not a Palindrome."<<endl;
-    }
+int main(){
+    int matrix[3][3] = {{1,2,3},{4,5,6},{7,8,9}};
+    int n = 3;
+    cout<<"Sum of diagonal elements are : "<<diagonalSum(matrix,n)<<endl;
     return 0;
 }
