@@ -2399,32 +2399,192 @@
 
 // Armstrong Number
 
+// #include<iostream>
+// using namespace std;
+
+// bool isArmstrong(int n){
+//     int copyN=n;
+//     int ans = 0;
+//     while(n != 0){
+//         int x = n % 10;
+//         ans += (x*x*x);
+//         n /= 10;
+//     }
+//     if(ans == copyN){
+//         return true;
+//     }
+//     return false;
+// }
+
+// int main(){
+//     int n;
+//     cout<<"Enter the number : ";
+//     cin >> n;
+//     if(isArmstrong(n)){
+//         cout<<"Given number is an Armstrong."<<endl;
+//     }
+//     else{
+//         cout<<"Given number is not an Armstrong."<<endl;
+//     }
+//     return 0;
+// }
+
+// Greatest Common Divisor (GCD) or HCF
+// Brute-Force Method
+
+// #include<iostream>
+// using namespace std;
+
+// int calcGCD(int x, int y){
+//     if(x == 0 && y == 0){
+//         return 0;
+//     }
+//     if(x == 0){
+//         return y;
+//     }
+//     if(y == 0){
+//         return x;
+//     }
+//     int gcd = 1;
+//     for(int i=1; i<=min(x,y); i++){
+//         if(x % i == 0 && y % i == 0){
+//             gcd = i;
+//         }
+//     }
+//     return gcd;
+// }
+
+// int main(){
+//     int x = 8;
+//     int y = 0;
+//     cout<<"GCD of the two numbers are : "<<calcGCD(x,y)<<endl;
+//     return 0;
+// }
+
+// EUCLID'S ALGORITHM
+
+// #include<iostream>
+// using namespace std;
+
+// int calcGCD(int x, int y){
+//     while(x>0 && y>0){
+//         if(x > y){
+//             x = x % y;
+//         }
+//         else{
+//             y = y % x;
+//         }
+//     }
+//     if(x == 0) return y;
+//     return x;
+// }
+
+
+
+// int main(){
+//     int x = 20;
+//     int y = 28;
+//     cout<<"GCD of the two numbers are : "<<gcdRec(x,y)<<endl;
+//     return 0;
+// }
+
+// Recursion Method
+
+// #include<iostream>
+// using namespace std;
+
+// int gcdRec(int x, int y){
+//     if(y==0) return x;
+//     return gcdRec(y, x%y);
+// }
+
+// int main(){
+//     int x = 20;
+//     int y = 28;
+//     cout<<"GCD of the two numbers are : "<<gcdRec(x,y)<<endl;
+//     return 0;
+// }
+
+// LCM
+
+// #include<iostream>
+// using namespace std;
+
+// int gcdRec(int x, int y){
+//     if(y==0) return x;
+//     return gcdRec(y, x%y);
+// }
+
+// int calcLCM(int x,int y){
+//     int lcm = (x*y) / gcdRec(x,y);
+// }
+
+// int main(){
+//     int x = 20;
+//     int y = 28;
+//     cout<<"LCM of the two numbers are : "<<calcLCM(x,y)<<endl;
+//     return 0;
+// }
+
+// Reverse a Number 
+
+// #include<iostream>
+// using namespace std;
+
+// int reverse(int n){
+//     int revNum = 0;
+//     while(n != 0){
+//         int dig = n % 10;
+//         if(revNum > INT16_MAX/10 || revNum < INT16_MIN/10){
+//             return 0;
+//         }
+//         revNum = (revNum * 10) + dig;
+//         n = n/10;
+//     }
+//     return revNum;
+// }
+
+// int main(){
+//     int n;
+//     cout<<"Enter the number : ";
+//     cin >> n;
+//     cout<<"Your reversed number : "<<reverse(n)<<endl;
+//     return 0;
+// }
+
+// Palindrome Number :
+
 #include<iostream>
 using namespace std;
 
-bool isArmstrong(int n){
-    int copyN=n;
-    int ans = 0;
+int reverse(int n){
+    int revNum = 0;
     while(n != 0){
-        int x = n % 10;
-        ans += (x*x*x);
-        n /= 10;
+        int dig = n % 10;
+        if(revNum > INT16_MAX/10 || revNum < INT16_MIN/10){
+            return 0;
+        }
+        revNum = (revNum * 10) + dig;
+        n = n/10;
     }
-    if(ans == copyN){
-        return true;
-    }
-    return false;
+    return revNum;
 }
 
-int main(){
+    bool isPalindrome(int x) {
+        if(x < 0) return false;
+        int revNum = reverse(x);
+        return x == revNum;
+    }
+
+    int main(){
     int n;
     cout<<"Enter the number : ";
     cin >> n;
-    if(isArmstrong(n)){
-        cout<<"Given number is an Armstrong."<<endl;
+    if(isPalindrome(n)){
+        cout<<"The given number is a Palindrome."<<endl;
     }
     else{
-        cout<<"Given number is not an Armstrong."<<endl;
+        cout<<"The given number is not a Palindrome."<<endl;
     }
     return 0;
 }
