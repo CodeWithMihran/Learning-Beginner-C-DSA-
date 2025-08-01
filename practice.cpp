@@ -2764,21 +2764,53 @@
 //     return 0;
 // }
 
+// Learning 2D Vector
+
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// int main(){
+//     vector<vector<int>> matrix = {{1,2,3},{4,5,6,9,10},{7,8,9}};
+    
+//     // rows = matrix.size();
+//     // cols = matrix[i].szie();
+
+//     for(int i=0; i<matrix.size(); i++){
+//         for(int j=0; j<matrix[i].size(); j++){
+//             cout<<matrix[i][j]<<" ";
+//         }
+//         cout<<endl;
+//     }
+//     return 0;
+// }
+
 #include<iostream>
 #include<vector>
 using namespace std;
 
-int main(){
-    vector<vector<int>> matrix = {{1,2,3},{4,5,6,9,10},{7,8,9}};
-    
-    // rows = matrix.size();
-    // cols = matrix[i].szie();
-
+bool searchMatrix(vector<vector<int>> matrix, int target){
     for(int i=0; i<matrix.size(); i++){
-        for(int j=0; j<matrix[i].size(); j++){
-            cout<<matrix[i][j]<<" ";
+        int st = 0, end = matrix[i].size()-1;
+        while(st <= end){
+            int mid = st + (end-st)/2;
+            if(matrix[i][mid] == target){
+                return true;
+            }
+            if(matrix[i][mid] > target){
+                end = mid-1;
+            }
+            else{
+                st = mid+1;
+            }
         }
-        cout<<endl;
     }
+    return false;
+}
+
+int main(){
+    vector<vector<int>> matrix = {{1,3,5,7},{10,11,16,20},{20,30,34,60}};
+    int target = 100;
+    cout<<searchMatrix(matrix ,target)<<endl;
     return 0;
 }
