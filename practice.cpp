@@ -2943,33 +2943,74 @@
 
 // 2 Sum Problem (Leetcode Q.1)
 
+// #include<iostream>
+// #include<vector>
+// #include<unordered_map>
+// using namespace std;
+
+// vector<int> twoSum(vector<int>& nums, int target){
+//     unordered_map<int,int> m;
+//     vector<int> ans;
+//     int n = nums.size();
+//     for(int i=0; i<n; i++){
+//         int first = nums[i];
+//         int second = target - first;
+//         if(m.find(second) != m.end()){
+//             ans.push_back(i);
+//             ans.push_back(m[second]);
+//             break;
+//         }
+//         m[first] = i;
+//     }
+//     return ans;
+// }
+
+// int main(){
+//     vector<int> nums = {2,7,11,15};
+//     int target = 9;
+//     vector<int> ans = twoSum(nums,target);
+//     cout<<"Index of the two sum value : ";
+//     for(int i=0; i<ans.size(); i++){
+//         cout<<ans[i]<<" ";
+//     }
+//     cout<<endl;
+//     return 0;
+// }
+
+// Find Missing and Repeating values.
+
 #include<iostream>
 #include<vector>
+#include<unordered_set>
 #include<unordered_map>
 using namespace std;
 
-vector<int> twoSum(vector<int>& nums, int target){
-    unordered_map<int,int> m;
+vector<int> find(vector<vector<int>> &grid){
     vector<int> ans;
-    int n = nums.size();
+    unordered_set<int> s;
+    int n = grid.size();
+    int a,b;
+    int actualSum = 0, expectedSum = 0;
     for(int i=0; i<n; i++){
-        int first = nums[i];
-        int second = target - first;
-        if(m.find(second) != m.end()){
-            ans.push_back(i);
-            ans.push_back(m[second]);
-            break;
+        for(int j=0; j<n; j++){
+            actualSum += grid[i][j];
+            if(s.find(grid[i][j]) != s.end()){
+                a = grid[i][j];
+                ans.push_back(a);
+            }
+            s.insert(grid[i][j]);
         }
-        m[first] = i;
     }
+    expectedSum = (n*n)*((n*n)+1)/2;
+    b = expectedSum + a - actualSum;
+    ans.push_back(b);
     return ans;
 }
 
 int main(){
-    vector<int> nums = {2,7,11,15};
-    int target = 9;
-    vector<int> ans = twoSum(nums,target);
-    cout<<"Index of the two sum value : ";
+    vector<vector<int>> grid = {{9,1,7},{8,9,2},{3,4,6}};
+    vector<int> ans = find(grid);
+    cout<<"The target values are : ";
     for(int i=0; i<ans.size(); i++){
         cout<<ans[i]<<" ";
     }
