@@ -2896,44 +2896,82 @@
 //     return 0;
 // }
 
+// Spiral Matrix O(m*n)
+
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+//     vector<int> spiralOrder(vector<vector<int>>& matrix) {
+//         int m = matrix.size(), n=matrix[0].size();
+//         int srow = 0, scol = 0, ecol = n-1, erow = m-1;
+//         vector<int> ans;
+//         while(srow <= erow && scol <= ecol){
+//             for(int j=scol; j<= ecol; j++){
+//                 ans.push_back(matrix[srow][j]);
+//             }
+//             for(int i=srow+1; i<=erow; i++){
+//                 ans.push_back(matrix[i][ecol]);
+//             }
+//             for(int j=ecol-1; j>=scol; j--){
+//                 if(srow == erow){
+//                     break;
+//                 }
+//                 ans.push_back(matrix[erow][j]);
+//             }
+//             for(int i=erow-1; i>=srow+1; i--){
+//                 if(scol == ecol){
+//                     break;
+//                 }
+//                 ans.push_back(matrix[i][scol]);
+//             }
+//             srow++;  scol++; erow--; ecol--;
+//         }
+//         return ans;
+//     }
+
+// int main(){
+//     vector<vector<int>> matrix = {{1,2,3},{4,5,6},{7,8,9}};
+//     vector<int> spiral_matrix = spiralOrder(matrix);
+//     cout<<"Matrix in spiral order : ";
+//     for(int i=0; i<spiral_matrix.size(); i++){
+//         cout << spiral_matrix[i]<<" ";
+//     }
+//     cout<<endl;
+//     return 0;
+// }
+
+// 2 Sum Problem (Leetcode Q.1)
+
 #include<iostream>
 #include<vector>
+#include<unordered_map>
 using namespace std;
 
-    vector<int> spiralOrder(vector<vector<int>>& matrix) {
-        int m = matrix.size(), n=matrix[0].size();
-        int srow = 0, scol = 0, ecol = n-1, erow = m-1;
-        vector<int> ans;
-        while(srow <= erow && scol <= ecol){
-            for(int j=scol; j<= ecol; j++){
-                ans.push_back(matrix[srow][j]);
-            }
-            for(int i=srow+1; i<=erow; i++){
-                ans.push_back(matrix[i][ecol]);
-            }
-            for(int j=ecol-1; j>=scol; j--){
-                if(srow == erow){
-                    break;
-                }
-                ans.push_back(matrix[erow][j]);
-            }
-            for(int i=erow-1; i>=srow+1; i--){
-                if(scol == ecol){
-                    break;
-                }
-                ans.push_back(matrix[i][scol]);
-            }
-            srow++;  scol++; erow--; ecol--;
+vector<int> twoSum(vector<int>& nums, int target){
+    unordered_map<int,int> m;
+    vector<int> ans;
+    int n = nums.size();
+    for(int i=0; i<n; i++){
+        int first = nums[i];
+        int second = target - first;
+        if(m.find(second) != m.end()){
+            ans.push_back(i);
+            ans.push_back(m[second]);
+            break;
         }
-        return ans;
+        m[first] = i;
     }
+    return ans;
+}
 
 int main(){
-    vector<vector<int>> matrix = {{1,2,3},{4,5,6},{7,8,9}};
-    vector<int> spiral_matrix = spiralOrder(matrix);
-    cout<<"Matrix in spiral order : ";
-    for(int i=0; i<spiral_matrix.size(); i++){
-        cout << spiral_matrix[i]<<" ";
+    vector<int> nums = {2,7,11,15};
+    int target = 9;
+    vector<int> ans = twoSum(nums,target);
+    cout<<"Index of the two sum value : ";
+    for(int i=0; i<ans.size(); i++){
+        cout<<ans[i]<<" ";
     }
     cout<<endl;
     return 0;
