@@ -2979,41 +2979,92 @@
 
 // Find Missing and Repeating values.
 
+// #include<iostream>
+// #include<vector>
+// #include<unordered_set>
+// #include<unordered_map>
+// using namespace std;
+
+// vector<int> find(vector<vector<int>> &grid){
+//     vector<int> ans;
+//     unordered_set<int> s;
+//     int n = grid.size();
+//     int a,b;
+//     int actualSum = 0, expectedSum = 0;
+//     for(int i=0; i<n; i++){
+//         for(int j=0; j<n; j++){
+//             actualSum += grid[i][j];
+//             if(s.find(grid[i][j]) != s.end()){
+//                 a = grid[i][j];
+//                 ans.push_back(a);
+//             }
+//             s.insert(grid[i][j]);
+//         }
+//     }
+//     expectedSum = (n*n)*((n*n)+1)/2;
+//     b = expectedSum + a - actualSum;
+//     ans.push_back(b);
+//     return ans;
+// }
+
+// int main(){
+//     vector<vector<int>> grid = {{9,1,7},{8,9,2},{3,4,6}};
+//     vector<int> ans = find(grid);
+//     cout<<"The target values are : ";
+//     for(int i=0; i<ans.size(); i++){
+//         cout<<ans[i]<<" ";
+//     }
+//     cout<<endl;
+//     return 0;
+// }
+
+// Find the duplicate number. TC : O(n) || SC : O(n)
+
+// #include<iostream>
+// #include<vector>
+// #include<unordered_set>
+// using namespace std;
+
+// int findDuplicate(vector<int> &nums){
+//     unordered_set<int> s;
+
+//     for(int val: nums){
+//         if(s.find(val) != s.end()){
+//             return val;
+//         }
+//         s.insert(val);
+//     }
+//     return -1;
+// }
+
+// int main(){
+//     vector<int> nums = {1,3,4,2,2};
+//     cout<<"The duplicate value in the Array : "<<findDuplicate(nums)<<endl;
+//     return 0;
+// }
+
+// Find the duplicate number. TC : O(n) || SC : O(1)
+
 #include<iostream>
 #include<vector>
-#include<unordered_set>
-#include<unordered_map>
 using namespace std;
 
-vector<int> find(vector<vector<int>> &grid){
-    vector<int> ans;
-    unordered_set<int> s;
-    int n = grid.size();
-    int a,b;
-    int actualSum = 0, expectedSum = 0;
-    for(int i=0; i<n; i++){
-        for(int j=0; j<n; j++){
-            actualSum += grid[i][j];
-            if(s.find(grid[i][j]) != s.end()){
-                a = grid[i][j];
-                ans.push_back(a);
-            }
-            s.insert(grid[i][j]);
-        }
+int findDuplicate(vector<int> &nums){
+    int slow = nums[0], fast = nums[0];
+    do{
+        slow = nums[slow];
+        fast = nums[nums[fast]];
+    }while(slow != fast);
+    slow = nums[0];
+    while(slow != fast){
+        slow = nums[slow];
+        fast = nums[fast];
     }
-    expectedSum = (n*n)*((n*n)+1)/2;
-    b = expectedSum + a - actualSum;
-    ans.push_back(b);
-    return ans;
+    return slow;
 }
 
 int main(){
-    vector<vector<int>> grid = {{9,1,7},{8,9,2},{3,4,6}};
-    vector<int> ans = find(grid);
-    cout<<"The target values are : ";
-    for(int i=0; i<ans.size(); i++){
-        cout<<ans[i]<<" ";
-    }
-    cout<<endl;
+    vector<int> nums = {3,1,3,4,2};
+    cout<<"The duplicate value in the Array : "<<findDuplicate(nums)<<endl;
     return 0;
 }
