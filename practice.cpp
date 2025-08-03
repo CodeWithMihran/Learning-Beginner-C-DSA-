@@ -3163,49 +3163,105 @@
 
 // 2 Pointer Approach TC : O(nlogn + n^2)  SC : O(uniqueTriplets)
 
+// #include<iostream>
+// #include<vector>
+// #include<set>
+// #include<algorithm>
+// using namespace std;
+
+// vector<vector<int>> threeSum(vector<int> &nums, int target){
+//     int n = nums.size();
+//         vector<vector<int>> ans;
+//         sort(nums.begin(),nums.end());
+//         for(int i=0; i<n; i++){
+//             int j = i+1, k = n-1;
+//             if(i>0 && nums[i] == nums[i-1]){ continue; }
+//             while(j<k){
+//                 int sum = nums[i]+nums[j]+nums[k];
+//                 if(sum < target){
+//                     j++;
+//                 }
+//                 else if(sum > target){
+//                     k--;
+//                 }
+//                 else{
+//                     ans.push_back({nums[i],nums[j],nums[k]});
+//                     j++; k--;
+//                     while(j<k && nums[j] == nums[j-1]){
+//                         j++;
+//                     }
+//                 }
+//             }
+//         }
+//         return ans;
+// }
+
+// int main(){
+//     vector<int> nums = {-1,0,1,2,-1,-4};
+//     int target = -6;
+//     vector<vector<int>> ans = threeSum(nums, target);
+//     for(int i=0; i<ans.size(); i++){
+//         cout<<"{";
+//         for(int j=0; j<ans[0].size(); j++){
+//             cout<<ans[i][j]<<" ";
+//         }
+//         cout<<"}"<<endl;
+//     }
+//     return 0;
+// }
+
+// Four Sum
+
 #include<iostream>
 #include<vector>
-#include<set>
 #include<algorithm>
 using namespace std;
 
-vector<vector<int>> threeSum(vector<int> &nums, int target){
+vector<vector<int>> fourSum(vector<int>& nums, int target) {
     int n = nums.size();
-        vector<vector<int>> ans;
-        sort(nums.begin(),nums.end());
-        for(int i=0; i<n; i++){
-            int j = i+1, k = n-1;
-            if(i>0 && nums[i] == nums[i-1]){ continue; }
-            while(j<k){
-                int sum = nums[i]+nums[j]+nums[k];
-                if(sum < target){
-                    j++;
-                }
-                else if(sum > target){
-                    k--;
-                }
-                else{
-                    ans.push_back({nums[i],nums[j],nums[k]});
-                    j++; k--;
-                    while(j<k && nums[j] == nums[j-1]){
-                        j++;
-                    }
+    vector<vector<int>> ans;
+    sort(nums.begin(), nums.end());
+
+    for(int i = 0; i < n; i++) {
+        if(i > 0 && nums[i] == nums[i-1]) continue;
+
+        for(int j = i + 1; j < n; j++) {
+            if(j > i + 1 && nums[j] == nums[j-1]) continue;
+
+            int p = j + 1, q = n - 1;
+
+            while(p < q) {
+                long long sum = 1LL * nums[i] + nums[j] + nums[p] + nums[q];
+                if(sum < target) {
+                    p++;
+                } else if(sum > target) {
+                    q--;
+                } else {
+                    ans.push_back({nums[i], nums[j], nums[p], nums[q]});
+                    p++; q--;
+                    while(p < q && nums[p] == nums[p - 1]) p++;
+                    while(p < q && nums[q] == nums[q + 1]) q--;
                 }
             }
         }
-        return ans;
+    }
+
+    return ans;
 }
 
-int main(){
-    vector<int> nums = {-1,0,1,2,-1,-4};
-    int target = -6;
-    vector<vector<int>> ans = threeSum(nums, target);
-    for(int i=0; i<ans.size(); i++){
-        cout<<"{";
-        for(int j=0; j<ans[0].size(); j++){
-            cout<<ans[i][j]<<" ";
+int main() {
+    vector<int> nums = {-1, 0, 1, 2, -1, -4};
+    int target = 2;
+    vector<vector<int>> ans = fourSum(nums, target);
+
+    for(int i = 0; i < ans.size(); i++) {
+        cout << "{";
+        for(int j = 0; j < ans[i].size(); j++) {
+            cout << ans[i][j];
+            if (j != ans[i].size() - 1) cout << ", ";
         }
-        cout<<"}"<<endl;
+        cout << "}" << endl;
     }
+
     return 0;
 }
