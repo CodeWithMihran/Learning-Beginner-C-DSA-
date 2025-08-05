@@ -3294,40 +3294,77 @@
 //     return 0;
 // }
 
-#include<iostream>
-#include<vector>
-#include<unordered_map>
+// #include<iostream>
+// #include<vector>
+// #include<unordered_map>
+// using namespace std;
+
+// int countSubarray(vector<int>& nums, int k) {
+//         int n = nums.size();
+//         int count = 0;
+//         vector<int> prefixSum(n,0);
+//         prefixSum[0] = nums[0];
+//         for(int i=1; i<n; i++){
+//             prefixSum[i] = prefixSum[i-1] + nums[i];
+//         }
+//         unordered_map<int,int> m;
+//         for(int j=0; j<n; j++){
+//             if(prefixSum[j] == k){
+//                 count++;
+//             }
+
+//             int val = prefixSum[j] - k;
+//             if(m.find(val) != m.end()){
+//                 count += m[val];
+//             }
+//             if(m.find(prefixSum[j]) == m.end()){
+//                 m[prefixSum[j]] = 0;
+//             }
+//             m[prefixSum[j]]++;
+//         }
+//         return count;
+//     }
+
+// int main(){
+//     vector<int> nums = {9,4,0,20,3,10,5};
+//     int k = 33;
+//     cout<<"The count of subarrays which sums upto k : "<<countSubarray(nums,k)<<endl;
+//     return 0;
+// }
+
+// Merge Intervals
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
-int countSubarray(vector<int>& nums, int k) {
-        int n = nums.size();
-        int count = 0;
-        vector<int> prefixSum(n,0);
-        prefixSum[0] = nums[0];
-        for(int i=1; i<n; i++){
-            prefixSum[i] = prefixSum[i-1] + nums[i];
+vector<vector<int>> merge(vector<vector<int>>& intervals) {
+    sort(intervals.begin(), intervals.end());
+    
+    vector<vector<int>> merged;
+    
+    for (auto interval : intervals) {
+        if (merged.empty() || merged.back()[1] < interval[0]) {
+            merged.push_back(interval);
         }
-        unordered_map<int,int> m;
-        for(int j=0; j<n; j++){
-            if(prefixSum[j] == k){
-                count++;
-            }
-
-            int val = prefixSum[j] - k;
-            if(m.find(val) != m.end()){
-                count += m[val];
-            }
-            if(m.find(prefixSum[j]) == m.end()){
-                m[prefixSum[j]] = 0;
-            }
-            m[prefixSum[j]]++;
+        else {
+            merged.back()[1] = max(merged.back()[1], interval[1]);
         }
-        return count;
     }
+    return merged;
+}
 
-int main(){
-    vector<int> nums = {9,4,0,20,3,10,5};
-    int k = 33;
-    cout<<"The count of subarrays which sums upto k : "<<countSubarray(nums,k)<<endl;
+int main() {
+    vector<vector<int>> intervals = {{1,3},{2,6},{8,10},{15,18}};
+    
+    vector<vector<int>> result = merge(intervals);
+    
+    cout << "Merged Intervals: ";
+    for (auto interval : result) {
+        cout << "[" << interval[0] << "," << interval[1] << "] ";
+    }
+    cout << endl;
+    
     return 0;
 }
