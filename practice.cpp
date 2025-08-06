@@ -3334,37 +3334,99 @@
 
 // Merge Intervals
 
-#include <iostream>
-#include <vector>
-#include <algorithm>
+// #include <iostream>
+// #include <vector>
+// #include <algorithm>
+// using namespace std;
+
+// vector<vector<int>> merge(vector<vector<int>>& intervals) {
+//     sort(intervals.begin(), intervals.end());
+    
+//     vector<vector<int>> merged;
+    
+//     for (auto interval : intervals) {
+//         if (merged.empty() || merged.back()[1] < interval[0]) {
+//             merged.push_back(interval);
+//         }
+//         else {
+//             merged.back()[1] = max(merged.back()[1], interval[1]);
+//         }
+//     }
+//     return merged;
+// }
+
+// int main() {
+//     vector<vector<int>> intervals = {{1,3},{2,6},{8,10},{15,18}};
+    
+//     vector<vector<int>> result = merge(intervals);
+    
+//     cout << "Merged Intervals: ";
+//     for (auto interval : result) {
+//         cout << "[" << interval[0] << "," << interval[1] << "] ";
+//     }
+//     cout << endl;
+    
+//     return 0;
+// }
+
+// Learning Recursion
+
+// #include<iostream>
+// using namespace std;
+
+// void printNums(int n){
+//     if(n == 1){
+//         cout<<"1"<<endl;
+//         return;
+//     }
+//     cout<<n<<" ";
+//     printNums(n-1);
+// }
+
+// int main(){
+//     int n;
+//     cout<<"Enter the value : ";
+//     cin >> n;
+//     printNums(n);
+//     return 0;
+// }
+
+// Calculate Factorial by recusrsion
+
+// #include<iostream>
+// using namespace std;
+
+// int calcFactorial(int n){
+//     if(n == 0){
+//         return 1;
+//     }
+
+//     return n*calcFactorial(n-1);
+// }
+
+// int main(){
+//     int n;
+//     cout<<"Enter the value : ";
+//     cin >> n;
+//     cout<<"Factorial of the given value is : "<<calcFactorial(n)<<endl;
+//     return 0;
+// }
+
+#include<iostream>
 using namespace std;
 
-vector<vector<int>> merge(vector<vector<int>>& intervals) {
-    sort(intervals.begin(), intervals.end());
-    
-    vector<vector<int>> merged;
-    
-    for (auto interval : intervals) {
-        if (merged.empty() || merged.back()[1] < interval[0]) {
-            merged.push_back(interval);
-        }
-        else {
-            merged.back()[1] = max(merged.back()[1], interval[1]);
-        }
+int sum(int n){
+    if(n == 1){
+        return 1;
     }
-    return merged;
+
+    return n + sum(n-1);
 }
 
-int main() {
-    vector<vector<int>> intervals = {{1,3},{2,6},{8,10},{15,18}};
-    
-    vector<vector<int>> result = merge(intervals);
-    
-    cout << "Merged Intervals: ";
-    for (auto interval : result) {
-        cout << "[" << interval[0] << "," << interval[1] << "] ";
-    }
-    cout << endl;
-    
+int main(){
+    int n;
+    cout<<"Enter the value : ";
+    cin >> n;
+    cout<<"Sum of the given value upto 1 is : "<<sum(n)<<endl;
     return 0;
 }
