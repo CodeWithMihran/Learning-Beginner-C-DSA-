@@ -3435,24 +3435,79 @@
 
 // Calculate Fibonacci by recusrsion
 
+// #include<iostream>
+// using namespace std;
+
+// int calcFibonacci(int n){
+//     if(n == 0){
+//         return 0;
+//     }
+//     if(n == 1){
+//         return 1;
+//     }
+
+//     return calcFibonacci(n-1) + calcFibonacci(n-2);
+// }
+
+// int main(){
+//     int n;
+//     cout<<"Enter the value : ";
+//     cin >> n;
+//     cout<<"Fibonacci of the nth term is : "<<calcFibonacci(n)<<endl;
+//     return 0;
+// }
+
+// Check if Array is Sroted
+
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// bool isSorted(vector<int> &nums, int n){
+//     if(n == 0 || n == 1){
+//         return true;
+//     }
+//     return nums[n-1] >= nums[n-2] && isSorted(nums, n-1);
+// }
+
+// int main(){
+//     vector<int> nums = {1,7,3,4,5};
+//     int n = nums.size();
+//     if(isSorted(nums,n)){
+//         cout<<"The Array is Sorted."<<endl;
+//     }
+//     else{
+//         cout<<"The Array is not Sorted."<<endl;
+//     }
+//     return 0;
+// }
+
+// Recursive Binary Search
+
 #include<iostream>
+#include<vector>
 using namespace std;
 
-int calcFibonacci(int n){
-    if(n == 0){
-        return 0;
+bool binarySearch(vector<int> &nums, int target,int st, int end){
+    if(st<= end){
+    int mid = st + (end-st)/2;
+    if(nums[mid] == target){
+        return true;
     }
-    if(n == 1){
-        return 1;
+    if(nums[mid] > target){
+        binarySearch(nums, target, st, mid-1);
     }
-
-    return calcFibonacci(n-1) + calcFibonacci(n-2);
+    else{
+        binarySearch(nums, target, mid+1, end);
+    }
 }
-
+    return false;
+}
 int main(){
-    int n;
-    cout<<"Enter the value : ";
-    cin >> n;
-    cout<<"Fibonacci of the nth term is : "<<calcFibonacci(n)<<endl;
+    vector<int> nums = {-1,0,3,9,5,12,9};
+    int n = nums.size();
+    int target = 9;
+    int st = 0, end = n-1;
+    cout<<binarySearch(nums, target, st, end)<<endl;
     return 0;
 }
