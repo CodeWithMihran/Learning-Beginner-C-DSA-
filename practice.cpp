@@ -3412,21 +3412,47 @@
 //     return 0;
 // }
 
+// Calculate Sum by recusrsion
+
+// #include<iostream>
+// using namespace std;
+
+// int sum(int n){
+//     if(n == 1){
+//         return 1;
+//     }
+
+//     return n + sum(n-1);
+// }
+
+// int main(){
+//     int n;
+//     cout<<"Enter the value : ";
+//     cin >> n;
+//     cout<<"Sum of the given value upto 1 is : "<<sum(n)<<endl;
+//     return 0;
+// }
+
+// Calculate Fibonacci by recusrsion
+
 #include<iostream>
 using namespace std;
 
-int sum(int n){
+int calcFibonacci(int n){
+    if(n == 0){
+        return 0;
+    }
     if(n == 1){
         return 1;
     }
 
-    return n + sum(n-1);
+    return calcFibonacci(n-1) + calcFibonacci(n-2);
 }
 
 int main(){
     int n;
     cout<<"Enter the value : ";
     cin >> n;
-    cout<<"Sum of the given value upto 1 is : "<<sum(n)<<endl;
+    cout<<"Fibonacci of the nth term is : "<<calcFibonacci(n)<<endl;
     return 0;
 }
