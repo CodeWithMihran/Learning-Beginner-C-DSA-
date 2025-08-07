@@ -3484,30 +3484,57 @@
 
 // Recursive Binary Search
 
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// bool binarySearch(vector<int> &nums, int target,int st, int end){
+//     if(st<= end){
+//     int mid = st + (end-st)/2;
+//     if(nums[mid] == target){
+//         return true;
+//     }
+//     if(nums[mid] > target){
+//         binarySearch(nums, target, st, mid-1);
+//     }
+//     else{
+//         binarySearch(nums, target, mid+1, end);
+//     }
+// }
+//     return false;
+// }
+// int main(){
+//     vector<int> nums = {-1,0,3,9,5,12,9};
+//     int n = nums.size();
+//     int target = 9;
+//     int st = 0, end = n-1;
+//     cout<<binarySearch(nums, target, st, end)<<endl;
+//     return 0;
+// }
+
+// Print all subsets with recursion
+
 #include<iostream>
 #include<vector>
 using namespace std;
 
-bool binarySearch(vector<int> &nums, int target,int st, int end){
-    if(st<= end){
-    int mid = st + (end-st)/2;
-    if(nums[mid] == target){
-        return true;
+void printSubsets(vector<int> &nums, vector<int> &ans, int i){
+    if(i == nums.size()){
+        for(int val : ans){
+            cout<< val<<" ";
+        }
+        cout<<endl;
+        return;
     }
-    if(nums[mid] > target){
-        binarySearch(nums, target, st, mid-1);
-    }
-    else{
-        binarySearch(nums, target, mid+1, end);
-    }
+    ans.push_back(nums[i]);
+    printSubsets(nums, ans, i+1);
+    ans.pop_back();
+    printSubsets(nums, ans, i+1);
 }
-    return false;
-}
+
 int main(){
-    vector<int> nums = {-1,0,3,9,5,12,9};
-    int n = nums.size();
-    int target = 9;
-    int st = 0, end = n-1;
-    cout<<binarySearch(nums, target, st, end)<<endl;
+    vector<int> nums = {1,2,3};
+    vector<int> ans;
+    printSubsets(nums,ans,0);
     return 0;
 }
