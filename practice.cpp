@@ -3514,27 +3514,66 @@
 
 // Print all subsets with recursion
 
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// void printSubsets(vector<int> &nums, vector<int> &ans, int i){
+//     if(i == nums.size()){
+//         for(int val : ans){
+//             cout<< val<<" ";
+//         }
+//         cout<<endl;
+//         return;
+//     }
+//     ans.push_back(nums[i]);
+//     printSubsets(nums, ans, i+1);
+//     ans.pop_back();
+//     printSubsets(nums, ans, i+1);
+// }
+
+// int main(){
+//     vector<int> nums = {1,2,3};
+//     vector<int> ans;
+//     printSubsets(nums,ans,0);
+//     return 0;
+// }
+
+//Print and store all subsets with recursion
+
 #include<iostream>
 #include<vector>
 using namespace std;
 
-void printSubsets(vector<int> &nums, vector<int> &ans, int i){
-    if(i == nums.size()){
-        for(int val : ans){
-            cout<< val<<" ";
+void getAllSubsets(vector<int>& nums, vector<int>& ans, int i, vector<vector<int>>& allSubsets){
+        if(i == nums.size()){
+            allSubsets.push_back({ans});
+            return;
         }
-        cout<<endl;
-        return;
+        ans.push_back(nums[i]);
+        getAllSubsets(nums, ans, i+1, allSubsets);
+        ans.pop_back();
+        getAllSubsets(nums, ans, i+1, allSubsets);
     }
-    ans.push_back(nums[i]);
-    printSubsets(nums, ans, i+1);
-    ans.pop_back();
-    printSubsets(nums, ans, i+1);
-}
+    
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> allSubsets;
+        vector<int> ans;
 
-int main(){
+        getAllSubsets(nums, ans, 0, allSubsets);
+        return allSubsets;
+    }
+
+    int main(){
     vector<int> nums = {1,2,3};
-    vector<int> ans;
-    printSubsets(nums,ans,0);
+    vector<vector<int>> allSubsets = subsets(nums);
+     cout << "All subsets:" << endl;
+    for(auto subset : allSubsets){
+        cout << "{ ";
+        for(int val : subset){
+            cout << val << " ";
+        }
+        cout << "}" << endl;
+    }
     return 0;
 }
