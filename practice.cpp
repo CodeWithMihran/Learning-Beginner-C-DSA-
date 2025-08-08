@@ -3612,14 +3612,52 @@
 //     int main(){
 //     vector<int> nums = {1,2,2};
 //     vector<vector<int>> allSubsets = subsetsWithDup(nums);
-//      cout << "All subsets:" << endl;
-//     for(auto subset : allSubsets){
-//         cout << "{ ";
-//         for(int val : subset){
-//             cout << val << " ";
-//         }
-//         cout << "}" << endl;
-//     }
+    //  cout << "All subsets:" << endl;
+    // for(auto subset : allSubsets){
+    //     cout << "{ ";
+    //     for(int val : subset){
+    //         cout << val << " ";
+    //     }
+    //     cout << "}" << endl;
+    // }
 //     return 0;
 // }
 
+// Permutations by recursion
+
+#include<iostream>
+#include<vector>
+using namespace std;
+
+void getPerms(vector<int>& nums, int idx, vector<vector<int>>& ans){
+        int n = nums.size();
+        if(idx == n){
+            ans.push_back(nums);
+            return;
+        }
+        for(int i=idx; i<n; i++){
+            swap(nums[idx],nums[i]);
+            getPerms(nums, idx+1, ans);
+            swap(nums[idx],nums[i]);
+        }
+    }
+
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> ans;
+        getPerms(nums, 0, ans);
+        return ans;
+    }
+
+int main(){
+    vector<int> nums = {1,2,3};
+    vector<vector<int>> ans = permute(nums);
+    cout << "All permutations :" << endl;
+    for(auto permutations : ans){
+        cout << "{ ";
+        for(int val : permutations){
+            cout << val << " ";
+        }
+        cout << "}" << endl;
+    }
+    return 0;
+}    
