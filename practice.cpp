@@ -3661,3 +3661,57 @@
 //     }
 //     return 0;
 // }    
+
+#include<iostream>
+#include<vector>
+using namespace std;
+
+bool isSafe(vector<string> &board, int row, int col, int n) {
+        // Check column
+        for(int i=0; i<row; i++)
+            if(board[i][col] == 'Q') return false;
+
+        // Upper left diagonal
+        for(int i=row, j=col; i>=0 && j>=0; i--, j--)
+            if(board[i][j] == 'Q') return false;
+
+        // Upper right diagonal
+        for(int i=row, j=col; i>=0 && j<n; i--, j++)
+            if(board[i][j] == 'Q') return false;
+
+        return true;
+    }
+
+    void nQueens(vector<string> &board, int row, int n, vector<vector<string>> &ans) {
+        if(row == n) {
+            ans.push_back(board);
+            return;
+        }
+        for(int j=0; j<n; j++) {
+            if(isSafe(board, row, j, n)) {
+                board[row][j] = 'Q';
+                nQueens(board, row+1, n, ans);
+                board[row][j] = '.';
+            }
+        }
+    }
+    
+    vector<vector<string>> solveNQueens(int n) {
+        vector<string> board(n, string(n, '.')); // Initialize board
+        vector<vector<string>> ans;
+        nQueens(board, 0, n, ans);
+        return ans;
+    }
+
+int main(){
+    int n=4;
+    vector<vector<string>> ans = solveNQueens(n);
+    for(auto permutations : ans){
+        cout << "{ ";
+        for(int val : permutations){
+            cout << val << " ";
+        }
+        cout << "}" << endl;
+    }
+    return 0;
+}      
