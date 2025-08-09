@@ -3706,12 +3706,11 @@ bool isSafe(vector<string> &board, int row, int col, int n) {
 int main(){
     int n=4;
     vector<vector<string>> ans = solveNQueens(n);
-    for(auto permutations : ans){
-        cout << "{ ";
-        for(int val : permutations){
-            cout << val << " ";
+    for(auto board : ans){
+        for(string row : board){
+            cout << row << " ";
         }
-        cout << "}" << endl;
+        cout<<"\n\n";
     }
     return 0;
 }      
