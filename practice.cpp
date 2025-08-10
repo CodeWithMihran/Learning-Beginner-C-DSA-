@@ -3662,55 +3662,132 @@
 //     return 0;
 // }    
 
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// bool isSafe(vector<string> &board, int row, int col, int n) {
+//         // Check column
+//         for(int i=0; i<row; i++)
+//             if(board[i][col] == 'Q') return false;
+
+//         // Upper left diagonal
+//         for(int i=row, j=col; i>=0 && j>=0; i--, j--)
+//             if(board[i][j] == 'Q') return false;
+
+//         // Upper right diagonal
+//         for(int i=row, j=col; i>=0 && j<n; i--, j++)
+//             if(board[i][j] == 'Q') return false;
+
+//         return true;
+//     }
+
+//     void nQueens(vector<string> &board, int row, int n, vector<vector<string>> &ans) {
+//         if(row == n) {
+//             ans.push_back(board);
+//             return;
+//         }
+//         for(int j=0; j<n; j++) {
+//             if(isSafe(board, row, j, n)) {
+//                 board[row][j] = 'Q';
+//                 nQueens(board, row+1, n, ans);
+//                 board[row][j] = '.';
+//             }
+//         }
+//     }
+    
+//     vector<vector<string>> solveNQueens(int n) {
+//         vector<string> board(n, string(n, '.')); // Initialize board
+//         vector<vector<string>> ans;
+//         nQueens(board, 0, n, ans);
+//         return ans;
+//     }
+
+// int main(){
+//     int n=4;
+//     vector<vector<string>> ans = solveNQueens(n);
+//     for(auto board : ans){
+//         for(string row : board){
+//             cout << row << " ";
+//         }
+//         cout<<"\n\n";
+//     }
+//     return 0;
+// }      
+
 #include<iostream>
 #include<vector>
 using namespace std;
 
-bool isSafe(vector<string> &board, int row, int col, int n) {
-        // Check column
-        for(int i=0; i<row; i++)
-            if(board[i][col] == 'Q') return false;
-
-        // Upper left diagonal
-        for(int i=row, j=col; i>=0 && j>=0; i--, j--)
-            if(board[i][j] == 'Q') return false;
-
-        // Upper right diagonal
-        for(int i=row, j=col; i>=0 && j<n; i--, j++)
-            if(board[i][j] == 'Q') return false;
-
-        return true;
-    }
-
-    void nQueens(vector<string> &board, int row, int n, vector<vector<string>> &ans) {
-        if(row == n) {
-            ans.push_back(board);
-            return;
-        }
-        for(int j=0; j<n; j++) {
-            if(isSafe(board, row, j, n)) {
-                board[row][j] = 'Q';
-                nQueens(board, row+1, n, ans);
-                board[row][j] = '.';
+bool isAllowed(vector<vector<char>>& board,int row, int col, char dig){
+        for(int i=0; i<9; i++){
+            if(board[row][i] == dig){
+                return false;
             }
         }
+        for(int i=0; i<9; i++){
+            if(board[i][col] == dig){
+                return false;
+            }
+        }
+        int stRow = (row/3)*3,  stCol = (col/3)*3;
+        for(int i=stRow; i<=stRow+2; i++){
+            for(int j=stCol; j<=stCol+2; j++){
+                if(board[i][j] == dig){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
     
-    vector<vector<string>> solveNQueens(int n) {
-        vector<string> board(n, string(n, '.')); // Initialize board
-        vector<vector<string>> ans;
-        nQueens(board, 0, n, ans);
-        return ans;
+    bool sudokuSolver(vector<vector<char>>& board,int row, int col){
+        if(row == 9){
+            return true;
+        }
+        int nextRow = row, nextCol = col+1;
+        if(col == 8){
+            nextRow = row+1;
+            nextCol = 0;
+        }
+        if(board[row][col] != '.'){
+            return sudokuSolver(board, nextRow, nextCol);
+        }
+        for(char dig = '1'; dig <= '9'; dig++){
+            if(isAllowed(board, row, col, dig)){
+                board[row][col] = dig;
+                if(sudokuSolver(board, nextRow, nextCol)){
+                    return true;
+                }
+                board[row][col] = '.';
+            }
+        }
+        return false;
     }
 
+void solveSudoku(vector<vector<char>>& board) {
+        sudokuSolver(board, 0,0);
+    }    
+
 int main(){
-    int n=4;
-    vector<vector<string>> ans = solveNQueens(n);
-    for(auto board : ans){
-        for(string row : board){
-            cout << row << " ";
-        }
-        cout<<"\n\n";
+    vector<vector<char>> board = {
+    {'5','3','.','.','7','.','.','.','.'},
+    {'6','.','.','1','9','5','.','.','.'},
+    {'.','9','8','.','.','.','.','6','.'},
+    {'8','.','.','.','6','.','.','.','3'},
+    {'4','.','.','8','.','3','.','.','1'},
+    {'7','.','.','.','2','.','.','.','6'},
+    {'.','6','.','.','.','.','2','8','.'},
+    {'.','.','.','4','1','9','.','.','5'},
+    {'.','.','.','.','8','.','.','7','9'}
+};
+solveSudoku(board);
+for(auto val : board){
+    cout<<"{";
+    for(char ans : val){
+        cout<< ans<<",";
     }
+    cout<<"}\n";
+}
     return 0;
-}      
+}
