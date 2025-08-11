@@ -3715,79 +3715,128 @@
 //     return 0;
 // }      
 
+// Soduko Solver
+
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// bool isAllowed(vector<vector<char>>& board,int row, int col, char dig){
+//         for(int i=0; i<9; i++){
+//             if(board[row][i] == dig){
+//                 return false;
+//             }
+//         }
+//         for(int i=0; i<9; i++){
+//             if(board[i][col] == dig){
+//                 return false;
+//             }
+//         }
+//         int stRow = (row/3)*3,  stCol = (col/3)*3;
+//         for(int i=stRow; i<=stRow+2; i++){
+//             for(int j=stCol; j<=stCol+2; j++){
+//                 if(board[i][j] == dig){
+//                     return false;
+//                 }
+//             }
+//         }
+//         return true;
+//     }
+    
+//     bool sudokuSolver(vector<vector<char>>& board,int row, int col){
+//         if(row == 9){
+//             return true;
+//         }
+//         int nextRow = row, nextCol = col+1;
+//         if(col == 8){
+//             nextRow = row+1;
+//             nextCol = 0;
+//         }
+//         if(board[row][col] != '.'){
+//             return sudokuSolver(board, nextRow, nextCol);
+//         }
+//         for(char dig = '1'; dig <= '9'; dig++){
+//             if(isAllowed(board, row, col, dig)){
+//                 board[row][col] = dig;
+//                 if(sudokuSolver(board, nextRow, nextCol)){
+//                     return true;
+//                 }
+//                 board[row][col] = '.';
+//             }
+//         }
+//         return false;
+//     }
+
+// void solveSudoku(vector<vector<char>>& board) {
+//         sudokuSolver(board, 0,0);
+//     }    
+
+// int main(){
+//     vector<vector<char>> board = {
+//     {'5','3','.','.','7','.','.','.','.'},
+//     {'6','.','.','1','9','5','.','.','.'},
+//     {'.','9','8','.','.','.','.','6','.'},
+//     {'8','.','.','.','6','.','.','.','3'},
+//     {'4','.','.','8','.','3','.','.','1'},
+//     {'7','.','.','.','2','.','.','.','6'},
+//     {'.','6','.','.','.','.','2','8','.'},
+//     {'.','.','.','4','1','9','.','.','5'},
+//     {'.','.','.','.','8','.','.','7','9'}
+// };
+// solveSudoku(board);
+// for(auto val : board){
+//     cout<<"{";
+//     for(char ans : val){
+//         cout<< ans<<",";
+//     }
+//     cout<<"}\n";
+// }
+//     return 0;
+// }
+
+// Rat in a Maze Problem
+
 #include<iostream>
 #include<vector>
 using namespace std;
 
-bool isAllowed(vector<vector<char>>& board,int row, int col, char dig){
-        for(int i=0; i<9; i++){
-            if(board[row][i] == dig){
-                return false;
-            }
-        }
-        for(int i=0; i<9; i++){
-            if(board[i][col] == dig){
-                return false;
-            }
-        }
-        int stRow = (row/3)*3,  stCol = (col/3)*3;
-        for(int i=stRow; i<=stRow+2; i++){
-            for(int j=stCol; j<=stCol+2; j++){
-                if(board[i][j] == dig){
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-    
-    bool sudokuSolver(vector<vector<char>>& board,int row, int col){
-        if(row == 9){
-            return true;
-        }
-        int nextRow = row, nextCol = col+1;
-        if(col == 8){
-            nextRow = row+1;
-            nextCol = 0;
-        }
-        if(board[row][col] != '.'){
-            return sudokuSolver(board, nextRow, nextCol);
-        }
-        for(char dig = '1'; dig <= '9'; dig++){
-            if(isAllowed(board, row, col, dig)){
-                board[row][col] = dig;
-                if(sudokuSolver(board, nextRow, nextCol)){
-                    return true;
-                }
-                board[row][col] = '.';
-            }
-        }
-        return false;
+void helper(vector<vector<int>>& maze, int r, int c, string path, vector<string>& ans){
+    int n = maze.size();
+    if(r < 0 || c < 0 || r >= n || c >= n || maze[r][c] == 0 || maze[r][c] == -1){
+        return;
     }
 
-void solveSudoku(vector<vector<char>>& board) {
-        sudokuSolver(board, 0,0);
-    }    
+    if(r == n-1 && c == n-1){
+        ans.push_back(path);
+        return;
+    }
+
+    maze[r][c] = -1;
+
+    helper(maze, r+1, c, path+"D", ans);
+    helper(maze, r-1, c, path+"U", ans);
+    helper(maze, r, c-1, path+"L", ans);
+    helper(maze, r, c+1, path+"R", ans);
+
+    maze[r][c] = 1;
+}
+
+vector<string> findPath(vector<vector<int>>& maze){
+    int n = maze.size();
+    vector<string> ans;
+    string path = "";
+     if(maze[0][0] == 0 || maze[n-1][n-1] == 0){
+        return ans;
+     }
+    helper(maze, 0, 0, path, ans);
+    return ans;
+}
 
 int main(){
-    vector<vector<char>> board = {
-    {'5','3','.','.','7','.','.','.','.'},
-    {'6','.','.','1','9','5','.','.','.'},
-    {'.','9','8','.','.','.','.','6','.'},
-    {'8','.','.','.','6','.','.','.','3'},
-    {'4','.','.','8','.','3','.','.','1'},
-    {'7','.','.','.','2','.','.','.','6'},
-    {'.','6','.','.','.','.','2','8','.'},
-    {'.','.','.','4','1','9','.','.','5'},
-    {'.','.','.','.','8','.','.','7','9'}
-};
-solveSudoku(board);
-for(auto val : board){
-    cout<<"{";
-    for(char ans : val){
-        cout<< ans<<",";
+    vector<vector<int>> maze = {{1,0,0,0},{1,1,0,1},{1,1,0,0},{0,1,1,1}};
+    vector<string> ans = findPath(maze);
+    for(auto val : ans){
+        cout<<"{"<<val<<"}"<<endl;
     }
-    cout<<"}\n";
-}
     return 0;
 }
