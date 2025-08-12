@@ -3796,47 +3796,95 @@
 
 // Rat in a Maze Problem
 
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// void helper(vector<vector<int>>& maze, int r, int c, string path, vector<string>& ans){
+//     int n = maze.size();
+//     if(r < 0 || c < 0 || r >= n || c >= n || maze[r][c] == 0 || maze[r][c] == -1){
+//         return;
+//     }
+
+//     if(r == n-1 && c == n-1){
+//         ans.push_back(path);
+//         return;
+//     }
+
+//     maze[r][c] = -1;
+
+//     helper(maze, r+1, c, path+"D", ans);
+//     helper(maze, r-1, c, path+"U", ans);
+//     helper(maze, r, c-1, path+"L", ans);
+//     helper(maze, r, c+1, path+"R", ans);
+
+//     maze[r][c] = 1;
+// }
+
+// vector<string> findPath(vector<vector<int>>& maze){
+//     int n = maze.size();
+//     vector<string> ans;
+//     string path = "";
+//      if(maze[0][0] == 0 || maze[n-1][n-1] == 0){
+//         return ans;
+//      }
+//     helper(maze, 0, 0, path, ans);
+//     return ans;
+// }
+
+// int main(){
+//     vector<vector<int>> maze = {{1,0,0,0},{1,1,0,1},{1,1,0,0},{0,1,1,1}};
+//     vector<string> ans = findPath(maze);
+//     for(auto val : ans){
+//         cout<<"{"<<val<<"}"<<endl;
+//     }
+//     return 0;
+// }
+
+// Combination Sum
+
 #include<iostream>
 #include<vector>
+#include<set>
 using namespace std;
 
-void helper(vector<vector<int>>& maze, int r, int c, string path, vector<string>& ans){
-    int n = maze.size();
-    if(r < 0 || c < 0 || r >= n || c >= n || maze[r][c] == 0 || maze[r][c] == -1){
-        return;
+set<vector<int>> s;
+    void getAllComb(vector<int>& candidates, int idx, vector<int>& combin, vector<vector<int>>& ans,int target){
+        int n = candidates.size();
+        if(idx == n || target<0){
+            return;
+        }
+        if(target == 0){
+            if(s.find(combin) == s.end()){
+                ans.push_back({combin});
+                s.insert(combin);
+            }
+            return;
+        }
+        combin.push_back(candidates[idx]);
+        getAllComb(candidates, idx+1, combin, ans, target-candidates[idx]);
+        getAllComb(candidates, idx, combin, ans, target-candidates[idx]);
+        combin.pop_back();
+        getAllComb(candidates, idx+1, combin, ans, target);
     }
 
-    if(r == n-1 && c == n-1){
-        ans.push_back(path);
-        return;
-    }
-
-    maze[r][c] = -1;
-
-    helper(maze, r+1, c, path+"D", ans);
-    helper(maze, r-1, c, path+"U", ans);
-    helper(maze, r, c-1, path+"L", ans);
-    helper(maze, r, c+1, path+"R", ans);
-
-    maze[r][c] = 1;
-}
-
-vector<string> findPath(vector<vector<int>>& maze){
-    int n = maze.size();
-    vector<string> ans;
-    string path = "";
-     if(maze[0][0] == 0 || maze[n-1][n-1] == 0){
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<int> combin;
+        vector<vector<int>> ans;
+        getAllComb(candidates,0, combin, ans, target);
         return ans;
-     }
-    helper(maze, 0, 0, path, ans);
-    return ans;
-}
+    }
 
 int main(){
-    vector<vector<int>> maze = {{1,0,0,0},{1,1,0,1},{1,1,0,0},{0,1,1,1}};
-    vector<string> ans = findPath(maze);
+    vector<int> candidates = {2,3,5};
+    int target = 8;
+    vector<vector<int>> ans = combinationSum(candidates, target);
     for(auto val : ans){
-        cout<<"{"<<val<<"}"<<endl;
+        cout<<"{";
+        for(int comb : val){
+            cout<<comb<<" ";
+        }
+        cout<<"}"<<endl;
     }
     return 0;
-}
+}    
