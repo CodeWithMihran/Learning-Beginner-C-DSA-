@@ -3891,50 +3891,102 @@
 
 // Palindrome Partiotioning
 
+// #include<iostream>
+// #include<string>
+// #include<vector>
+// #include<algorithm>
+// using namespace std;
+
+// bool isPalindrome(string s){
+//     string s2 = s;
+//     reverse(s2.begin(), s2.end());
+//     return s == s2;
+// }
+
+// void getAllParts(string s, vector<string>& partitions, vector<vector<string>>& ans){
+//     if(s.size() == 0){
+//         ans.push_back({partitions});
+//         return;
+//     }
+
+//     for(int i=0; i<s.size(); i++){
+//         string part = s.substr(0, i+1);
+//         if(isPalindrome(part)){
+//             partitions.push_back(part);
+//             getAllParts(s.substr(i+1), partitions, ans);
+//             partitions.pop_back();
+//         }
+//     }
+// }
+
+// vector<vector<string>> partition (string s){
+//     vector<vector<string>> ans;
+//     vector<string> partitions;
+//     getAllParts(s, partitions, ans);
+//     return ans;
+// }
+
+// int main(){
+//     string s = "aab";
+//     vector<vector<string>> ans = partition(s);
+//     for(auto val : ans){
+//         cout<<"{";
+//         for(auto str : val){
+//             cout<<str<<" ";
+//         }
+//         cout<<"}"<<endl;
+//     }
+//     return 0;
+// }
+
+// Merge Sort
+
 #include<iostream>
-#include<string>
 #include<vector>
-#include<algorithm>
 using namespace std;
 
-bool isPalindrome(string s){
-    string s2 = s;
-    reverse(s2.begin(), s2.end());
-    return s == s2;
-}
-
-void getAllParts(string s, vector<string>& partitions, vector<vector<string>>& ans){
-    if(s.size() == 0){
-        ans.push_back({partitions});
-        return;
-    }
-
-    for(int i=0; i<s.size(); i++){
-        string part = s.substr(0, i+1);
-        if(isPalindrome(part)){
-            partitions.push_back(part);
-            getAllParts(s.substr(i+1), partitions, ans);
-            partitions.pop_back();
+void merge(vector<int>& nums, int st, int mid, int end){
+    vector<int> temp;
+    int i = st, j = mid+1;
+    while(i <= mid && j <= end){
+        if(nums[i] <= nums[j]){
+            temp.push_back(nums[i]);
+            i++;
+        }
+        else{
+            temp.push_back(nums[j]);
+            j++;
         }
     }
+    while(i <= mid){
+        temp.push_back(nums[i]);
+        i++;
+    }
+    while(j <= end){
+        temp.push_back(nums[j]);
+        j++;
+    }
+    for(int idx=0; idx<temp.size(); idx++){
+        nums[idx+st] = temp[idx];
+    }
 }
 
-vector<vector<string>> partition (string s){
-    vector<vector<string>> ans;
-    vector<string> partitions;
-    getAllParts(s, partitions, ans);
-    return ans;
+void mergeSort(vector<int>& nums, int st, int end){
+    if(st < end){
+        int mid = st + (end-st)/2;
+        mergeSort(nums, st, mid);
+        mergeSort(nums, mid+1, end);
+        merge(nums, st, mid, end);
+    }
 }
 
 int main(){
-    string s = "aab";
-    vector<vector<string>> ans = partition(s);
-    for(auto val : ans){
-        cout<<"{";
-        for(auto str : val){
-            cout<<str<<" ";
-        }
-        cout<<"}"<<endl;
+    vector<int> nums = {12,31,35,8,32,17};
+    mergeSort(nums, 0, nums.size()-1);
+    cout<<"{";
+    for(auto val : nums){
+        cout<<val<<" ";
     }
+    cout<<"}"<<endl;
     return 0;
 }
