@@ -4032,53 +4032,98 @@
 
 // Count Inversion Problem
 
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// int merge(vector<int>& nums, int st, int mid, int end){
+//     vector<int> temp;
+//     int i = st, j = mid+1;
+//     int invCount = 0;
+//     while(i <= mid && j <= end){
+//         if(nums[i] <= nums[j]){
+//             temp.push_back(nums[i]);
+//             i++;
+//         }
+//         else{
+//             temp.push_back(nums[j]);
+//             j++;
+//             invCount += (mid-i+1);
+//         }
+//     }
+//     while(i <= mid){
+//         temp.push_back(nums[i]);
+//             i++;
+//     }
+//     while(j <= end){
+//         temp.push_back(nums[j]);
+//             j++;
+//     }
+//     for(int idx=0; idx<temp.size(); idx++){
+//         nums[idx+st] = temp[idx];
+//     }
+//     return invCount;
+// }
+
+// int mergeSort(vector<int>& nums, int st, int end){
+//     if(st < end){
+//         int mid = st+ (end-st)/2;
+//         int leftInvCount = mergeSort(nums, st, mid);
+//         int rightInvCount = mergeSort(nums, mid+1, end);
+//         int invCount = merge(nums, st, mid, end);
+//         return leftInvCount + rightInvCount + invCount; 
+//     }
+//     return 0;
+// }
+
+// int main(){
+//     vector<int> nums = {6,3,5,2,7};
+//     int ans = mergeSort(nums, 0, nums.size()-1);
+//     cout<<"Number of Inversions are : "<<ans<<endl;
+//     return 0;
+// }
+
+// Knight Tours Problem
+
 #include<iostream>
 #include<vector>
 using namespace std;
 
-int merge(vector<int>& nums, int st, int mid, int end){
-    vector<int> temp;
-    int i = st, j = mid+1;
-    int invCount = 0;
-    while(i <= mid && j <= end){
-        if(nums[i] <= nums[j]){
-            temp.push_back(nums[i]);
-            i++;
+bool isValid(vector<vector<int>>& grid, int r, int c, int n, int expVal){
+        if(r<0 || c<0 || r >= n || c >= n || grid[r][c] != expVal){
+            return false;
         }
-        else{
-            temp.push_back(nums[j]);
-            j++;
-            invCount += (mid-i+1);
+        if(expVal == n*n-1){
+            return true;
         }
+        int ans1 = isValid(grid, r-2, c+1, n, expVal+1);
+        int ans2 = isValid(grid, r-1, c+2, n, expVal+1);
+        int ans3 = isValid(grid, r+1, c+2, n, expVal+1);
+        int ans4 = isValid(grid, r+2, c+1, n, expVal+1);
+        int ans5 = isValid(grid, r+2, c-1, n, expVal+1);
+        int ans6 = isValid(grid, r+1, c-2, n, expVal+1);
+        int ans7 = isValid(grid, r-1, c-2, n, expVal+1);
+        int ans8 = isValid(grid, r-2, c-1, n, expVal+1);
+        return ans1 || ans2 || ans3 || ans4 || ans5 || ans6 || ans7 || ans8; 
     }
-    while(i <= mid){
-        temp.push_back(nums[i]);
-            i++;
-    }
-    while(j <= end){
-        temp.push_back(nums[j]);
-            j++;
-    }
-    for(int idx=0; idx<temp.size(); idx++){
-        nums[idx+st] = temp[idx];
-    }
-    return invCount;
-}
 
-int mergeSort(vector<int>& nums, int st, int end){
-    if(st < end){
-        int mid = st+ (end-st)/2;
-        int leftInvCount = mergeSort(nums, st, mid);
-        int rightInvCount = mergeSort(nums, mid+1, end);
-        int invCount = merge(nums, st, mid, end);
-        return leftInvCount + rightInvCount + invCount; 
-    }
-    return 0;
+bool checkValidGrid(vector<vector<int>>& grid) {
+    return isValid(grid, 0, 0, grid.size(), 0);
 }
 
 int main(){
-    vector<int> nums = {6,3,5,2,7};
-    int ans = mergeSort(nums, 0, nums.size()-1);
-    cout<<"Number of Inversions are : "<<ans<<endl;
+    vector<vector<int>> grid = {
+        {0,11,16,5,20},
+        {17,4,19,10,15},
+        {12,1,8,21,6},
+        {3,18,23,14,9},
+        {24,13,2,7,22}
+    };
+
+    if(checkValidGrid(grid)) {
+        cout << "True" << endl;
+    } else {
+        cout << "False" << endl;
+    }
     return 0;
 }
