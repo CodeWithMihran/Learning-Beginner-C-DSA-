@@ -4085,45 +4085,167 @@
 
 // Knight Tours Problem
 
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// bool isValid(vector<vector<int>>& grid, int r, int c, int n, int expVal){
+//         if(r<0 || c<0 || r >= n || c >= n || grid[r][c] != expVal){
+//             return false;
+//         }
+//         if(expVal == n*n-1){
+//             return true;
+//         }
+//         int ans1 = isValid(grid, r-2, c+1, n, expVal+1);
+//         int ans2 = isValid(grid, r-1, c+2, n, expVal+1);
+//         int ans3 = isValid(grid, r+1, c+2, n, expVal+1);
+//         int ans4 = isValid(grid, r+2, c+1, n, expVal+1);
+//         int ans5 = isValid(grid, r+2, c-1, n, expVal+1);
+//         int ans6 = isValid(grid, r+1, c-2, n, expVal+1);
+//         int ans7 = isValid(grid, r-1, c-2, n, expVal+1);
+//         int ans8 = isValid(grid, r-2, c-1, n, expVal+1);
+//         return ans1 || ans2 || ans3 || ans4 || ans5 || ans6 || ans7 || ans8; 
+//     }
+
+// bool checkValidGrid(vector<vector<int>>& grid) {
+//     return isValid(grid, 0, 0, grid.size(), 0);
+// }
+
+// int main(){
+//     vector<vector<int>> grid = {
+//         {0,11,16,5,20},
+//         {17,4,19,10,15},
+//         {12,1,8,21,6},
+//         {3,18,23,14,9},
+//         {24,13,2,7,22}
+//     };
+
+//     if(checkValidGrid(grid)) {
+//         cout << "True" << endl;
+//     } else {
+//         cout << "False" << endl;
+//     }
+//     return 0;
+// }
+
+// Linked List
+
 #include<iostream>
-#include<vector>
 using namespace std;
 
-bool isValid(vector<vector<int>>& grid, int r, int c, int n, int expVal){
-        if(r<0 || c<0 || r >= n || c >= n || grid[r][c] != expVal){
-            return false;
-        }
-        if(expVal == n*n-1){
-            return true;
-        }
-        int ans1 = isValid(grid, r-2, c+1, n, expVal+1);
-        int ans2 = isValid(grid, r-1, c+2, n, expVal+1);
-        int ans3 = isValid(grid, r+1, c+2, n, expVal+1);
-        int ans4 = isValid(grid, r+2, c+1, n, expVal+1);
-        int ans5 = isValid(grid, r+2, c-1, n, expVal+1);
-        int ans6 = isValid(grid, r+1, c-2, n, expVal+1);
-        int ans7 = isValid(grid, r-1, c-2, n, expVal+1);
-        int ans8 = isValid(grid, r-2, c-1, n, expVal+1);
-        return ans1 || ans2 || ans3 || ans4 || ans5 || ans6 || ans7 || ans8; 
+class Node{
+public:
+    int data;
+    Node* next;
+
+    Node(int val){
+        data = val;
+        next  = NULL;
+    }
+};
+
+class List{
+    Node* head;
+    Node* tail;
+
+    public:
+    List(){
+        head = tail = NULL;
     }
 
-bool checkValidGrid(vector<vector<int>>& grid) {
-    return isValid(grid, 0, 0, grid.size(), 0);
-}
+    void push_front (int val){
+        Node* newNode = new Node(val); // Dynamic
+        // Node newNode(val); // Static
+        if(head == NULL){
+            head = tail = newNode;
+            return;
+        }
+        else{
+            newNode ->next = head;
+            head = newNode;
+        }
+    }
+
+    void push_back(int val){
+        Node* newNode = new Node(val);
+
+        if(head == NULL){
+            head = tail = newNode;
+            return;
+        }
+        else{
+            tail -> next = newNode;
+            tail = newNode;
+        }
+    }
+
+    void pop_front(){
+        if(head == NULL){
+            return;
+        }
+        else{
+            Node* temp = head;
+            head = head -> next;
+            temp -> next = NULL;
+            delete temp;
+        }
+    }
+
+    void pop_back(){
+        if(head == NULL){
+            return;
+        }
+        else{
+            Node* temp = head;
+            while(temp -> next != tail){
+                temp = temp -> next; 
+            }
+            temp -> next = NULL;
+            delete tail;
+            tail = temp;
+        }
+    }
+
+    void insert(int val, int pos){
+        if(pos<0){
+            return;
+        }
+        if(pos == 0){
+            push_front(val);
+        }
+        Node* newNode = new Node(val);
+        Node* temp = head;
+        for(int i=0; i<pos-1; i++){
+            temp = temp -> next;
+        }
+        newNode -> next = temp -> next;
+        temp -> next = newNode;
+    }
+
+    void printll(){
+        Node* temp = head;
+        while(temp != NULL){
+            cout<< temp -> data <<" ";
+            temp = temp -> next;
+        }
+    }
+};
 
 int main(){
-    vector<vector<int>> grid = {
-        {0,11,16,5,20},
-        {17,4,19,10,15},
-        {12,1,8,21,6},
-        {3,18,23,14,9},
-        {24,13,2,7,22}
-    };
-
-    if(checkValidGrid(grid)) {
-        cout << "True" << endl;
-    } else {
-        cout << "False" << endl;
-    }
+    List ll;
+    ll.push_front(1);
+    ll.push_front(2);
+    ll.push_front(3);
+    ll.push_back(4);
+    ll.pop_front();
+    ll.pop_back();
+    ll.printll();
+    cout<<endl;
+    List l2;
+    l2.push_front(1);
+    l2.push_front(2);
+    l2.push_front(3);
+    l2.insert(5,1);
+    l2.printll();
     return 0;
 }
