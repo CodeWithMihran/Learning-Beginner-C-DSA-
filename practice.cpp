@@ -4216,10 +4216,26 @@ class List{
         Node* newNode = new Node(val);
         Node* temp = head;
         for(int i=0; i<pos-1; i++){
+            if(temp == NULL){
+                return;
+            }
             temp = temp -> next;
         }
         newNode -> next = temp -> next;
         temp -> next = newNode;
+    }
+
+    int search(int key){
+        Node* temp = head;
+        int idx = 0;
+        while(temp != NULL){
+            if(temp -> data == key){
+                return idx;
+            }
+            temp = temp->next;
+            idx++;
+        }
+        return -1;
     }
 
     void printll(){
@@ -4247,5 +4263,7 @@ int main(){
     l2.push_front(3);
     l2.insert(5,1);
     l2.printll();
+    cout<<endl;
+    cout<<l2.search(1)<<endl;
     return 0;
 }
