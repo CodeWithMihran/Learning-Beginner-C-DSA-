@@ -4270,19 +4270,34 @@
 
 // Reverse Linked List
 
+// class Solution {
+// public:
+//     ListNode* reverseList(ListNode* head) {
+//         ListNode* prev = NULL;
+//         ListNode* curr = head;
+//         ListNode* next = NULL;
+//         while(curr != NULL){
+//             next = curr->next;
+//             curr->next = prev;
+//             prev = curr;
+//             curr = next;
+//         } 
+//         return prev;
+//     }
+// };
+
+// Middle of the Linked List
+
 class Solution {
 public:
-    ListNode* reverseList(ListNode* head) {
-        ListNode* prev = NULL;
-        ListNode* curr = head;
-        ListNode* next = NULL;
-        while(curr != NULL){
-            next = curr->next;
-            curr->next = prev;
-            prev = curr;
-            curr = next;
-        } 
-        return prev;
+    ListNode* middleNode(ListNode* head) {
+        ListNode* slow = head; // slow and fast pointer approach
+        ListNode* fast = head;
+        while(fast != NULL && fast->next != NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        return slow;
     }
 };
 
