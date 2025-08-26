@@ -4321,6 +4321,34 @@
 
 // Linked List Cycle - II
 
+// class Solution {
+// public:
+//     ListNode *detectCycle(ListNode *head) {
+//         ListNode* slow = head;
+//         ListNode* fast = head;
+//         bool isCycle = false;
+//         while(fast != NULL && fast->next != NULL){
+//             slow = slow->next;
+//             fast = fast->next->next;
+//             if(slow == fast){
+//                 isCycle = true;
+//                 break;
+//             }
+//         }
+//         if(!isCycle){
+//             return NULL;
+//         }
+//         slow = head;
+//         while(fast != slow){
+//             slow = slow->next;
+//             fast = fast->next;
+//         }
+//         return slow;
+//     }
+// };
+
+// To remove the cycle
+
 class Solution {
 public:
     ListNode *detectCycle(ListNode *head) {
@@ -4339,10 +4367,13 @@ public:
             return NULL;
         }
         slow = head;
+        ListNode* prev = NULL;
         while(fast != slow){
             slow = slow->next;
+            prev = fast;
             fast = fast->next;
         }
+        prev -> next = NULL; // Remove Cycle
         return slow;
     }
 };
