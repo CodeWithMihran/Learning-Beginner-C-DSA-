@@ -4303,18 +4303,46 @@
 
 // Linked List Cycle
 
+// class Solution {
+// public:
+//     bool hasCycle(ListNode *head) {
+//         ListNode* slow = head;
+//         ListNode* fast = head;
+//         while(fast != NULL && fast -> next != NULL){
+//             slow = slow -> next;
+//             fast = fast -> next -> next;
+//             if(slow == fast){
+//                 return true;
+//             }
+//         }
+//         return false;
+//     }
+// };
+
+// Linked List Cycle - II
+
 class Solution {
 public:
-    bool hasCycle(ListNode *head) {
+    ListNode *detectCycle(ListNode *head) {
         ListNode* slow = head;
         ListNode* fast = head;
-        while(fast != NULL && fast -> next != NULL){
-            slow = slow -> next;
-            fast = fast -> next -> next;
+        bool isCycle = false;
+        while(fast != NULL && fast->next != NULL){
+            slow = slow->next;
+            fast = fast->next->next;
             if(slow == fast){
-                return true;
+                isCycle = true;
+                break;
             }
         }
-        return false;
+        if(!isCycle){
+            return NULL;
+        }
+        slow = head;
+        while(fast != slow){
+            slow = slow->next;
+            fast = fast->next;
+        }
+        return slow;
     }
 };
