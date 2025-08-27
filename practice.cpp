@@ -4380,22 +4380,53 @@
 
 // Merge Two Sorted Lists
 
+// class Solution {
+// public:
+//     ListNode* mergeTwoLists(ListNode* head1, ListNode* head2) {
+//         if(head1 == NULL){
+//             return head2;
+//         }
+//         if(head2 == NULL){
+//             return head1;
+//         }
+//         if(head1->val <= head2->val){
+//             head1->next = mergeTwoLists(head1->next, head2);
+//             return head1;
+//         }
+//         else{
+//             head2->next = mergeTwoLists(head1,head2->next);
+//             return head2;
+//         }
+//     }
+// };
+
+// Copy List with Random Pointer
+
 class Solution {
 public:
-    ListNode* mergeTwoLists(ListNode* head1, ListNode* head2) {
-        if(head1 == NULL){
-            return head2;
+    Node* copyRandomList(Node* head) {
+        if(head == NULL){
+            return NULL;
         }
-        if(head2 == NULL){
-            return head1;
+        unordered_map<Node*,Node*>m;
+        Node* newHead = new Node(head->val);
+        Node* oldTemp = head->next;
+        Node* newTemp = newHead;
+        m[head] = newHead;
+        while(oldTemp != NULL){
+            Node* copyNode = new Node(oldTemp->val);
+            m[oldTemp] = copyNode;
+            newTemp->next = copyNode;
+            oldTemp = oldTemp->next;
+            newTemp = newTemp->next;
         }
-        if(head1->val <= head2->val){
-            head1->next = mergeTwoLists(head1->next, head2);
-            return head1;
+        oldTemp = head;
+        newTemp = newHead;
+        while(oldTemp != NULL){
+            newTemp->random = m[oldTemp->random];
+            oldTemp = oldTemp->next;
+            newTemp = newTemp->next;
         }
-        else{
-            head2->next = mergeTwoLists(head1,head2->next);
-            return head2;
-        }
+        return newHead;
     }
 };
