@@ -4349,31 +4349,53 @@
 
 // To remove the cycle
 
+// class Solution {
+// public:
+//     ListNode *detectCycle(ListNode *head) {
+//         ListNode* slow = head;
+//         ListNode* fast = head;
+//         bool isCycle = false;
+//         while(fast != NULL && fast->next != NULL){
+//             slow = slow->next;
+//             fast = fast->next->next;
+//             if(slow == fast){
+//                 isCycle = true;
+//                 break;
+//             }
+//         }
+//         if(!isCycle){
+//             return NULL;
+//         }
+//         slow = head;
+//         ListNode* prev = NULL;
+//         while(fast != slow){
+//             slow = slow->next;
+//             prev = fast;
+//             fast = fast->next;
+//         }
+//         prev -> next = NULL; // Remove Cycle
+//         return slow;
+//     }
+// };
+
+// Merge Two Sorted Lists
+
 class Solution {
 public:
-    ListNode *detectCycle(ListNode *head) {
-        ListNode* slow = head;
-        ListNode* fast = head;
-        bool isCycle = false;
-        while(fast != NULL && fast->next != NULL){
-            slow = slow->next;
-            fast = fast->next->next;
-            if(slow == fast){
-                isCycle = true;
-                break;
-            }
+    ListNode* mergeTwoLists(ListNode* head1, ListNode* head2) {
+        if(head1 == NULL){
+            return head2;
         }
-        if(!isCycle){
-            return NULL;
+        if(head2 == NULL){
+            return head1;
         }
-        slow = head;
-        ListNode* prev = NULL;
-        while(fast != slow){
-            slow = slow->next;
-            prev = fast;
-            fast = fast->next;
+        if(head1->val <= head2->val){
+            head1->next = mergeTwoLists(head1->next, head2);
+            return head1;
         }
-        prev -> next = NULL; // Remove Cycle
-        return slow;
+        else{
+            head2->next = mergeTwoLists(head1,head2->next);
+            return head2;
+        }
     }
 };
