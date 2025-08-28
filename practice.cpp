@@ -4433,6 +4433,105 @@
 
 // Doubly Linked List
 
+// #include<iostream>
+// using namespace std;
+
+// class Node{
+// public:
+//     int data;
+//     Node* next;
+//     Node* prev;
+
+//     Node(int val){
+//         data = val;
+//         next = prev = NULL;
+//     }
+// };
+
+// class DoublyList{
+//     Node* head;
+//     Node* tail;
+  
+// public:
+//     DoublyList(){
+//         head = tail = NULL;
+//     }
+
+//     void push_front(int val){
+//         Node* newNode = new Node(val);
+//         if(head == NULL){
+//             head = tail = newNode;
+//         }
+//         else{
+//             newNode->next = head;
+//             head->prev = newNode;
+//             head = newNode;
+//         }
+//     }
+
+//     void push_back(int val){
+//         Node* newNode = new Node(val);
+//         if(head == NULL){
+//             head = tail = newNode;
+//         }
+//         else{
+//             newNode->prev = tail;
+//             tail->next = newNode;
+//             tail = newNode;
+//         }
+//     }
+
+//     void pop_front(){
+//         if(head == NULL){
+//             return;
+//         }
+//         Node* temp = head;
+//         head = head->next;
+//         if(head != NULL){
+//             head->prev = NULL;
+//         }
+//         temp->next = NULL;
+//         delete temp;
+//     }
+
+//     void pop_back(){
+//         if(head == NULL){
+//             return;
+//         }
+//         Node* temp = tail;
+//         tail = tail->prev;
+//         if(tail != NULL){
+//             tail->next = NULL;
+//         }
+//         temp->prev = NULL;
+//         delete temp;
+//     }
+
+//     void print(){
+//         Node* temp = head;
+//         while(temp != NULL){
+//             cout<<temp->data<<" <=> ";
+//             temp = temp->next;
+//         }
+//         cout<<"NULL\n";
+//     }
+// };
+
+// int main(){
+//     DoublyList dll;
+//     dll.push_front(1);
+//     dll.push_front(2);
+//     dll.push_front(3);
+//     dll.push_back(4);
+//     dll.push_back(5);
+//     dll.pop_back();
+//     dll.pop_front();
+//     dll.print();
+//     return 0;
+// }
+
+// Circular Linked List
+
 #include<iostream>
 using namespace std;
 
@@ -4440,92 +4539,111 @@ class Node{
 public:
     int data;
     Node* next;
-    Node* prev;
 
     Node(int val){
         data = val;
-        next = prev = NULL;
+        next = NULL;
     }
 };
 
-class DoublyList{
+class CircularList{
     Node* head;
     Node* tail;
-  
-public:
-    DoublyList(){
+public:    
+
+    CircularList(){
         head = tail = NULL;
     }
 
-    void push_front(int val){
+    void insertAtHead(int val){
         Node* newNode = new Node(val);
-        if(head == NULL){
+        if(tail == NULL){
             head = tail = newNode;
+            tail->next = head;
         }
         else{
             newNode->next = head;
-            head->prev = newNode;
             head = newNode;
+            tail->next = head;
         }
     }
 
-    void push_back(int val){
+    void insertAtTail(int val){
         Node* newNode = new Node(val);
-        if(head == NULL){
+        if(tail == NULL){
             head = tail = newNode;
+            tail->next = head;
         }
         else{
-            newNode->prev = tail;
+            newNode->next = head;
             tail->next = newNode;
             tail = newNode;
         }
     }
 
-    void pop_front(){
-        if(head == NULL){
+    void deleteAtHead(){
+        if(tail == NULL){
             return;
         }
-        Node* temp = head;
-        head = head->next;
-        if(head != NULL){
-            head->prev = NULL;
-        }
-        temp->next = NULL;
-        delete temp;
-    }
-
-    void pop_back(){
-        if(head == NULL){
-            return;
-        }
-        Node* temp = tail;
-        tail = tail->prev;
-        if(tail != NULL){
+        else if(head == tail){
+            delete head;
+            head->next = NULL;
             tail->next = NULL;
         }
-        temp->prev = NULL;
+        else{
+            Node* temp = head;
+        head = head->next;
+        tail->next = head;
+        temp->next = NULL;
         delete temp;
+        }
+    }
+
+    void deleteAtTail(){
+        if(tail == NULL){
+            return;
+        }
+        else if(head == tail){
+            delete head;
+            head->next = NULL;
+            tail->next = NULL;
+        }
+        else{
+            Node* temp = tail;
+            Node* prev = head;
+            while(prev->next != tail){
+                prev = prev->next;
+            }
+            tail = prev;
+            tail->next = head;
+            temp->next = NULL;
+            delete temp;
+        }
     }
 
     void print(){
-        Node* temp = head;
-        while(temp != NULL){
-            cout<<temp->data<<" <=> ";
+        if(head == NULL){
+            return;
+        }
+        cout<<head->data<<" -> ";
+        Node* temp = head->next;
+        while(temp != head){
+            cout<<temp->data<<" -> ";
             temp = temp->next;
         }
-        cout<<"NULL\n";
+        cout<<temp->data;
     }
 };
 
 int main(){
-    DoublyList dll;
-    dll.push_front(1);
-    dll.push_front(2);
-    dll.push_front(3);
-    dll.push_back(4);
-    dll.push_back(5);
-    dll.pop_back();
-    dll.pop_front();
-    dll.print();
+    CircularList cll;
+    cll.insertAtHead(1);
+    cll.insertAtHead(2);
+    cll.insertAtHead(3);
+    cll.insertAtTail(4);
+    cll.insertAtTail(5);
+    cll.deleteAtHead();
+    cll.deleteAtTail();
+    cll.print();
     return 0;
 }
