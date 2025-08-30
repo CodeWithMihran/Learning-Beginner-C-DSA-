@@ -4650,30 +4650,57 @@
 
 // Flatten a Multilevel Doubly Linked List
 
+// class Solution {
+// public:
+//     Node* flatten(Node* head) {
+//         if(head == NULL){
+//             return head;
+//         }
+//         Node* curr = head;
+//         while(curr != NULL){
+//             if(curr->child != NULL){
+//                 Node* next = curr->next;
+//                 curr->next = flatten(curr->child);
+//                 curr->next->prev = curr;
+//                 curr->child = NULL;
+
+//                 while(curr->next != NULL){
+//                     curr = curr->next;
+//                 }
+//                 if(next != NULL){
+//                     curr->next = next;
+//                     next->prev = curr;
+//                 }
+//             }
+//             curr = curr->next;
+//         }
+//         return head;
+//     }
+// };
+
+// Reverse Nodes in K Group
+
 class Solution {
 public:
-    Node* flatten(Node* head) {
-        if(head == NULL){
-            return head;
-        }
-        Node* curr = head;
-        while(curr != NULL){
-            if(curr->child != NULL){
-                Node* next = curr->next;
-                curr->next = flatten(curr->child);
-                curr->next->prev = curr;
-                curr->child = NULL;
-
-                while(curr->next != NULL){
-                    curr = curr->next;
-                }
-                if(next != NULL){
-                    curr->next = next;
-                    next->prev = curr;
-                }
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        ListNode* temp = head;
+        int count = 0;
+        while(count<k){
+            if(temp == NULL){
+                return head;
             }
-            curr = curr->next;
+            temp = temp->next;
+            count++;
         }
-        return head;
+        ListNode* prevNode = reverseKGroup(temp,k);
+        temp = head;  count = 0;
+        while(count<k){
+            ListNode* next = temp->next;
+            temp->next = prevNode;
+            prevNode = temp;
+            temp = next;
+            count++;
+        }
+        return prevNode;
     }
 };
