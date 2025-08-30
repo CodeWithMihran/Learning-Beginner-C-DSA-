@@ -4707,34 +4707,73 @@
 
 // Swap Nodes in Pairs
 
-class Solution {
+// class Solution {
+// public:
+//     ListNode* swapPairs(ListNode* head) {
+//         if(head == NULL || head->next == NULL){
+//             return head;
+//         }
+//         ListNode* first = head;
+//         ListNode* sec = head->next;
+//         ListNode* prev = NULL;
+//         while(first != NULL && sec != NULL){
+//             ListNode* third = sec->next;
+//             sec->next = first;
+//             first->next = third;
+//             if(prev != NULL){
+//                 prev->next = sec;
+//             }
+//             else{
+//                 head = sec;
+//             }
+//             prev = first;
+//             first = third;
+//             if(third != NULL){
+//                 sec = third->next;
+//             }
+//             else{
+//                 sec = NULL;
+//             }
+//         }
+//         return head;
+//     }
+// };
+
+// Learning Stack Concept
+
+#include<iostream>
+#include<vector>
+using namespace std;
+
+class Stack{
+    vector<int> v;
 public:
-    ListNode* swapPairs(ListNode* head) {
-        if(head == NULL || head->next == NULL){
-            return head;
-        }
-        ListNode* first = head;
-        ListNode* sec = head->next;
-        ListNode* prev = NULL;
-        while(first != NULL && sec != NULL){
-            ListNode* third = sec->next;
-            sec->next = first;
-            first->next = third;
-            if(prev != NULL){
-                prev->next = sec;
-            }
-            else{
-                head = sec;
-            }
-            prev = first;
-            first = third;
-            if(third != NULL){
-                sec = third->next;
-            }
-            else{
-                sec = NULL;
-            }
-        }
-        return head;
+    void push(int val){
+        v.push_back(val);
+    }
+
+    void pop(){
+        v.pop_back();
+    }
+
+    int top(){
+        return v[v.size()-1];
+    }
+
+    bool empty(){
+        return v.size() == 0;
     }
 };
+
+int main(){
+    Stack s;
+    s.push(10);
+    s.push(20);
+    s.push(30);
+    while(!s.empty()){
+        cout<<s.top()<<" ";
+        s.pop();
+    }
+    cout<<endl;
+    return 0;
+}
