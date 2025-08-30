@@ -4680,27 +4680,61 @@
 
 // Reverse Nodes in K Group
 
+// class Solution {
+// public:
+//     ListNode* reverseKGroup(ListNode* head, int k) {
+//         ListNode* temp = head;
+//         int count = 0;
+//         while(count<k){
+//             if(temp == NULL){
+//                 return head;
+//             }
+//             temp = temp->next;
+//             count++;
+//         }
+//         ListNode* prevNode = reverseKGroup(temp,k);
+//         temp = head;  count = 0;
+//         while(count<k){
+//             ListNode* next = temp->next;
+//             temp->next = prevNode;
+//             prevNode = temp;
+//             temp = next;
+//             count++;
+//         }
+//         return prevNode;
+//     }
+// };
+
+// Swap Nodes in Pairs
+
 class Solution {
 public:
-    ListNode* reverseKGroup(ListNode* head, int k) {
-        ListNode* temp = head;
-        int count = 0;
-        while(count<k){
-            if(temp == NULL){
-                return head;
+    ListNode* swapPairs(ListNode* head) {
+        if(head == NULL || head->next == NULL){
+            return head;
+        }
+        ListNode* first = head;
+        ListNode* sec = head->next;
+        ListNode* prev = NULL;
+        while(first != NULL && sec != NULL){
+            ListNode* third = sec->next;
+            sec->next = first;
+            first->next = third;
+            if(prev != NULL){
+                prev->next = sec;
             }
-            temp = temp->next;
-            count++;
+            else{
+                head = sec;
+            }
+            prev = first;
+            first = third;
+            if(third != NULL){
+                sec = third->next;
+            }
+            else{
+                sec = NULL;
+            }
         }
-        ListNode* prevNode = reverseKGroup(temp,k);
-        temp = head;  count = 0;
-        while(count<k){
-            ListNode* next = temp->next;
-            temp->next = prevNode;
-            prevNode = temp;
-            temp = next;
-            count++;
-        }
-        return prevNode;
+        return head;
     }
 };
