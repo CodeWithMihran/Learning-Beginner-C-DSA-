@@ -4986,35 +4986,85 @@
 
 // Previous Smaller Element
 
+// #include<iostream>
+// #include<vector>
+// #include<stack>
+// using namespace std;
+
+// vector<int> prevSmallerElement(vector<int>& arr){
+//     vector<int> ans(arr.size(),0);
+//     stack<int> s;
+//     for(int i=0; i<arr.size(); i++){
+//         while(s.size() > 0 && s.top() >= arr[i]){
+//             s.pop();
+//         }
+//         if(s.empty()){
+//             ans[i] = -1;
+//         }
+//         else{
+//             ans[i] = s.top();
+//         }
+//         s.push(arr[i]);
+//     }
+//     return ans;
+// }
+
+// int main(){
+//     vector<int> arr = {3,1,0,8,6};
+//     vector<int> ans = prevSmallerElement(arr);
+//     for(int val : ans){
+//         cout<<val<<" ";
+//     }
+//     cout<<endl;
+//     return 0;
+// }
+
+// Min Stack
+
 #include<iostream>
 #include<vector>
 #include<stack>
 using namespace std;
 
-vector<int> prevSmallerElement(vector<int>& arr){
-    vector<int> ans(arr.size(),0);
-    stack<int> s;
-    for(int i=0; i<arr.size(); i++){
-        while(s.size() > 0 && s.top() >= arr[i]){
-            s.pop();
-        }
+class MinStack{
+public:
+    stack<pair<int,int>> s;
+
+    MinStack() {
+        
+    }
+    
+    void push(int val) {
         if(s.empty()){
-            ans[i] = -1;
+            s.push({val,val});
         }
         else{
-            ans[i] = s.top();
+            int minVal = min(val, s.top().second);
+            s.push({val,minVal});
         }
-        s.push(arr[i]);
     }
-    return ans;
-}
+    
+    void pop() {
+        s.pop();
+        }
+    
+    int top() {
+        return s.top().first;
+    }
+    
+    int getMin() {
+        return s.top().second;
+    }
+};
 
 int main(){
-    vector<int> arr = {3,1,0,8,6};
-    vector<int> ans = prevSmallerElement(arr);
-    for(int val : ans){
-        cout<<val<<" ";
-    }
-    cout<<endl;
+    MinStack s;
+    s.push(-2);
+    s.push(0);
+    s.push(-3);
+    cout<<s.getMin()<<endl;
+    s.pop();
+    cout<<s.top()<<endl;
+    cout<<s.getMin()<<endl;
     return 0;
 }
