@@ -4820,21 +4820,54 @@
 
 // Stack by stl library
 
+// #include<iostream>
+// #include<list>
+// #include<stack>
+// using namespace std;
+
+// int main(){
+//     stack<int> s;
+//     s.push(10);
+//     s.push(20);
+//     s.push(30);
+//     while(!s.empty()){
+//         cout<<s.top()<<" ";
+//         s.pop();
+//     }
+//     cout<<endl;
+//     return 0;
+//     return 0;
+// }
+
+// Valid Parenthesis
+
 #include<iostream>
-#include<list>
 #include<stack>
 using namespace std;
 
-int main(){
-    stack<int> s;
-    s.push(10);
-    s.push(20);
-    s.push(30);
-    while(!s.empty()){
-        cout<<s.top()<<" ";
-        s.pop();
+bool isValid(string str){
+    stack<char> st;
+    for(int i=0; i<str.size(); i++){
+        if(str[i] == '(' || str[i] == '[' || str[i] == '{'){
+            st.push(str[i]);
+        }
+        else{
+            if(st.size() == 0){
+                return false;
+            }
+            if((st.top() == '(' && str[i] == ')') ||
+               (st.top() == '[' && str[i] == ']') ||
+               (st.top() == '{' && str[i] == '}')){
+                st.pop();
+               }
+               else{return false;}
+        }
     }
-    cout<<endl;
-    return 0;
+    return st.empty();
+}
+
+int main(){
+    string str = "{({})[]}";
+    cout<<isValid(str)<<endl;
     return 0;
 }
