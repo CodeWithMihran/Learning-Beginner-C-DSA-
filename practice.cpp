@@ -4841,33 +4841,68 @@
 
 // Valid Parenthesis
 
+// #include<iostream>
+// #include<stack>
+// using namespace std;
+
+// bool isValid(string str){
+//     stack<char> st;
+//     for(int i=0; i<str.size(); i++){
+//         if(str[i] == '(' || str[i] == '[' || str[i] == '{'){
+//             st.push(str[i]);
+//         }
+//         else{
+//             if(st.size() == 0){
+//                 return false;
+//             }
+//             if((st.top() == '(' && str[i] == ')') ||
+//                (st.top() == '[' && str[i] == ']') ||
+//                (st.top() == '{' && str[i] == '}')){
+//                 st.pop();
+//                }
+//                else{return false;}
+//         }
+//     }
+//     return st.empty();
+// }
+
+// int main(){
+//     string str = "{({})[]}";
+//     cout<<isValid(str)<<endl;
+//     return 0;
+// }
+
+// Stock Span
+
 #include<iostream>
 #include<stack>
+#include<vector>
 using namespace std;
 
-bool isValid(string str){
-    stack<char> st;
-    for(int i=0; i<str.size(); i++){
-        if(str[i] == '(' || str[i] == '[' || str[i] == '{'){
-            st.push(str[i]);
+vector<int> stockSpan(vector<int>& price){
+    vector<int> ans;
+    stack<int> s;
+    for(int i=0; i<price.size(); i++){
+        while(s.size()>0 && price[s.top()] <= price[i]){
+            s.pop();
+        }
+        if(s.size() == 0){
+            ans.push_back(i+1);
         }
         else{
-            if(st.size() == 0){
-                return false;
-            }
-            if((st.top() == '(' && str[i] == ')') ||
-               (st.top() == '[' && str[i] == ']') ||
-               (st.top() == '{' && str[i] == '}')){
-                st.pop();
-               }
-               else{return false;}
+            ans.push_back(i-s.top());
         }
+        s.push(i);
     }
-    return st.empty();
+    return ans;
 }
 
 int main(){
-    string str = "{({})[]}";
-    cout<<isValid(str)<<endl;
+    vector<int> price = {100,80,60,70,60,75,85};
+    vector<int>ans = stockSpan(price);
+    for(auto val: ans){
+        cout<<val<<" ";
+    }
+    cout<<endl;
     return 0;
 }
