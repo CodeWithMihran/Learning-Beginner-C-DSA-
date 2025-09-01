@@ -5019,7 +5019,57 @@
 //     return 0;
 // }
 
-// Min Stack
+// Min Stack (S.C : O(2*n))
+
+// #include<iostream>
+// #include<vector>
+// #include<stack>
+// using namespace std;
+
+// class MinStack{
+// public:
+//     stack<pair<int,int>> s;
+
+//     MinStack() {
+        
+//     }
+    
+//     void push(int val) {
+//         if(s.empty()){
+//             s.push({val,val});
+//         }
+//         else{
+//             int minVal = min(val, s.top().second);
+//             s.push({val,minVal});
+//         }
+//     }
+    
+//     void pop() {
+//         s.pop();
+//         }
+    
+//     int top() {
+//         return s.top().first;
+//     }
+    
+//     int getMin() {
+//         return s.top().second;
+//     }
+// };
+
+// int main(){
+//     MinStack s;
+//     s.push(-2);
+//     s.push(0);
+//     s.push(-3);
+//     cout<<s.getMin()<<endl;
+//     s.pop();
+//     cout<<s.top()<<endl;
+//     cout<<s.getMin()<<endl;
+//     return 0;
+// }
+
+// Min Stack  (S.C : O(n))
 
 #include<iostream>
 #include<vector>
@@ -5028,7 +5078,8 @@ using namespace std;
 
 class MinStack{
 public:
-    stack<pair<int,int>> s;
+    stack<long long int>s;
+    long long int minValue;
 
     MinStack() {
         
@@ -5036,24 +5087,36 @@ public:
     
     void push(int val) {
         if(s.empty()){
-            s.push({val,val});
+            s.push(val);
+            minValue = val;
         }
         else{
-            int minVal = min(val, s.top().second);
-            s.push({val,minVal});
+            if(val < minValue){
+                s.push((long long)2*val-minValue);
+                minValue = val;
+            }
+            else{
+                s.push(val);
+            }
         }
     }
     
     void pop() {
+        if(s.top() < minValue){
+            minValue = (2*minValue)-s.top();
+        }
         s.pop();
         }
     
     int top() {
-        return s.top().first;
+        if(s.top()<minValue){
+            return minValue;
+        }
+        return s.top();
     }
     
     int getMin() {
-        return s.top().second;
+        return minValue;
     }
 };
 
