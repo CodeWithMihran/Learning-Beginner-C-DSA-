@@ -5071,63 +5071,110 @@
 
 // Min Stack  (S.C : O(n))
 
+// #include<iostream>
+// #include<vector>
+// #include<stack>
+// using namespace std;
+
+// class MinStack{
+// public:
+//     stack<long long int>s;
+//     long long int minValue;
+
+//     MinStack() {
+        
+//     }
+    
+//     void push(int val) {
+//         if(s.empty()){
+//             s.push(val);
+//             minValue = val;
+//         }
+//         else{
+//             if(val < minValue){
+//                 s.push((long long)2*val-minValue);
+//                 minValue = val;
+//             }
+//             else{
+//                 s.push(val);
+//             }
+//         }
+//     }
+    
+//     void pop() {
+//         if(s.top() < minValue){
+//             minValue = (2*minValue)-s.top();
+//         }
+//         s.pop();
+//         }
+    
+//     int top() {
+//         if(s.top()<minValue){
+//             return minValue;
+//         }
+//         return s.top();
+//     }
+    
+//     int getMin() {
+//         return minValue;
+//     }
+// };
+
+// int main(){
+//     MinStack s;
+//     s.push(-2);
+//     s.push(0);
+//     s.push(-3);
+//     cout<<s.getMin()<<endl;
+//     s.pop();
+//     cout<<s.top()<<endl;
+//     cout<<s.getMin()<<endl;
+//     return 0;
+// }
+
+// Largest Rectangle in Histogram
+
 #include<iostream>
 #include<vector>
 #include<stack>
 using namespace std;
 
-class MinStack{
-public:
-    stack<long long int>s;
-    long long int minValue;
+int largestRectangleArea(vector<int>& heights) {
+        int n = heights.size();
+        stack<int> s;
+        vector<int> left(n,0);
+        vector<int> right(n,0);
 
-    MinStack() {
-        
-    }
-    
-    void push(int val) {
-        if(s.empty()){
-            s.push(val);
-            minValue = val;
-        }
-        else{
-            if(val < minValue){
-                s.push((long long)2*val-minValue);
-                minValue = val;
+        for(int i=n-1; i>=0; i--){
+            while(s.size()>0 && heights[s.top()] >= heights[i]){
+                s.pop();
             }
-            else{
-                s.push(val);
+            right[i] = s.empty()? n : s.top();
+            s.push(i);
+        }
+
+        while(!s.empty()){
+            s.pop();
+        }
+
+        for(int i=0; i<n; i++){
+            while(s.size()>0 && heights[s.top()] >= heights[i]){
+                s.pop();
             }
+            left[i] = s.empty()? -1 : s.top();
+            s.push(i);
         }
+
+        int ans = 0;
+        for(int i=0; i<n; i++){
+            int area = heights[i]*(right[i]-left[i]-1);
+            ans = max(ans, area);
+        }
+        return ans;
     }
-    
-    void pop() {
-        if(s.top() < minValue){
-            minValue = (2*minValue)-s.top();
-        }
-        s.pop();
-        }
-    
-    int top() {
-        if(s.top()<minValue){
-            return minValue;
-        }
-        return s.top();
-    }
-    
-    int getMin() {
-        return minValue;
-    }
-};
 
 int main(){
-    MinStack s;
-    s.push(-2);
-    s.push(0);
-    s.push(-3);
-    cout<<s.getMin()<<endl;
-    s.pop();
-    cout<<s.top()<<endl;
-    cout<<s.getMin()<<endl;
+    vector<int> heights = {2,1,5,6,2,3};
+    cout<<largestRectangleArea(heights)<<endl;
     return 0;
 }
