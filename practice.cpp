@@ -5235,7 +5235,36 @@
 //         return ans;
 //     }
 
+// int main(){
+//     vector<int> height = {4,2,0,3,2,5};
+//     cout<<trap(height)<<endl;
+//     return 0;
+// }    
+
 // Trapping Rain Water (S.C. : O(1))
+
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// int trap(vector<int>& height) {
+//         int n = height.size();
+//         vector<int> lmax(n,0);
+//         vector<int> rmax(n,0);
+//         lmax[0] = height[0];
+//         rmax[n-1] = height[n-1];
+//         for(int i=1; i<n; i++){
+//             lmax[i] = max(lmax[i-1], height[i]);
+//         }
+//         for(int i=n-2; i>=0; i--){
+//             rmax[i] = max(rmax[i+1], height[i]);
+//         }
+//         int ans = 0;
+//         for(int i=0; i<n; i++){
+//             ans += min(lmax[i], rmax[i]) - height[i];
+//         }
+//         return ans;
+//     }
 
 // int main(){
 //     vector<int> height = {4,2,0,3,2,5};
@@ -5243,31 +5272,41 @@
 //     return 0;
 // }    
 
+// Find the Celebrity
+
 #include<iostream>
 #include<vector>
+#include<stack>
 using namespace std;
 
-int trap(vector<int>& height) {
-        int n = height.size();
-        vector<int> lmax(n,0);
-        vector<int> rmax(n,0);
-        lmax[0] = height[0];
-        rmax[n-1] = height[n-1];
-        for(int i=1; i<n; i++){
-            lmax[i] = max(lmax[i-1], height[i]);
-        }
-        for(int i=n-2; i>=0; i--){
-            rmax[i] = max(rmax[i+1], height[i]);
-        }
-        int ans = 0;
-        for(int i=0; i<n; i++){
-            ans += min(lmax[i], rmax[i]) - height[i];
-        }
-        return ans;
+int getCelebrity(vector<vector<int>>& arr){
+    int n = arr.size();
+    stack<int> s;
+    for(int i=0; i<n; i++){
+        s.push(i);
     }
+    while(s.size() > 1){
+        int i = s.top(); s.pop();
+        int j = s.top(); s.pop();
+        if(arr[i][j] == 0){
+            s.push(i);
+        }
+        else{
+            s.push(j);
+        }
+    }
+        int celeb = s.top();
+        for(int i=0; i<n; i++){
+            if((i != celeb) && (arr[i][celeb] == 0 || arr[celeb][i] == 1)){
+                return -1;
+        }
+    }
+    return celeb;
+}
 
 int main(){
-    vector<int> height = {4,2,0,3,2,5};
-    cout<<trap(height)<<endl;
+    vector<vector<int>> arr = {{0,1,0},{0,0,0},{0,1,0}};
+    int celebrity = getCelebrity(arr);
+    cout<<"The Celebrity is : "<<celebrity<<endl;
     return 0;
-}    
+}
