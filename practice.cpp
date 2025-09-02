@@ -5274,39 +5274,131 @@
 
 // Find the Celebrity
 
+// #include<iostream>
+// #include<vector>
+// #include<stack>
+// using namespace std;
+
+// int getCelebrity(vector<vector<int>>& arr){
+//     int n = arr.size();
+//     stack<int> s;
+//     for(int i=0; i<n; i++){
+//         s.push(i);
+//     }
+//     while(s.size() > 1){
+//         int i = s.top(); s.pop();
+//         int j = s.top(); s.pop();
+//         if(arr[i][j] == 0){
+//             s.push(i);
+//         }
+//         else{
+//             s.push(j);
+//         }
+//     }
+//         int celeb = s.top();
+//         for(int i=0; i<n; i++){
+//             if((i != celeb) && (arr[i][celeb] == 0 || arr[celeb][i] == 1)){
+//                 return -1;
+//         }
+//     }
+//     return celeb;
+// }
+
+// int main(){
+//     vector<vector<int>> arr = {{0,1,0},{0,0,0},{0,1,0}};
+//     int celebrity = getCelebrity(arr);
+//     cout<<"The Celebrity is : "<<celebrity<<endl;
+//     return 0;
+// }
+
+// LRU Cache
+
 #include<iostream>
-#include<vector>
-#include<stack>
+#include<unordered_map>
 using namespace std;
 
-int getCelebrity(vector<vector<int>>& arr){
-    int n = arr.size();
-    stack<int> s;
-    for(int i=0; i<n; i++){
-        s.push(i);
-    }
-    while(s.size() > 1){
-        int i = s.top(); s.pop();
-        int j = s.top(); s.pop();
-        if(arr[i][j] == 0){
-            s.push(i);
+class LRUCache {
+public:
+
+    class Node{
+        public: 
+        int key, val;
+        Node* prev;
+        Node* next;
+
+        Node(int k, int v){
+            key = k;
+            val = v;
+            prev = next = NULL;
         }
-        else{
-            s.push(j);
-        }
+    };
+
+    Node* head = new Node(-1,-1);
+    Node* tail = new Node(-1,-1);
+    unordered_map<int,Node*> m;
+    int limit;
+
+    void addNode(Node* newNode){
+        Node* oldNext = head->next;
+        head->next = newNode;
+        oldNext->prev = newNode;
+        newNode->next = oldNext;       
+        newNode->prev = head;
     }
-        int celeb = s.top();
-        for(int i=0; i<n; i++){
-            if((i != celeb) && (arr[i][celeb] == 0 || arr[celeb][i] == 1)){
-                return -1;
-        }
+
+    void delNode(Node* oldNode){
+        Node* oldPrev = oldNode->prev;
+        Node* oldNext = oldNode->next;
+        oldPrev->next = oldNext;
+        oldNext->prev = oldPrev;
     }
-    return celeb;
-}
+    LRUCache(int capacity) {
+        limit = capacity;
+        head->next = tail;
+        tail->prev = head;
+    }
+    
+    int get(int key) {
+        if(m.find(key) == m.end()){
+            return -1;
+        }
+        int ans = m[key]->val;
+        Node* ansNode = m[key];
+        m.erase(key);
+        delNode(ansNode);
+        addNode(ansNode);
+        m[key] = ansNode;
+        return ans;
+    }
+    
+    void put(int key, int val) {
+        if(m.find(key) != m.end()){
+            Node* oldNode = m[key];
+            delNode(oldNode);
+            m.erase(key);
+        }
+
+        if(m.size() == limit){
+            m.erase(tail->prev->key);
+            delNode(tail->prev);
+
+        }
+        Node* newNode = new Node(key,val);
+        addNode(newNode);
+        m[key] = newNode;
+    }
+};
 
 int main(){
-    vector<vector<int>> arr = {{0,1,0},{0,0,0},{0,1,0}};
-    int celebrity = getCelebrity(arr);
-    cout<<"The Celebrity is : "<<celebrity<<endl;
+    LRUCache cache(2);
+    cache.put(1,10);
+    cache.put(2,20);
+    cout<<"Value at key(1) : "<<cache.get(1)<<endl;
+    cache.put(3,30);
+    cout<<"Value at key(2) : "<<cache.get(2)<<endl;
+    cache.put(4,40);
+    cout<<"Value at key(1) : "<<cache.get(1)<<endl;
+    cout<<"Value at key(3) : "<<cache.get(3)<<endl;
+    cout<<"Value at key(4) : "<<cache.get(4)<<endl;
     return 0;
 }
