@@ -5514,28 +5514,100 @@
 
 // Find the Index of the First Occurrence in a String
 
-#include <iostream>
-#include <string>
+// #include <iostream>
+// #include <string>
+// using namespace std;
+
+// int strStr(string haystack, string needle){
+//     if (needle.empty()) return 0;
+        
+//         int n = haystack.size(), m = needle.size();
+//         for (int i = 0; i + m <= n; i++) {
+//             int j = 0;
+//             for (; j < m; j++) {
+//                 if (haystack[i + j] != needle[j])
+//                     break;
+//             }
+//             if (j == m) return i;
+//         }
+//         return -1;
+// }
+
+// int main() {
+//     cout << strStr("hello", "ll") <<endl;
+//     cout << strStr("aaaaa", "bba") <<endl;
+//     cout << strStr("", "") <<endl;
+//     return 0;
+// }
+
+// Circular Queue 
+
+#include<iostream>
 using namespace std;
 
-int strStr(string haystack, string needle){
-    if (needle.empty()) return 0;
-        
-        int n = haystack.size(), m = needle.size();
-        for (int i = 0; i + m <= n; i++) {
-            int j = 0;
-            for (; j < m; j++) {
-                if (haystack[i + j] != needle[j])
-                    break;
-            }
-            if (j == m) return i;
-        }
-        return -1;
-}
+class CircularQueue{
+    int* arr;
+    int cap, currSize;
+    int f ,r;
+public:
+    CircularQueue(int size){
+        cap = size;
+        arr = new int[cap];
+        f = 0; 
+        r = -1;
+        currSize = 0;
+    }
 
-int main() {
-    cout << strStr("hello", "ll") <<endl;
-    cout << strStr("aaaaa", "bba") <<endl;
-    cout << strStr("", "") <<endl;
+    void push(int data){
+        if(currSize == cap){
+            cout<<"CQ is FULL\n";
+            return;
+        }
+        r = (r+1)%cap;
+        arr[r] = data;
+        currSize++;
+    }
+
+    void pop(){
+        if(empty()){
+            cout<<"CQ is EMPTY\n";
+            return;
+        }
+        f = (f+1)%cap;
+        currSize--;
+    }
+
+    int front(){
+        if(empty()){
+            return -1;
+        }
+        return arr[f];
+    }
+
+    bool empty(){
+        return currSize == 0;
+    }
+
+    void printArr(){
+        for(int i=0; i<cap; i++){
+            cout<<arr[i]<<" ";
+        }
+        cout<<endl;
+    }
+};
+
+int main(){
+    CircularQueue cq(3);
+    cq.push(1);
+    cq.push(2);
+    cq.push(3);
+    cq.pop();
+    cq.push(4);
+    // cq.printArr();
+    while(!cq.empty()){
+        cout<<cq.front()<<" ";
+        cq.pop();
+    }
+    cout<<endl;
     return 0;
 }
