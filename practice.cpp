@@ -5496,18 +5496,46 @@
 
 // Deque Data Structure by STL Library
 
-#include<iostream>
-#include<queue>
+// #include<iostream>
+// #include<queue>
+// using namespace std;
+
+// int main(){
+//     deque<int> dq;
+//     dq.push_back(1);
+//     dq.push_back(2);
+//     dq.push_back(3);
+//     dq.push_front(4);
+//     cout<<dq.front()<<" "<<dq.back()<<endl;
+//     dq.pop_back();
+//     cout<<dq.front()<<" "<<dq.back()<<endl;
+//     return 0;
+// }
+
+// Find the Index of the First Occurrence in a String
+
+#include <iostream>
+#include <string>
 using namespace std;
 
-int main(){
-    deque<int> dq;
-    dq.push_back(1);
-    dq.push_back(2);
-    dq.push_back(3);
-    dq.push_front(4);
-    cout<<dq.front()<<" "<<dq.back()<<endl;
-    dq.pop_back();
-    cout<<dq.front()<<" "<<dq.back()<<endl;
+int strStr(string haystack, string needle){
+    if (needle.empty()) return 0;
+        
+        int n = haystack.size(), m = needle.size();
+        for (int i = 0; i + m <= n; i++) {
+            int j = 0;
+            for (; j < m; j++) {
+                if (haystack[i + j] != needle[j])
+                    break;
+            }
+            if (j == m) return i;
+        }
+        return -1;
+}
+
+int main() {
+    cout << strStr("hello", "ll") <<endl;
+    cout << strStr("aaaaa", "bba") <<endl;
+    cout << strStr("", "") <<endl;
     return 0;
 }
