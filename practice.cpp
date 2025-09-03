@@ -5460,6 +5460,8 @@
 //     }
 // };
 
+// Queue Data Structure by STL Library
+
 // int main(){
 //     Queue q;
 //     q.push(1);
@@ -5474,20 +5476,38 @@
 //     return 0;
 // }
 
+// #include<iostream>
+// #include<queue>
+// using namespace std;
+
+// int main(){
+//     queue<int> q;
+//     q.push(1);
+//     q.push(2);
+//     q.push(3);
+
+//     while(!q.empty()){
+//         cout<<q.front()<<" ";
+//         q.pop();
+//     }
+//     cout<<endl;
+//     return 0;
+// }
+
+// Deque Data Structure by STL Library
+
 #include<iostream>
 #include<queue>
 using namespace std;
 
 int main(){
-    queue<int> q;
-    q.push(1);
-    q.push(2);
-    q.push(3);
-
-    while(!q.empty()){
-        cout<<q.front()<<" ";
-        q.pop();
-    }
-    cout<<endl;
+    deque<int> dq;
+    dq.push_back(1);
+    dq.push_back(2);
+    dq.push_back(3);
+    dq.push_front(4);
+    cout<<dq.front()<<" "<<dq.back()<<endl;
+    dq.pop_back();
+    cout<<dq.front()<<" "<<dq.back()<<endl;
     return 0;
 }
