@@ -5313,92 +5313,163 @@
 
 // LRU Cache
 
+// #include<iostream>
+// #include<unordered_map>
+// using namespace std;
+
+// class LRUCache {
+// public:
+
+//     class Node{
+//         public: 
+//         int key, val;
+//         Node* prev;
+//         Node* next;
+
+//         Node(int k, int v){
+//             key = k;
+//             val = v;
+//             prev = next = NULL;
+//         }
+//     };
+
+//     Node* head = new Node(-1,-1);
+//     Node* tail = new Node(-1,-1);
+//     unordered_map<int,Node*> m;
+//     int limit;
+
+//     void addNode(Node* newNode){
+//         Node* oldNext = head->next;
+//         head->next = newNode;
+//         oldNext->prev = newNode;
+//         newNode->next = oldNext;       
+//         newNode->prev = head;
+//     }
+
+//     void delNode(Node* oldNode){
+//         Node* oldPrev = oldNode->prev;
+//         Node* oldNext = oldNode->next;
+//         oldPrev->next = oldNext;
+//         oldNext->prev = oldPrev;
+//     }
+//     LRUCache(int capacity) {
+//         limit = capacity;
+//         head->next = tail;
+//         tail->prev = head;
+//     }
+    
+//     int get(int key) {
+//         if(m.find(key) == m.end()){
+//             return -1;
+//         }
+//         int ans = m[key]->val;
+//         Node* ansNode = m[key];
+//         m.erase(key);
+//         delNode(ansNode);
+//         addNode(ansNode);
+//         m[key] = ansNode;
+//         return ans;
+//     }
+    
+//     void put(int key, int val) {
+//         if(m.find(key) != m.end()){
+//             Node* oldNode = m[key];
+//             delNode(oldNode);
+//             m.erase(key);
+//         }
+
+//         if(m.size() == limit){
+//             m.erase(tail->prev->key);
+//             delNode(tail->prev);
+
+//         }
+//         Node* newNode = new Node(key,val);
+//         addNode(newNode);
+//         m[key] = newNode;
+//     }
+// };
+
+// int main(){
+//     LRUCache cache(2);
+//     cache.put(1,10);
+//     cache.put(2,20);
+//     cout<<"Value at key(1) : "<<cache.get(1)<<endl;
+//     cache.put(3,30);
+//     cout<<"Value at key(2) : "<<cache.get(2)<<endl;
+//     cache.put(4,40);
+//     cout<<"Value at key(1) : "<<cache.get(1)<<endl;
+//     cout<<"Value at key(3) : "<<cache.get(3)<<endl;
+//     cout<<"Value at key(4) : "<<cache.get(4)<<endl;
+//     return 0;
+// }
+
+// Queue Data Structure
+
 #include<iostream>
-#include<unordered_map>
+#include<list>
 using namespace std;
 
-class LRUCache {
+class Node{
+public:    
+    int data;
+    Node* next;
+
+    Node(int val){
+        data = val;
+        next = NULL;
+    }
+};
+
+class Queue{
+    Node* head;
+    Node* tail;
+
 public:
+    Queue(){
+        head = tail = NULL;
 
-    class Node{
-        public: 
-        int key, val;
-        Node* prev;
-        Node* next;
-
-        Node(int k, int v){
-            key = k;
-            val = v;
-            prev = next = NULL;
-        }
-    };
-
-    Node* head = new Node(-1,-1);
-    Node* tail = new Node(-1,-1);
-    unordered_map<int,Node*> m;
-    int limit;
-
-    void addNode(Node* newNode){
-        Node* oldNext = head->next;
-        head->next = newNode;
-        oldNext->prev = newNode;
-        newNode->next = oldNext;       
-        newNode->prev = head;
     }
 
-    void delNode(Node* oldNode){
-        Node* oldPrev = oldNode->prev;
-        Node* oldNext = oldNode->next;
-        oldPrev->next = oldNext;
-        oldNext->prev = oldPrev;
-    }
-    LRUCache(int capacity) {
-        limit = capacity;
-        head->next = tail;
-        tail->prev = head;
-    }
-    
-    int get(int key) {
-        if(m.find(key) == m.end()){
-            return -1;
+    void push(int data){
+        Node* newNode = new Node(data);
+        if(head == NULL){
+            head = tail = newNode;
         }
-        int ans = m[key]->val;
-        Node* ansNode = m[key];
-        m.erase(key);
-        delNode(ansNode);
-        addNode(ansNode);
-        m[key] = ansNode;
-        return ans;
-    }
-    
-    void put(int key, int val) {
-        if(m.find(key) != m.end()){
-            Node* oldNode = m[key];
-            delNode(oldNode);
-            m.erase(key);
+        else{
+            tail->next = newNode;
+            tail = newNode;
+            tail->next =  NULL;
         }
+    }
 
-        if(m.size() == limit){
-            m.erase(tail->prev->key);
-            delNode(tail->prev);
-
+    void pop(){
+        if(empty()){
+            return;
         }
-        Node* newNode = new Node(key,val);
-        addNode(newNode);
-        m[key] = newNode;
+        Node* temp = head;
+        head = head->next;
+        delete temp;
+    }
+
+    int front(){
+        return head->data;
+    }
+
+    bool empty(){
+        return head == NULL;
     }
 };
 
 int main(){
-    LRUCache cache(2);
-    cache.put(1,10);
-    cache.put(2,20);
-    cout<<"Value at key(1) : "<<cache.get(1)<<endl;
-    cache.put(3,30);
-    cout<<"Value at key(2) : "<<cache.get(2)<<endl;
-    cache.put(4,40);
-    cout<<"Value at key(1) : "<<cache.get(1)<<endl;
-    cout<<"Value at key(3) : "<<cache.get(3)<<endl;
-    cout<<"Value at key(4) : "<<cache.get(4)<<endl;
+    Queue q;
+    q.push(1);
+    q.push(2);
+    q.push(3);
+
+    while(!q.empty()){
+        cout<<q.front()<<" ";
+        q.pop();
+    }
+    cout<<endl;
     return 0;
 }
