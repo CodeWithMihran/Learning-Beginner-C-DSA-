@@ -5726,28 +5726,73 @@
 
 // First Unique Character in a String
 
+// #include<iostream>
+// #include<unordered_map>
+// #include<queue>
+// using namespace std;
+
+// int firstUniqChar(string s){
+//     unordered_map<char,int> m;
+//         queue<int> q;
+//         for(int i=0; i<s.size(); i++){
+//             if(m.find(s[i]) == m.end()){
+//                 q.push(i);
+//             }
+//             m[s[i]]++;
+//             while(q.size()>0 && m[s[q.front()]] >1){
+//                 q.pop();
+//             }
+//         }
+//         return q.empty()? -1 : q.front();
+// }
+
+// int main(){
+//     string s = "level";
+//     cout<<firstUniqChar(s)<<endl;
+//     return 0;
+// }
+
+
+// Sliding Windoe Maximum
+
 #include<iostream>
-#include<unordered_map>
-#include<queue>
+#include<deque>
+#include<vector>
 using namespace std;
 
-int firstUniqChar(string s){
-    unordered_map<char,int> m;
-        queue<int> q;
-        for(int i=0; i<s.size(); i++){
-            if(m.find(s[i]) == m.end()){
-                q.push(i);
+vector<int> maxSlidingWindow(vector<int>& nums, int k){
+    deque<int> dq;
+        vector<int> ans;
+
+        for(int i=0; i<k; i++){
+            while(dq.size()>0 && nums[dq.back()] <= nums[i]){
+                dq.pop_back();
             }
-            m[s[i]]++;
-            while(q.size()>0 && m[s[q.front()]] >1){
-                q.pop();
-            }
+            dq.push_back(i);
         }
-        return q.empty()? -1 : q.front();
+
+        for(int i=k; i<nums.size(); i++){
+            ans.push_back(nums[dq.front()]);
+
+            while(dq.size()>0 && dq.front() <= i-k){
+                dq.pop_front();
+            }
+            while(dq.size()>0 && nums[dq.back()] <= nums[i]){
+                dq.pop_back();
+            }
+            dq.push_back(i);
+        }
+        ans.push_back(nums[dq.front()]);
+        return ans;
 }
 
 int main(){
-    string s = "level";
-    cout<<firstUniqChar(s)<<endl;
+    vector<int> nums = {1,3,-1,-3,5,3,6,7};
+    int k = 3;
+    vector<int> ans = maxSlidingWindow(nums, k);
+    for(int val : ans){
+        cout<<val<<" ";
+    }
+    cout<<endl;
     return 0;
 }
