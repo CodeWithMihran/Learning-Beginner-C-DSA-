@@ -5670,55 +5670,84 @@
 
 // Implement Queue using Stack
 
+// #include<iostream>
+// #include<stack>
+// using namespace std;
+
+// class MyQueue {
+// public:
+//     stack<int> s1;
+//     stack<int> s2;
+//     MyQueue() {
+        
+//     }
+    
+//     void push(int x) {
+//         while(!s1.empty()){
+//             s2.push(s1.top());
+//             s1.pop();
+//         }
+//         s1.push(x);
+//         while(!s2.empty()){
+//             s1.push(s2.top());
+//             s2.pop();
+//         }
+//     }
+    
+//     int pop() {
+//         int ans = s1.top();
+//         s1.pop();
+//         return ans;
+//     }
+    
+//     int peek() {
+//         return s1.top();
+//     }
+    
+//     bool empty() {
+//         return s1.empty();
+//     }
+// };
+
+// int main(){
+//     MyQueue q;
+//     q.push(1);
+//     q.push(2);
+//     q.push(3);
+
+//     while(!q.empty()){
+//         cout<<q.peek()<<" ";
+//         q.pop();
+//     }
+//     cout<<endl;
+//     return 0;
+// }
+
+
+// First Unique Character in a String
+
 #include<iostream>
-#include<stack>
+#include<unordered_map>
+#include<queue>
 using namespace std;
 
-class MyQueue {
-public:
-    stack<int> s1;
-    stack<int> s2;
-    MyQueue() {
-        
-    }
-    
-    void push(int x) {
-        while(!s1.empty()){
-            s2.push(s1.top());
-            s1.pop();
+int firstUniqChar(string s){
+    unordered_map<char,int> m;
+        queue<int> q;
+        for(int i=0; i<s.size(); i++){
+            if(m.find(s[i]) == m.end()){
+                q.push(i);
+            }
+            m[s[i]]++;
+            while(q.size()>0 && m[s[q.front()]] >1){
+                q.pop();
+            }
         }
-        s1.push(x);
-        while(!s2.empty()){
-            s1.push(s2.top());
-            s2.pop();
-        }
-    }
-    
-    int pop() {
-        int ans = s1.top();
-        s1.pop();
-        return ans;
-    }
-    
-    int peek() {
-        return s1.top();
-    }
-    
-    bool empty() {
-        return s1.empty();
-    }
-};
+        return q.empty()? -1 : q.front();
+}
 
 int main(){
-    MyQueue q;
-    q.push(1);
-    q.push(2);
-    q.push(3);
-
-    while(!q.empty()){
-        cout<<q.peek()<<" ";
-        q.pop();
-    }
-    cout<<endl;
+    string s = "level";
+    cout<<firstUniqChar(s)<<endl;
     return 0;
 }
