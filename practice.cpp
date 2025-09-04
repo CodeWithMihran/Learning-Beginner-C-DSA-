@@ -5542,71 +5542,126 @@
 
 // Circular Queue 
 
+// #include<iostream>
+// using namespace std;
+
+// class CircularQueue{
+//     int* arr;
+//     int cap, currSize;
+//     int f ,r;
+// public:
+//     CircularQueue(int size){
+//         cap = size;
+//         arr = new int[cap];
+//         f = 0; 
+//         r = -1;
+//         currSize = 0;
+//     }
+
+//     void push(int data){
+//         if(currSize == cap){
+//             cout<<"CQ is FULL\n";
+//             return;
+//         }
+//         r = (r+1)%cap;
+//         arr[r] = data;
+//         currSize++;
+//     }
+
+//     void pop(){
+//         if(empty()){
+//             cout<<"CQ is EMPTY\n";
+//             return;
+//         }
+//         f = (f+1)%cap;
+//         currSize--;
+//     }
+
+//     int front(){
+//         if(empty()){
+//             return -1;
+//         }
+//         return arr[f];
+//     }
+
+//     bool empty(){
+//         return currSize == 0;
+//     }
+
+//     void printArr(){
+//         for(int i=0; i<cap; i++){
+//             cout<<arr[i]<<" ";
+//         }
+//         cout<<endl;
+//     }
+// };
+
+// int main(){
+//     CircularQueue cq(3);
+//     cq.push(1);
+//     cq.push(2);
+//     cq.push(3);
+//     cq.pop();
+//     cq.push(4);
+//     // cq.printArr();
+//     while(!cq.empty()){
+//         cout<<cq.front()<<" ";
+//         cq.pop();
+//     }
+//     cout<<endl;
+//     return 0;
+// }
+
+// Implement Stack using Queue
+
 #include<iostream>
+#include<queue>
 using namespace std;
 
-class CircularQueue{
-    int* arr;
-    int cap, currSize;
-    int f ,r;
+
+class MyStack {
 public:
-    CircularQueue(int size){
-        cap = size;
-        arr = new int[cap];
-        f = 0; 
-        r = -1;
-        currSize = 0;
+    queue<int> q1;
+    queue<int> q2;
+    MyStack() {
+        
     }
-
-    void push(int data){
-        if(currSize == cap){
-            cout<<"CQ is FULL\n";
-            return;
+    
+    void push(int x) {
+        while(!q1.empty()){
+            q2.push(q1.front());
+            q1.pop();
+        }    
+        q1.push(x);
+        while(!q2.empty()){
+            q1.push(q2.front());
+            q2.pop();
         }
-        r = (r+1)%cap;
-        arr[r] = data;
-        currSize++;
     }
-
-    void pop(){
-        if(empty()){
-            cout<<"CQ is EMPTY\n";
-            return;
-        }
-        f = (f+1)%cap;
-        currSize--;
+    
+    int pop() {
+        int ans = q1.front();
+        q1.pop();
+        return ans;
     }
-
-    int front(){
-        if(empty()){
-            return -1;
-        }
-        return arr[f];
+    
+    int top() {
+        return q1.front();
     }
-
-    bool empty(){
-        return currSize == 0;
-    }
-
-    void printArr(){
-        for(int i=0; i<cap; i++){
-            cout<<arr[i]<<" ";
-        }
-        cout<<endl;
+    
+    bool empty() {
+        return q1.empty();
     }
 };
 
 int main(){
-    CircularQueue cq(3);
-    cq.push(1);
-    cq.push(2);
-    cq.push(3);
-    cq.pop();
-    cq.push(4);
-    // cq.printArr();
-    while(!cq.empty()){
-        cout<<cq.front()<<" ";
-        cq.pop();
+    MyStack s;
+    s.push(1);
+    s.push(2);
+    s.push(3);
+    while(!s.empty()){
+        cout<<s.top()<<" ";
+        s.pop();
     }
     cout<<endl;
     return 0;
