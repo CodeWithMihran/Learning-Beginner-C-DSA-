@@ -5755,44 +5755,72 @@
 
 // Sliding Windoe Maximum
 
+// #include<iostream>
+// #include<deque>
+// #include<vector>
+// using namespace std;
+
+// vector<int> maxSlidingWindow(vector<int>& nums, int k){
+//     deque<int> dq;
+//         vector<int> ans;
+
+//         for(int i=0; i<k; i++){
+//             while(dq.size()>0 && nums[dq.back()] <= nums[i]){
+//                 dq.pop_back();
+//             }
+//             dq.push_back(i);
+//         }
+
+//         for(int i=k; i<nums.size(); i++){
+//             ans.push_back(nums[dq.front()]);
+
+//             while(dq.size()>0 && dq.front() <= i-k){
+//                 dq.pop_front();
+//             }
+//             while(dq.size()>0 && nums[dq.back()] <= nums[i]){
+//                 dq.pop_back();
+//             }
+//             dq.push_back(i);
+//         }
+//         ans.push_back(nums[dq.front()]);
+//         return ans;
+// }
+
+// int main(){
+//     vector<int> nums = {1,3,-1,-3,5,3,6,7};
+//     int k = 3;
+//     vector<int> ans = maxSlidingWindow(nums, k);
+//     for(int val : ans){
+//         cout<<val<<" ";
+//     }
+//     cout<<endl;
+//     return 0;
+// }
+
+// Gas Station Problem
+
 #include<iostream>
-#include<deque>
 #include<vector>
 using namespace std;
 
-vector<int> maxSlidingWindow(vector<int>& nums, int k){
-    deque<int> dq;
-        vector<int> ans;
-
-        for(int i=0; i<k; i++){
-            while(dq.size()>0 && nums[dq.back()] <= nums[i]){
-                dq.pop_back();
+int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int totalGas = 0, totalCost = 0;
+        int start = 0, currGas = 0;
+        for(int i=0; i<gas.size(); i++){
+            totalGas += gas[i];
+            totalCost += cost[i];
+            currGas += (gas[i] - cost[i]);
+            if(currGas < 0){
+                start = i+1;
+                currGas = 0;
             }
-            dq.push_back(i);
         }
-
-        for(int i=k; i<nums.size(); i++){
-            ans.push_back(nums[dq.front()]);
-
-            while(dq.size()>0 && dq.front() <= i-k){
-                dq.pop_front();
-            }
-            while(dq.size()>0 && nums[dq.back()] <= nums[i]){
-                dq.pop_back();
-            }
-            dq.push_back(i);
-        }
-        ans.push_back(nums[dq.front()]);
-        return ans;
-}
+        return totalGas < totalCost ? -1 : start;
+    }
 
 int main(){
-    vector<int> nums = {1,3,-1,-3,5,3,6,7};
-    int k = 3;
-    vector<int> ans = maxSlidingWindow(nums, k);
-    for(int val : ans){
-        cout<<val<<" ";
-    }
-    cout<<endl;
+    vector<int> gas = {1,2,3,4,5};
+    vector<int> cost = {3,4,5,1,2};
+    cout<<"The Starting Gas Station should be : "<<canCompleteCircuit(gas, cost)<<endl;
     return 0;
-}
+}    
