@@ -5861,11 +5861,22 @@ void preOrder(Node* root){
     preOrder(root->right);
 }
 
+void inOrder(Node* root){
+    if(root == NULL){
+        return;
+    }
+    inOrder(root->left);
+    cout<<root->data<<" ";
+    inOrder(root->right);
+}
+
 int main(){
     vector<int> preorder = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
 
     Node* root = buildTree(preorder);
     preOrder(root);
+    cout<<endl;
+    inOrder(root);
     cout<<endl;
     return 0;
 }
