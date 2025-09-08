@@ -5799,28 +5799,73 @@
 
 // Gas Station Problem
 
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+//         int totalGas = 0, totalCost = 0;
+//         int start = 0, currGas = 0;
+//         for(int i=0; i<gas.size(); i++){
+//             totalGas += gas[i];
+//             totalCost += cost[i];
+//             currGas += (gas[i] - cost[i]);
+//             if(currGas < 0){
+//                 start = i+1;
+//                 currGas = 0;
+//             }
+//         }
+//         return totalGas < totalCost ? -1 : start;
+//     }
+
+// int main(){
+//     vector<int> gas = {1,2,3,4,5};
+//     vector<int> cost = {3,4,5,1,2};
+//     cout<<"The Starting Gas Station should be : "<<canCompleteCircuit(gas, cost)<<endl;
+//     return 0;
+// }    
+
 #include<iostream>
 #include<vector>
 using namespace std;
 
-int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
-        int totalGas = 0, totalCost = 0;
-        int start = 0, currGas = 0;
-        for(int i=0; i<gas.size(); i++){
-            totalGas += gas[i];
-            totalCost += cost[i];
-            currGas += (gas[i] - cost[i]);
-            if(currGas < 0){
-                start = i+1;
-                currGas = 0;
-            }
-        }
-        return totalGas < totalCost ? -1 : start;
+class Node{
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val){
+        data = val;
+        left = right = NULL;
     }
+};
+
+static int idx = -1;
+Node* buildTree(vector<int>& preorder){
+    idx++;
+
+    if(preorder[idx] == -1) return NULL;
+    Node* root = new Node(preorder[idx]);
+    root->left = buildTree(preorder);
+    root->right = buildTree(preorder);
+    return root;
+}
+
+void preOrder(Node* root){
+    if(root == NULL){
+        return;
+    }
+    cout<<root->data<<" ";
+    preOrder(root->left);
+    preOrder(root->right);
+}
 
 int main(){
-    vector<int> gas = {1,2,3,4,5};
-    vector<int> cost = {3,4,5,1,2};
-    cout<<"The Starting Gas Station should be : "<<canCompleteCircuit(gas, cost)<<endl;
+    vector<int> preorder = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
+
+    Node* root = buildTree(preorder);
+    preOrder(root);
+    cout<<endl;
     return 0;
-}    
+}
