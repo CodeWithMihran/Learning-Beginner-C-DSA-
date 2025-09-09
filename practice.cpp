@@ -6010,6 +6010,52 @@
 
 // Sum of Nodes
 
+// #include<iostream>
+// #include<vector>
+// #include<queue>
+// using namespace std;
+
+// class Node{
+// public:
+//     int data;
+//     Node* left;
+//     Node* right;
+
+//     Node(int val){
+//         data = val;
+//         left = right = NULL;
+//     }
+// };
+
+// static int idx = -1;
+// Node* buildTree(vector<int>& preorder){
+//     idx++;
+
+//     if(preorder[idx] == -1) return NULL;
+//     Node* root = new Node(preorder[idx]);
+//     root->left = buildTree(preorder);
+//     root->right = buildTree(preorder);
+//     return root;
+// }
+
+// int sum(Node* root){
+//     if(root == NULL){
+//         return 0;
+//     }
+//     int leftSum = sum(root->left);
+//     int rightSum = sum(root->right);
+//     return leftSum + rightSum + (root->data);
+// }
+
+// int main(){
+//     vector<int> preorder = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
+//     Node* root = buildTree(preorder);
+//     cout<<"Sum of Nodes of the Tree : "<<sum(root)<<endl;
+//     return 0;
+// }
+
+// Same Tree (Identical Tree)
+
 #include<iostream>
 #include<vector>
 #include<queue>
@@ -6038,18 +6084,27 @@ Node* buildTree(vector<int>& preorder){
     return root;
 }
 
-int sum(Node* root){
-    if(root == NULL){
-        return 0;
+bool isSameTree(Node* p, Node* q) {
+        if(p == NULL || q == NULL){
+            return p == q;
+        }
+        bool isLeftSame = isSameTree(p->left, q->left);
+        bool isRightSame = isSameTree(p->right, q->right);
+        return isLeftSame && isRightSame && (p->data == q->data);
     }
-    int leftSum = sum(root->left);
-    int rightSum = sum(root->right);
-    return leftSum + rightSum + (root->data);
-}
 
 int main(){
-    vector<int> preorder = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
-    Node* root = buildTree(preorder);
-    cout<<"Sum of Nodes of the Tree : "<<sum(root)<<endl;
+    vector<int> preorder1 = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
+    vector<int> preorder2 = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
+    idx = -1;
+    Node* p = buildTree(preorder1);
+    idx = -1;
+    Node* q = buildTree(preorder2);
+    if(isSameTree(p,q)){
+        cout<<"The Trees are Identcal."<<endl;
+    }
+    else{
+        cout<<"The Trees are not Identical"<<endl;
+    }
     return 0;
 }
