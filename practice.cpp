@@ -6056,6 +6056,61 @@
 
 // Same Tree (Identical Tree)
 
+// #include<iostream>
+// #include<vector>
+// #include<queue>
+// using namespace std;
+
+// class Node{
+// public:
+//     int data;
+//     Node* left;
+//     Node* right;
+
+//     Node(int val){
+//         data = val;
+//         left = right = NULL;
+//     }
+// };
+
+// static int idx = -1;
+// Node* buildTree(vector<int>& preorder){
+//     idx++;
+
+//     if(preorder[idx] == -1) return NULL;
+//     Node* root = new Node(preorder[idx]);
+//     root->left = buildTree(preorder);
+//     root->right = buildTree(preorder);
+//     return root;
+// }
+
+// bool isSameTree(Node* p, Node* q) {
+//         if(p == NULL || q == NULL){
+//             return p == q;
+//         }
+//         bool isLeftSame = isSameTree(p->left, q->left);
+//         bool isRightSame = isSameTree(p->right, q->right);
+//         return isLeftSame && isRightSame && (p->data == q->data);
+//     }
+
+// int main(){
+//     vector<int> preorder1 = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
+//     vector<int> preorder2 = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
+//     idx = -1;
+//     Node* p = buildTree(preorder1);
+//     idx = -1;
+//     Node* q = buildTree(preorder2);
+//     if(isSameTree(p,q)){
+//         cout<<"The Trees are Identcal."<<endl;
+//     }
+//     else{
+//         cout<<"The Trees are not Identical"<<endl;
+//     }
+//     return 0;
+// }
+
+// Subtree of Another Tree
+
 #include<iostream>
 #include<vector>
 #include<queue>
@@ -6084,27 +6139,36 @@ Node* buildTree(vector<int>& preorder){
     return root;
 }
 
-bool isSameTree(Node* p, Node* q) {
-        if(p == NULL || q == NULL){
-            return p == q;
+bool isIdentical(Node* root, Node* subRoot){
+        if(root == NULL || subRoot == NULL){
+            return root == subRoot;
         }
-        bool isLeftSame = isSameTree(p->left, q->left);
-        bool isRightSame = isSameTree(p->right, q->right);
-        return isLeftSame && isRightSame && (p->data == q->data);
+        return (root->data == subRoot->data) 
+                && isIdentical(root->left, subRoot->left) 
+                && isIdentical(root->right, subRoot->right); 
+    }
+    bool isSubtree(Node* root, Node* subRoot) {
+        if(root == NULL || subRoot == NULL){
+            return root == subRoot;
+        }
+        if(root->data == subRoot->data && isIdentical(root,subRoot)){
+            return true;
+        }
+        return (isSubtree(root->left, subRoot) || isSubtree(root->right, subRoot));
     }
 
 int main(){
     vector<int> preorder1 = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
     vector<int> preorder2 = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
     idx = -1;
-    Node* p = buildTree(preorder1);
+    Node* root = buildTree(preorder1);
     idx = -1;
-    Node* q = buildTree(preorder2);
-    if(isSameTree(p,q)){
-        cout<<"The Trees are Identcal."<<endl;
+    Node* subRoot = buildTree(preorder2);
+    if(isSubtree(root,subRoot)){
+        cout<<"True"<<endl;
     }
     else{
-        cout<<"The Trees are not Identical"<<endl;
+        cout<<"False"<<endl;
     }
     return 0;
 }
