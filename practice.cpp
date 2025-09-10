@@ -6111,6 +6111,70 @@
 
 // Subtree of Another Tree
 
+// #include<iostream>
+// #include<vector>
+// #include<queue>
+// using namespace std;
+
+// class Node{
+// public:
+//     int data;
+//     Node* left;
+//     Node* right;
+
+//     Node(int val){
+//         data = val;
+//         left = right = NULL;
+//     }
+// };
+
+// static int idx = -1;
+// Node* buildTree(vector<int>& preorder){
+//     idx++;
+
+//     if(preorder[idx] == -1) return NULL;
+//     Node* root = new Node(preorder[idx]);
+//     root->left = buildTree(preorder);
+//     root->right = buildTree(preorder);
+//     return root;
+// }
+
+// bool isIdentical(Node* root, Node* subRoot){
+//         if(root == NULL || subRoot == NULL){
+//             return root == subRoot;
+//         }
+//         return (root->data == subRoot->data) 
+//                 && isIdentical(root->left, subRoot->left) 
+//                 && isIdentical(root->right, subRoot->right); 
+//     }
+//     bool isSubtree(Node* root, Node* subRoot) {
+//         if(root == NULL || subRoot == NULL){
+//             return root == subRoot;
+//         }
+//         if(root->data == subRoot->data && isIdentical(root,subRoot)){
+//             return true;
+//         }
+//         return (isSubtree(root->left, subRoot) || isSubtree(root->right, subRoot));
+//     }
+
+// int main(){
+//     vector<int> preorder1 = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
+//     vector<int> preorder2 = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
+//     idx = -1;
+//     Node* root = buildTree(preorder1);
+//     idx = -1;
+//     Node* subRoot = buildTree(preorder2);
+//     if(isSubtree(root,subRoot)){
+//         cout<<"True"<<endl;
+//     }
+//     else{
+//         cout<<"False"<<endl;
+//     }
+//     return 0;
+// }
+
+// Diameter of a Binary Tree
+
 #include<iostream>
 #include<vector>
 #include<queue>
@@ -6139,36 +6203,24 @@ Node* buildTree(vector<int>& preorder){
     return root;
 }
 
-bool isIdentical(Node* root, Node* subRoot){
-        if(root == NULL || subRoot == NULL){
-            return root == subRoot;
+    int ans = 0;
+    int height(Node* root){
+        if(root == NULL){
+            return 0;
         }
-        return (root->data == subRoot->data) 
-                && isIdentical(root->left, subRoot->left) 
-                && isIdentical(root->right, subRoot->right); 
+        int leftHt = height(root->left);
+        int rightHt = height(root->right);
+        ans = max(ans, (rightHt+leftHt));
+        return max(leftHt, rightHt) +1;
     }
-    bool isSubtree(Node* root, Node* subRoot) {
-        if(root == NULL || subRoot == NULL){
-            return root == subRoot;
-        }
-        if(root->data == subRoot->data && isIdentical(root,subRoot)){
-            return true;
-        }
-        return (isSubtree(root->left, subRoot) || isSubtree(root->right, subRoot));
+    int diameterOfBinaryTree(Node* root) {
+        height(root);
+        return ans;
     }
 
 int main(){
-    vector<int> preorder1 = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
-    vector<int> preorder2 = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
-    idx = -1;
-    Node* root = buildTree(preorder1);
-    idx = -1;
-    Node* subRoot = buildTree(preorder2);
-    if(isSubtree(root,subRoot)){
-        cout<<"True"<<endl;
-    }
-    else{
-        cout<<"False"<<endl;
-    }
+    vector<int> preorder = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
+    Node* root = buildTree(preorder);
+    cout<<"The Diameter of the Tree : "<<diameterOfBinaryTree(root)<<endl;
     return 0;
 }
