@@ -6428,6 +6428,15 @@ Node* buildTree(vector<int>& preorder){
     return root;
 }
 
+void preorder(Node* root){
+    if(root == NULL){
+        return;
+    }
+    cout<<root->data<<" ";
+    preorder(root->left);
+    preorder(root->right);
+}
+
 int sumTree(Node* root){
     if(root == NULL){
         return 0;
@@ -6439,8 +6448,12 @@ int sumTree(Node* root){
 }
 
 int main(){
-    vector<int> preorder = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
-    Node* root = buildTree(preorder);
-    cout<<"Sum of the Tree : "<<sumTree(root)<<endl;
+    vector<int> preOrder = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
+    Node* root = buildTree(preOrder);
+    preorder(root);
+    cout<<endl;
+    sumTree(root);
+    preorder(root);
+    cout<<endl;
     return 0;
 }
