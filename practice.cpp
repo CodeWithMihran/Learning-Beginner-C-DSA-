@@ -6291,6 +6291,55 @@
 
 // Kth level of a Binary Tree
 
+// #include<iostream>
+// #include<vector>
+// #include<queue>
+// #include<map>
+// using namespace std;
+
+// class Node{
+// public:
+//     int data;
+//     Node* left;
+//     Node* right;
+//     Node(int val){ 
+//         data = val;
+//         left = right = NULL;
+//     }
+// };
+
+// static int idx = -1;
+// Node* buildTree(vector<int>& preorder){
+//     idx++;
+
+//     if(preorder[idx] == -1) return NULL;
+//     Node* root = new Node(preorder[idx]);
+//     root->left = buildTree(preorder);
+//     root->right = buildTree(preorder);
+//     return root;
+// }
+
+// void kthLevel(Node* root, int k){
+//     if(root == NULL){
+//         return; 
+//     }
+//     if(k == 1){
+//         cout<<root->data<<" ";
+//         return;
+//     }
+//     kthLevel(root->left, k-1);
+//     kthLevel(root->right, k-1);
+// }
+
+// int main(){
+//     vector<int> preorder = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
+//     Node* root = buildTree(preorder);
+//     kthLevel(root,2);
+//     return 0;
+// }
+
+// Lowest Common Ancestor of a Binary Tree
+
 #include<iostream>
 #include<vector>
 #include<queue>
@@ -6319,21 +6368,32 @@ Node* buildTree(vector<int>& preorder){
     return root;
 }
 
-void kthLevel(Node* root, int k){
-    if(root == NULL){
-        return; 
+Node* lowestCommonAncestor(Node* root, Node* p, Node* q) {
+        if(root == NULL){
+            return NULL;
+        }
+        if(root->data == p->data || root->data == q->data){
+            return root;
+        }
+        Node* leftLCA = lowestCommonAncestor(root->left, p, q);
+        Node* rightLCA = lowestCommonAncestor(root->right, p, q);
+        if(leftLCA && rightLCA){
+            return root;
+        }
+        else if(leftLCA != NULL){
+            return leftLCA;
+        }
+        else{
+            return rightLCA;
+        }
     }
-    if(k == 1){
-        cout<<root->data<<" ";
-        return;
-    }
-    kthLevel(root->left, k-1);
-    kthLevel(root->right, k-1);
-}
 
 int main(){
     vector<int> preorder = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
     Node* root = buildTree(preorder);
-    kthLevel(root,3);
+    Node* p = new Node(4);
+    Node* q = new Node(5);
+    Node* ancestor = lowestCommonAncestor(root,p,q);
+    cout<<"Ancestor : "<<ancestor->data<<endl;
     return 0;
 }
