@@ -6340,6 +6340,66 @@
 
 // Lowest Common Ancestor of a Binary Tree
 
+// #include<iostream>
+// #include<vector>
+// #include<queue>
+// #include<map>
+// using namespace std;
+
+// class Node{
+// public:
+//     int data;
+//     Node* left;
+//     Node* right;
+//     Node(int val){ 
+//         data = val;
+//         left = right = NULL;
+//     }
+// };
+
+// static int idx = -1;
+// Node* buildTree(vector<int>& preorder){
+//     idx++;
+
+//     if(preorder[idx] == -1) return NULL;
+//     Node* root = new Node(preorder[idx]);
+//     root->left = buildTree(preorder);
+//     root->right = buildTree(preorder);
+//     return root;
+// }
+
+// Node* lowestCommonAncestor(Node* root, Node* p, Node* q) {
+//         if(root == NULL){
+//             return NULL;
+//         }
+//         if(root->data == p->data || root->data == q->data){
+//             return root;
+//         }
+//         Node* leftLCA = lowestCommonAncestor(root->left, p, q);
+//         Node* rightLCA = lowestCommonAncestor(root->right, p, q);
+//         if(leftLCA && rightLCA){
+//             return root;
+//         }
+//         else if(leftLCA != NULL){
+//             return leftLCA;
+//         }
+//         else{
+//             return rightLCA;
+//         }
+//     }
+
+// int main(){
+//     vector<int> preorder = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
+//     Node* root = buildTree(preorder);
+//     Node* p = new Node(4);
+//     Node* q = new Node(5);
+//     Node* ancestor = lowestCommonAncestor(root,p,q);
+//     cout<<"Ancestor : "<<ancestor->data<<endl;
+//     return 0;
+// }
+
+// Sum Tree
+
 #include<iostream>
 #include<vector>
 #include<queue>
@@ -6368,32 +6428,19 @@ Node* buildTree(vector<int>& preorder){
     return root;
 }
 
-Node* lowestCommonAncestor(Node* root, Node* p, Node* q) {
-        if(root == NULL){
-            return NULL;
-        }
-        if(root->data == p->data || root->data == q->data){
-            return root;
-        }
-        Node* leftLCA = lowestCommonAncestor(root->left, p, q);
-        Node* rightLCA = lowestCommonAncestor(root->right, p, q);
-        if(leftLCA && rightLCA){
-            return root;
-        }
-        else if(leftLCA != NULL){
-            return leftLCA;
-        }
-        else{
-            return rightLCA;
-        }
+int sumTree(Node* root){
+    if(root == NULL){
+        return 0;
     }
+    int leftSum = sumTree(root->left);
+    int rightSum = sumTree(root->right);
+    root->data += leftSum+rightSum;
+    return root->data;
+}
 
 int main(){
     vector<int> preorder = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
     Node* root = buildTree(preorder);
-    Node* p = new Node(4);
-    Node* q = new Node(5);
-    Node* ancestor = lowestCommonAncestor(root,p,q);
-    cout<<"Ancestor : "<<ancestor->data<<endl;
+    cout<<"Sum of the Tree : "<<sumTree(root)<<endl;
     return 0;
 }
