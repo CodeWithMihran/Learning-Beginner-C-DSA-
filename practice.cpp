@@ -6590,54 +6590,96 @@
 
 // Flatten Binary Tree to Linked List
 
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// class Node{
+// public:
+//     int data;
+//     Node* left;
+//     Node* right;
+//     Node(int val){ 
+//         data = val;
+//         left = right = NULL;
+//     }
+// };
+
+// static int idx = -1;
+// Node* buildTree(vector<int>& preorder){
+//     idx++;
+
+//     if(preorder[idx] == -1) return NULL;
+//     Node* root = new Node(preorder[idx]);
+//     root->left = buildTree(preorder);
+//     root->right = buildTree(preorder);
+//     return root;
+// }
+
+// Node* nextRight = NULL;
+// void flatten(Node* root) {
+//     if(root == NULL){
+//         return;
+//     }
+//     flatten(root->right);
+//     flatten(root->left);
+//     root->left = NULL;
+//     root->right = nextRight;
+//     nextRight = root;
+// }
+
+// int main(){
+//     vector<int> preOrder = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
+//     Node* root = buildTree(preOrder);
+//     flatten(root);
+//     cout<<"Flatten Tree (Right-Skewed) : ";
+//     Node* curr = root;
+//     while(curr != NULL){
+//         cout<<curr->data<<" ";
+//         curr = curr->right;
+//     }
+//     cout<<endl;
+//     return 0;
+// }
+
+
+// Detect Capital
+
 #include<iostream>
-#include<vector>
+#include<string>
 using namespace std;
 
-class Node{
-public:
-    int data;
-    Node* left;
-    Node* right;
-    Node(int val){ 
-        data = val;
-        left = right = NULL;
+bool detectCapitalUse(string word) {
+        int n = word.size();
+        if(n == 1){
+            return true;
+        }
+
+        bool firstIsUpper = isupper(word[0]);
+        bool secondIsUpper = isupper(word[1]);
+
+        if(firstIsUpper && secondIsUpper){
+            for(int i=2; i<n; i++){
+                if(!isupper(word[i])){
+                    return false;
+                }
+            }
+            return true;    
+        }
+        for(int i=1; i<n; i++){
+            if(!islower(word[i])){
+                return false;
+            }
+        }
+        return true;
     }
-};
-
-static int idx = -1;
-Node* buildTree(vector<int>& preorder){
-    idx++;
-
-    if(preorder[idx] == -1) return NULL;
-    Node* root = new Node(preorder[idx]);
-    root->left = buildTree(preorder);
-    root->right = buildTree(preorder);
-    return root;
-}
-
-Node* nextRight = NULL;
-void flatten(Node* root) {
-    if(root == NULL){
-        return;
-    }
-    flatten(root->right);
-    flatten(root->left);
-    root->left = NULL;
-    root->right = nextRight;
-    nextRight = root;
-}
 
 int main(){
-    vector<int> preOrder = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
-    Node* root = buildTree(preOrder);
-    flatten(root);
-    cout<<"Flatten Tree (Right-Skewed) : ";
-    Node* curr = root;
-    while(curr != NULL){
-        cout<<curr->data<<" ";
-        curr = curr->right;
-    }
-    cout<<endl;
+    string s1 = "Google";
+    string s2 = "AMAZON";
+    string s3 = "FaceBook";
+    cout<<detectCapitalUse(s1)<<endl;
+    cout<<detectCapitalUse(s2)<<endl;
+    cout<<detectCapitalUse(s3)<<endl;
     return 0;
-}
+}    
