@@ -6460,6 +6460,67 @@
 
 // Maximum Width of a Binary Tree
 
+// #include<iostream>
+// #include<vector>
+// #include<queue>
+// #include<map>
+// using namespace std;
+
+// class Node{
+// public:
+//     int data;
+//     Node* left;
+//     Node* right;
+//     Node(int val){ 
+//         data = val;
+//         left = right = NULL;
+//     }
+// };
+
+// static int idx = -1;
+// Node* buildTree(vector<int>& preorder){
+//     idx++;
+
+//     if(preorder[idx] == -1) return NULL;
+//     Node* root = new Node(preorder[idx]);
+//     root->left = buildTree(preorder);
+//     root->right = buildTree(preorder);
+//     return root;
+// }
+
+// int widthOfBinaryTree(Node* root) {
+//         queue<pair<Node*, unsigned long long>> q;
+//         q.push({root, 0});
+//         int maxWidth = 0;
+//         while (q.size() > 0) {
+//             int currLevelSize = q.size();
+//             unsigned long long stIdx = q.front().second;
+//             unsigned long long endIdx = q.back().second;
+//             maxWidth = max(maxWidth, (int)(endIdx - stIdx + 1));
+
+//             for (int i = 0; i < currLevelSize; i++) {
+//                 auto curr = q.front();
+//                 q.pop();
+//                 if (curr.first->left) {
+//                     q.push({curr.first->left, curr.second * 2 + 1});
+//                 }
+//                 if (curr.first->right) {
+//                     q.push({curr.first->right, curr.second * 2 + 2});
+//                 }
+//             }
+//         }
+//         return maxWidth;
+//     }
+
+// int main(){
+//     vector<int> preOrder = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
+//     Node* root = buildTree(preOrder);
+//     cout<<"Width of the Binary Tree : "<< widthOfBinaryTree(root)<<endl;
+//     return 0;
+// }
+
+// Binary Tree Inorder Traversal
+
 #include<iostream>
 #include<vector>
 #include<queue>
@@ -6488,33 +6549,41 @@ Node* buildTree(vector<int>& preorder){
     return root;
 }
 
-int widthOfBinaryTree(Node* root) {
-        queue<pair<Node*, unsigned long long>> q;
-        q.push({root, 0});
-        int maxWidth = 0;
-        while (q.size() > 0) {
-            int currLevelSize = q.size();
-            unsigned long long stIdx = q.front().second;
-            unsigned long long endIdx = q.back().second;
-            maxWidth = max(maxWidth, (int)(endIdx - stIdx + 1));
-
-            for (int i = 0; i < currLevelSize; i++) {
-                auto curr = q.front();
-                q.pop();
-                if (curr.first->left) {
-                    q.push({curr.first->left, curr.second * 2 + 1});
+vector<int> inorderTraversal(Node* root) {
+        vector<int> ans;
+        Node* curr = root;
+        while(curr != NULL){
+            if(curr->left == NULL){
+                ans.push_back(curr->data);
+                curr = curr->right;
+            }
+            else{
+                Node* IP = curr->left;
+                while(IP->right != NULL && IP->right != curr){
+                    IP = IP->right;
                 }
-                if (curr.first->right) {
-                    q.push({curr.first->right, curr.second * 2 + 2});
+                if(IP->right == NULL){
+                    IP->right = curr;
+                    curr = curr->left;
+                }
+                else{
+                    IP->right = NULL;
+                    ans.push_back(curr->data);
+                    curr = curr->right;
                 }
             }
         }
-        return maxWidth;
+        return ans;
     }
 
 int main(){
     vector<int> preOrder = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
     Node* root = buildTree(preOrder);
-    cout<<"Width of the Binary Tree : "<< widthOfBinaryTree(root)<<endl;
+    vector<int> ans = inorderTraversal(root);
+    cout<<"Tree in Inorder Traversal : ";
+    for(int val : ans){
+        cout<< val <<" ";
+    }
+    cout<<endl;
     return 0;
 }
