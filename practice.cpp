@@ -6686,6 +6686,62 @@
 
 // Binary Search Tree 
 
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// class Node{
+// public:
+//     int data;
+//     Node* right;
+//     Node* left;
+
+//     Node(int val){
+//         data = val;
+//         right = left = NULL;
+//     }
+// };
+
+// Node* insert(Node* root, int val){
+//     if(root == NULL){
+//         return new Node(val);
+//     }
+//     if(val < root->data){
+//         root->left = insert(root->left, val);
+//     }
+//     else{
+//         root->right = insert(root->right, val);
+//     }
+//     return root;
+// }
+
+// Node* buildBST(vector<int> arr){
+//     Node* root = NULL;
+//     for(int val : arr){
+//         root = insert(root, val);
+//     }
+//     return root;
+// }
+
+// void inorder(Node* root){
+//     if(root == NULL){
+//         return;
+//     }
+//     inorder(root->left);
+//     cout<<root->data<<" ";
+//     inorder(root->right);
+// }
+
+// int main(){
+//     vector<int> arr = {3,2,1,5,4,6};
+//     Node* root = buildBST(arr);
+//     inorder(root);
+//     cout<<endl;
+//     return 0;
+// }
+
+// Search in Binary Search Tree
+
 #include<iostream>
 #include<vector>
 using namespace std;
@@ -6723,19 +6779,30 @@ Node* buildBST(vector<int> arr){
     return root;
 }
 
-void inorder(Node* root){
+bool search(Node* root, int key){
     if(root == NULL){
-        return;
+        return false;
     }
-    inorder(root->left);
-    cout<<root->data<<" ";
-    inorder(root->right);
+    if(root->data == key){
+        return true;
+    }
+    if(root->data > key){
+        return search(root->left, key);
+    }
+    else{
+        return search(root->right, key);
+    }
 }
 
 int main(){
     vector<int> arr = {3,2,1,5,4,6};
     Node* root = buildBST(arr);
-    inorder(root);
-    cout<<endl;
+    int key = 5;
+    if(search(root,key)){
+        cout<<"The Key is present in the Tree."<<endl;
+    }
+    else{
+        cout<<"The Key is not present in the Tree."<<endl;
+    }
     return 0;
 }
