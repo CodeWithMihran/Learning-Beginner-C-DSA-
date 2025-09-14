@@ -6645,41 +6645,97 @@
 
 // Detect Capital
 
+// #include<iostream>
+// #include<string>
+// using namespace std;
+
+// bool detectCapitalUse(string word) {
+//         int n = word.size();
+//         if(n == 1){
+//             return true;
+//         }
+
+//         bool firstIsUpper = isupper(word[0]);
+//         bool secondIsUpper = isupper(word[1]);
+
+//         if(firstIsUpper && secondIsUpper){
+//             for(int i=2; i<n; i++){
+//                 if(!isupper(word[i])){
+//                     return false;
+//                 }
+//             }
+//             return true;    
+//         }
+//         for(int i=1; i<n; i++){
+//             if(!islower(word[i])){
+//                 return false;
+//             }
+//         }
+//         return true;
+//     }
+
+// int main(){
+//     string s1 = "Google";
+//     string s2 = "AMAZON";
+//     string s3 = "FaceBook";
+//     cout<<detectCapitalUse(s1)<<endl;
+//     cout<<detectCapitalUse(s2)<<endl;
+//     cout<<detectCapitalUse(s3)<<endl;
+//     return 0;
+// }    
+
+// Binary Search Tree 
+
 #include<iostream>
-#include<string>
+#include<vector>
 using namespace std;
 
-bool detectCapitalUse(string word) {
-        int n = word.size();
-        if(n == 1){
-            return true;
-        }
+class Node{
+public:
+    int data;
+    Node* right;
+    Node* left;
 
-        bool firstIsUpper = isupper(word[0]);
-        bool secondIsUpper = isupper(word[1]);
-
-        if(firstIsUpper && secondIsUpper){
-            for(int i=2; i<n; i++){
-                if(!isupper(word[i])){
-                    return false;
-                }
-            }
-            return true;    
-        }
-        for(int i=1; i<n; i++){
-            if(!islower(word[i])){
-                return false;
-            }
-        }
-        return true;
+    Node(int val){
+        data = val;
+        right = left = NULL;
     }
+};
+
+Node* insert(Node* root, int val){
+    if(root == NULL){
+        return new Node(val);
+    }
+    if(val < root->data){
+        root->left = insert(root->left, val);
+    }
+    else{
+        root->right = insert(root->right, val);
+    }
+    return root;
+}
+
+Node* buildBST(vector<int> arr){
+    Node* root = NULL;
+    for(int val : arr){
+        root = insert(root, val);
+    }
+    return root;
+}
+
+void inorder(Node* root){
+    if(root == NULL){
+        return;
+    }
+    inorder(root->left);
+    cout<<root->data<<" ";
+    inorder(root->right);
+}
 
 int main(){
-    string s1 = "Google";
-    string s2 = "AMAZON";
-    string s3 = "FaceBook";
-    cout<<detectCapitalUse(s1)<<endl;
-    cout<<detectCapitalUse(s2)<<endl;
-    cout<<detectCapitalUse(s3)<<endl;
+    vector<int> arr = {3,2,1,5,4,6};
+    Node* root = buildBST(arr);
+    inorder(root);
+    cout<<endl;
     return 0;
-}    
+}
