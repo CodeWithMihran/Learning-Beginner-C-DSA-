@@ -6909,7 +6909,66 @@
 // }
 
 
-    #include<iostream>
+// Validate Binary Search Tree
+
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// class Node{
+// public:
+//     int data;
+//     Node* left;
+//     Node* right;
+//     Node(int val){ 
+//         data = val;
+//         left = right = NULL;
+//     }
+// };
+
+// static int idx = -1;
+// Node* buildTree(vector<int>& preorder){
+//     idx++;
+
+//     if(preorder[idx] == -1) return NULL;
+//     Node* root = new Node(preorder[idx]);
+//     root->left = buildTree(preorder);
+//     root->right = buildTree(preorder);
+//     return root;
+// }
+
+// bool helper(Node* root, Node* min, Node* max){
+//         if(root == NULL){
+//             return true;
+//         }
+//         if(min != NULL && root->data <= min->data){
+//             return false;
+//         }
+//         if(max != NULL && root->data >= max->data){
+//             return false;
+//         }
+//         return helper(root->left, min, root) && helper(root->right, root, max);
+//     }
+// bool isValidBST(Node* root) {
+//     return helper(root, NULL, NULL);
+// }
+
+
+// int main(){
+//     vector<int> preOrder = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
+//     Node* root = buildTree(preOrder);
+//     if(isValidBST){
+//         cout<<"The Tree is a Valid Binary Search Tree."<<endl;
+//     }
+//     else{
+//         cout<<"The Tree is not a Valid Binary Search Tree."<<endl;
+//     }
+//     return 0;
+// }
+
+// Convert Sorted Array to Binary Search Tree
+
+#include<iostream>
 #include<vector>
 using namespace std;
 
@@ -6935,31 +6994,24 @@ Node* buildTree(vector<int>& preorder){
     return root;
 }
 
-bool helper(Node* root, Node* min, Node* max){
-        if(root == NULL){
-            return true;
+Node* helper(vector<int>& nums, int st, int end){
+        if(st > end){
+            return NULL;
         }
-        if(min != NULL && root->data <= min->data){
-            return false;
-        }
-        if(max != NULL && root->data >= max->data){
-            return false;
-        }
-        return helper(root->left, min, root) && helper(root->right, root, max);
+        int mid = st+(end-st)/2;
+        Node* root = new Node(nums[mid]);
+        root->left = helper(nums, st, mid-1);
+        root->right = helper(nums, mid+1, end);
+        return root;
     }
-bool isValidBST(Node* root) {
-    return helper(root, NULL, NULL);
-}
+    Node* sortedArrayToBST(vector<int>& nums) {
+        return helper(nums, 0, nums.size()-1);
+    }
 
 
 int main(){
-    vector<int> preOrder = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
-    Node* root = buildTree(preOrder);
-    if(isValidBST){
-        cout<<"The Tree is a Valid Binary Search Tree."<<endl;
-    }
-    else{
-        cout<<"The Tree is not a Valid Binary Search Tree."<<endl;
-    }
+    vector<int> nums = {1,2,3,4,5,6};
+    Node* root = sortedArrayToBST(nums);
     return 0;
 }
+ 
