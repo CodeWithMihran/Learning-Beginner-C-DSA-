@@ -6968,50 +6968,107 @@
 
 // Convert Sorted Array to Binary Search Tree
 
-#include<iostream>
-#include<vector>
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// class Node{
+// public:
+//     int data;
+//     Node* left;
+//     Node* right;
+//     Node(int val){ 
+//         data = val;
+//         left = right = NULL;
+//     }
+// };
+
+// static int idx = -1;
+// Node* buildTree(vector<int>& preorder){
+//     idx++;
+
+//     if(preorder[idx] == -1) return NULL;
+//     Node* root = new Node(preorder[idx]);
+//     root->left = buildTree(preorder);
+//     root->right = buildTree(preorder);
+//     return root;
+// }
+
+// Node* helper(vector<int>& nums, int st, int end){
+//         if(st > end){
+//             return NULL;
+//         }
+//         int mid = st+(end-st)/2;
+//         Node* root = new Node(nums[mid]);
+//         root->left = helper(nums, st, mid-1);
+//         root->right = helper(nums, mid+1, end);
+//         return root;
+//     }
+//     Node* sortedArrayToBST(vector<int>& nums) {
+//         return helper(nums, 0, nums.size()-1);
+//     }
+
+// int main(){
+//     vector<int> nums = {1,2,3,4,5,6};
+//     Node* root = sortedArrayToBST(nums);
+//     return 0;
+// }
+ 
+// Minimum Distance Between BST Nodes
+
+#include <iostream>
+#include <vector>
+#include <climits>
 using namespace std;
 
-class Node{
+class Node {
 public:
     int data;
     Node* left;
     Node* right;
-    Node(int val){ 
+    Node(int val) { 
         data = val;
         left = right = NULL;
     }
 };
 
-static int idx = -1;
-Node* buildTree(vector<int>& preorder){
+int idx = -1;
+Node* prevNode = NULL;
+Node* buildTree(vector<int>& preorder) {
     idx++;
-
-    if(preorder[idx] == -1) return NULL;
+    if (preorder[idx] == -1) return NULL;
     Node* root = new Node(preorder[idx]);
     root->left = buildTree(preorder);
     root->right = buildTree(preorder);
     return root;
 }
 
-Node* helper(vector<int>& nums, int st, int end){
-        if(st > end){
-            return NULL;
-        }
-        int mid = st+(end-st)/2;
-        Node* root = new Node(nums[mid]);
-        root->left = helper(nums, st, mid-1);
-        root->right = helper(nums, mid+1, end);
-        return root;
+int minDiffInBST(Node* root) {
+    if (root == NULL) {
+        return INT_MAX;
     }
-    Node* sortedArrayToBST(vector<int>& nums) {
-        return helper(nums, 0, nums.size()-1);
+    int ans = INT_MAX;
+    if (root->left != NULL) {
+        int leftMin = minDiffInBST(root->left);
+        ans = min(ans, leftMin);
+    }
+    if (prevNode != NULL) {
+        ans = min(ans, root->data - prevNode->data);
+    }
+    prevNode = root;
+    if (root->right != NULL) {
+        int rightMin = minDiffInBST(root->right);
+        ans = min(ans, rightMin);
     }
 
+    return ans;
+}
 
-int main(){
-    vector<int> nums = {1,2,3,4,5,6};
-    Node* root = sortedArrayToBST(nums);
+int main() {
+    vector<int> preorder = {83, 62, 42, -1, 52, -1, 82, -1, -1, -1, 88, -1, -1};
+    idx = -1;
+    Node* root = buildTree(preorder);
+    prevNode = NULL;
+    cout << "Minimum Distance Between BST Nodes: " << minDiffInBST(root) << endl;
     return 0;
 }
- 
