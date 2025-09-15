@@ -7076,6 +7076,66 @@
 
 // Kth Smallest Element in a BST
 
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+
+// class Node {
+// public:
+//     int data;
+//     Node* left;
+//     Node* right;
+//     Node(int val) { 
+//         data = val;
+//         left = right = NULL;
+//     }
+// };
+
+// int idx = -1;
+// Node* prevNode = NULL;
+// Node* buildTree(vector<int>& preorder) {
+//     idx++;
+//     if (preorder[idx] == -1) return NULL;
+//     Node* root = new Node(preorder[idx]);
+//     root->left = buildTree(preorder);
+//     root->right = buildTree(preorder);
+//     return root;
+// }
+
+// int prevOrder = 0;
+// int kthSmallest(Node* root, int k) {
+//         if(root == NULL){
+//             return -1;
+//         }
+//         if(root->left != NULL){
+//             int leftAns = kthSmallest(root->left, k);
+//             if(leftAns != -1){
+//                 return leftAns;
+//             }
+//         }
+//         if(prevOrder + 1 == k){
+//             return root->data;
+//         }
+//         prevOrder = prevOrder + 1;
+//         if(root->right != NULL){
+//             int rightAns = kthSmallest(root->right, k);
+//             if(rightAns != -1){
+//                  return rightAns;
+//             }
+//         }
+//         return -1;
+//     }
+
+// int main() {
+//     vector<int> preorder = {83, 62, 42, -1, 52, -1, 82, -1, -1, -1, 88, -1, -1};
+//     Node* root = buildTree(preorder);
+//     cout<<"The Smallest Value at Kth Position : "<<kthSmallest(root, 4)<<endl;
+//     return 0;
+// }
+
+
+// Lowest Common Ancestor of a Binary Search Tree
+
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -7102,33 +7162,29 @@ Node* buildTree(vector<int>& preorder) {
     return root;
 }
 
-int prevOrder = 0;
-int kthSmallest(Node* root, int k) {
+Node* lowestCommonAncestor(Node* root, Node* p, Node* q) {
         if(root == NULL){
-            return -1;
+            return NULL;
         }
-        if(root->left != NULL){
-            int leftAns = kthSmallest(root->left, k);
-            if(leftAns != -1){
-                return leftAns;
-            }
+        if(root->data > p->data && root->data > q->data){
+            return lowestCommonAncestor(root->left, p, q);
         }
-        if(prevOrder + 1 == k){
-            return root->data;
+        else if(root->data < p->data && root->data < q->data){
+            return lowestCommonAncestor(root->right, p, q);
         }
-        prevOrder = prevOrder + 1;
-        if(root->right != NULL){
-            int rightAns = kthSmallest(root->right, k);
-            if(rightAns != -1){
-                 return rightAns;
-            }
+        else{
+            return root;
         }
-        return -1;
     }
 
 int main() {
-    vector<int> preorder = {83, 62, 42, -1, 52, -1, 82, -1, -1, -1, 88, -1, -1};
-    Node* root = buildTree(preorder);
-    cout<<"The Smallest Value at Kth Position : "<<kthSmallest(root, 4)<<endl;
+    vector<int> preOrder = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
+    Node* root = buildTree(preOrder);
+    idx = -1;
+    Node* p = new Node(3);
+    idx = -1;
+    Node* q = new Node(4);
+    Node* lca = lowestCommonAncestor(root, p, q);
+    cout<<"The value of the Lowest Common Ancestor : "<<lca->data<<endl;
     return 0;
 }
