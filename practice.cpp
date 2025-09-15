@@ -7136,6 +7136,62 @@
 
 // Lowest Common Ancestor of a Binary Search Tree
 
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+
+// class Node {
+// public:
+//     int data;
+//     Node* left;
+//     Node* right;
+//     Node(int val) { 
+//         data = val;
+//         left = right = NULL;
+//     }
+// };
+
+// int idx = -1;
+// Node* prevNode = NULL;
+// Node* buildTree(vector<int>& preorder) {
+//     idx++;
+//     if (preorder[idx] == -1) return NULL;
+//     Node* root = new Node(preorder[idx]);
+//     root->left = buildTree(preorder);
+//     root->right = buildTree(preorder);
+//     return root;
+// }
+
+// Node* lowestCommonAncestor(Node* root, Node* p, Node* q) {
+//         if(root == NULL){
+//             return NULL;
+//         }
+//         if(root->data > p->data && root->data > q->data){
+//             return lowestCommonAncestor(root->left, p, q);
+//         }
+//         else if(root->data < p->data && root->data < q->data){
+//             return lowestCommonAncestor(root->right, p, q);
+//         }
+//         else{
+//             return root;
+//         }
+//     }
+
+// int main() {
+//     vector<int> preOrder = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
+//     Node* root = buildTree(preOrder);
+//     idx = -1;
+//     Node* p = new Node(3);
+//     idx = -1;
+//     Node* q = new Node(4);
+//     Node* lca = lowestCommonAncestor(root, p, q);
+//     cout<<"The value of the Lowest Common Ancestor : "<<lca->data<<endl;
+//     return 0;
+// }
+
+
+// Construct Binary Search Tree from Preorder Traversal
+
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -7162,29 +7218,24 @@ Node* buildTree(vector<int>& preorder) {
     return root;
 }
 
-Node* lowestCommonAncestor(Node* root, Node* p, Node* q) {
-        if(root == NULL){
+Node* helper(vector<int>& preorder, int& i, int bound){
+        if(i >= preorder.size() || preorder[i] > bound){
             return NULL;
         }
-        if(root->data > p->data && root->data > q->data){
-            return lowestCommonAncestor(root->left, p, q);
-        }
-        else if(root->data < p->data && root->data < q->data){
-            return lowestCommonAncestor(root->right, p, q);
-        }
-        else{
-            return root;
-        }
+        Node* root = new Node(preorder[i++]);
+        root->left = helper(preorder, i, root->data);
+        root->right = helper(preorder, i, bound);
+        return root;
+    }
+    Node* bstFromPreorder(vector<int>& preorder) {
+        int i = 0;
+        return helper(preorder, i, INT16_MAX);
     }
 
 int main() {
-    vector<int> preOrder = {1,2,-1,-1,3,4,-1,-1,5,-1,-1};
-    Node* root = buildTree(preOrder);
-    idx = -1;
-    Node* p = new Node(3);
-    idx = -1;
-    Node* q = new Node(4);
-    Node* lca = lowestCommonAncestor(root, p, q);
-    cout<<"The value of the Lowest Common Ancestor : "<<lca->data<<endl;
+    vector<int> preOrder = {8,5,1,7,10,12};
+    Node* root = bstFromPreorder(preOrder);
+    cout<<root->data<<endl;
     return 0;
 }
+
