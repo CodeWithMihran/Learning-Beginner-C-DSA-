@@ -7016,9 +7016,68 @@
  
 // Minimum Distance Between BST Nodes
 
+// #include <iostream>
+// #include <vector>
+// #include <climits>
+// using namespace std;
+
+// class Node {
+// public:
+//     int data;
+//     Node* left;
+//     Node* right;
+//     Node(int val) { 
+//         data = val;
+//         left = right = NULL;
+//     }
+// };
+
+// int idx = -1;
+// Node* prevNode = NULL;
+// Node* buildTree(vector<int>& preorder) {
+//     idx++;
+//     if (preorder[idx] == -1) return NULL;
+//     Node* root = new Node(preorder[idx]);
+//     root->left = buildTree(preorder);
+//     root->right = buildTree(preorder);
+//     return root;
+// }
+
+// int minDiffInBST(Node* root) {
+//     if (root == NULL) {
+//         return INT_MAX;
+//     }
+//     int ans = INT_MAX;
+//     if (root->left != NULL) {
+//         int leftMin = minDiffInBST(root->left);
+//         ans = min(ans, leftMin);
+//     }
+//     if (prevNode != NULL) {
+//         ans = min(ans, root->data - prevNode->data);
+//     }
+//     prevNode = root;
+//     if (root->right != NULL) {
+//         int rightMin = minDiffInBST(root->right);
+//         ans = min(ans, rightMin);
+//     }
+
+//     return ans;
+// }
+
+// int main() {
+//     vector<int> preorder = {83, 62, 42, -1, 52, -1, 82, -1, -1, -1, 88, -1, -1};
+//     idx = -1;
+//     Node* root = buildTree(preorder);
+//     prevNode = NULL;
+//     cout << "Minimum Distance Between BST Nodes: " << minDiffInBST(root) << endl;
+//     return 0;
+// }
+
+
+// Kth Smallest Element in a BST
+
 #include <iostream>
 #include <vector>
-#include <climits>
 using namespace std;
 
 class Node {
@@ -7043,32 +7102,33 @@ Node* buildTree(vector<int>& preorder) {
     return root;
 }
 
-int minDiffInBST(Node* root) {
-    if (root == NULL) {
-        return INT_MAX;
+int prevOrder = 0;
+int kthSmallest(Node* root, int k) {
+        if(root == NULL){
+            return -1;
+        }
+        if(root->left != NULL){
+            int leftAns = kthSmallest(root->left, k);
+            if(leftAns != -1){
+                return leftAns;
+            }
+        }
+        if(prevOrder + 1 == k){
+            return root->data;
+        }
+        prevOrder = prevOrder + 1;
+        if(root->right != NULL){
+            int rightAns = kthSmallest(root->right, k);
+            if(rightAns != -1){
+                 return rightAns;
+            }
+        }
+        return -1;
     }
-    int ans = INT_MAX;
-    if (root->left != NULL) {
-        int leftMin = minDiffInBST(root->left);
-        ans = min(ans, leftMin);
-    }
-    if (prevNode != NULL) {
-        ans = min(ans, root->data - prevNode->data);
-    }
-    prevNode = root;
-    if (root->right != NULL) {
-        int rightMin = minDiffInBST(root->right);
-        ans = min(ans, rightMin);
-    }
-
-    return ans;
-}
 
 int main() {
     vector<int> preorder = {83, 62, 42, -1, 52, -1, 82, -1, -1, -1, 88, -1, -1};
-    idx = -1;
     Node* root = buildTree(preorder);
-    prevNode = NULL;
-    cout << "Minimum Distance Between BST Nodes: " << minDiffInBST(root) << endl;
+    cout<<"The Smallest Value at Kth Position : "<<kthSmallest(root, 4)<<endl;
     return 0;
 }
