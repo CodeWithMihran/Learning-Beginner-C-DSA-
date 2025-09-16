@@ -7242,6 +7242,120 @@
 
 // Merge Two Binary Search Tree
 
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+
+// class Node {
+// public:
+//     int data;
+//     Node* left;
+//     Node* right;
+//     Node(int val) { 
+//         data = val;
+//         left = right = NULL;
+//     }
+// };
+
+// int idx = -1;
+// Node* prevNode = NULL;
+// Node* buildTree(vector<int>& preorder) {
+//     idx++;
+//     if (preorder[idx] == -1) return NULL;
+//     Node* root = new Node(preorder[idx]);
+//     root->left = buildTree(preorder);
+//     root->right = buildTree(preorder);
+//     return root;
+// }
+
+// Node* insert(Node* root, int val){
+//     if(root == NULL){
+//         return new Node(val);
+//     }
+
+//     if(val < root->data){
+//         root->left = insert(root->left, val);
+//     }
+//     else{
+//         root->right = insert(root->right, val);
+//     }
+//     return root;
+// }
+
+// Node* buildBST(vector<int>& arr){
+//     Node* root = NULL;
+//     for(int val : arr){
+//         root = insert(root,val);
+//     }
+//     return root;
+// }
+
+// void inorder(Node* root, vector<int>& arr){
+//     if(root == NULL){
+//         return;
+//     }
+//     inorder(root->left, arr);
+//     arr.push_back(root->data);
+//     inorder(root->right, arr);
+// }
+
+// Node* buildBSTfromSorted(vector<int>& arr, int st, int end){
+//     if(st > end){
+//         return NULL;
+//     }
+
+//     int mid = st+(end-st)/2;
+//     Node* root = new Node(arr[mid]);
+//     root->left = buildBSTfromSorted(arr, st, mid-1);
+//     root->right = buildBSTfromSorted(arr, mid+1, end);
+//     return root;
+// }
+
+// Node* merge2BST(Node* root1, Node* root2){
+//     vector<int> arr1, arr2;
+//     inorder(root1, arr1);
+//     inorder(root2, arr2);
+
+//     vector<int> temp;
+//     int i=0, j=0;
+//     while(i < arr1.size() && j < arr2.size()){
+//         if(arr1[i] < arr2[j]){
+//             temp.push_back(arr1[i++]);
+//         }
+//         else{
+//             temp.push_back(arr2[j++]);
+//         }
+//     }
+//     while(i < arr1.size()){
+//         temp.push_back(arr1[i++]);
+//     }
+//     while(j < arr2.size()){
+//         temp.push_back(arr2[j++]);
+//     }
+
+//     return buildBSTfromSorted(temp, 0, temp.size()-1);
+// }
+
+// int main() {
+//     vector<int> arr1 = {8,2,1,10};
+//     vector<int> arr2 = {5,3,0};
+
+//     Node* root1 = buildBST(arr1);
+//     Node* root2 = buildBST(arr2);
+
+//     Node* root = merge2BST(root1, root2);
+//     vector<int> seq;
+//     inorder(root, seq);
+//     for(auto val : seq){
+//         cout<<val<<" "; 
+//     }
+//     cout<<endl;
+//     return 0;
+// }
+
+
+// Recover Binary Search Tree
+
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -7268,87 +7382,45 @@ Node* buildTree(vector<int>& preorder) {
     return root;
 }
 
-Node* insert(Node* root, int val){
-    if(root == NULL){
-        return new Node(val);
-    }
-
-    if(val < root->data){
-        root->left = insert(root->left, val);
-    }
-    else{
-        root->right = insert(root->right, val);
-    }
-    return root;
-}
-
-Node* buildBST(vector<int>& arr){
-    Node* root = NULL;
-    for(int val : arr){
-        root = insert(root,val);
-    }
-    return root;
-}
-
-void inorder(Node* root, vector<int>& arr){
+Node* prevNodes = NULL;
+Node* first = NULL;
+Node* sec = NULL;
+void inorder(Node* root){
     if(root == NULL){
         return;
     }
-    inorder(root->left, arr);
-    arr.push_back(root->data);
-    inorder(root->right, arr);
+    inorder(root->left);
+    if(prevNodes != NULL && root->data < prevNodes->data){
+        if(first == NULL){
+            first = prevNodes;
+        }
+        sec = root;
+    }
+    prevNodes = root;
+    inorder(root->right);
+}
+void recoverTree(Node* root) {
+    inorder(root);
+    int temp = first->data;
+    first->data = sec->data;
+    sec->data = temp;
 }
 
-Node* buildBSTfromSorted(vector<int>& arr, int st, int end){
-    if(st > end){
-        return NULL;
+void printInorder(Node* root){
+    if(root == NULL){
+        return;
     }
-
-    int mid = st+(end-st)/2;
-    Node* root = new Node(arr[mid]);
-    root->left = buildBSTfromSorted(arr, st, mid-1);
-    root->right = buildBSTfromSorted(arr, mid+1, end);
-    return root;
-}
-
-Node* merge2BST(Node* root1, Node* root2){
-    vector<int> arr1, arr2;
-    inorder(root1, arr1);
-    inorder(root2, arr2);
-
-    vector<int> temp;
-    int i=0, j=0;
-    while(i < arr1.size() && j < arr2.size()){
-        if(arr1[i] < arr2[j]){
-            temp.push_back(arr1[i++]);
-        }
-        else{
-            temp.push_back(arr2[j++]);
-        }
-    }
-    while(i < arr1.size()){
-        temp.push_back(arr1[i++]);
-    }
-    while(j < arr2.size()){
-        temp.push_back(arr2[j++]);
-    }
-
-    return buildBSTfromSorted(temp, 0, temp.size()-1);
+    printInorder(root->left);
+    cout<<root->data<<" ";
+    printInorder(root->right);
 }
 
 int main() {
-    vector<int> arr1 = {8,2,1,10};
-    vector<int> arr2 = {5,3,0};
-
-    Node* root1 = buildBST(arr1);
-    Node* root2 = buildBST(arr2);
-
-    Node* root = merge2BST(root1, root2);
-    vector<int> seq;
-    inorder(root, seq);
-    for(auto val : seq){
-        cout<<val<<" "; 
-    }
+    vector<int> preOrder = {6, 3, 1, -1, -1, 8, -1, -1, 4, -1, 9, -1, -1};
+    Node* root = buildTree(preOrder);
+    printInorder(root);
     cout<<endl;
+    recoverTree(root);
+    printInorder(root);
     return 0;
 }
