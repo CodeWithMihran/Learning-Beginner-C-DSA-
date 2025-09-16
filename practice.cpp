@@ -7356,6 +7356,78 @@
 
 // Recover Binary Search Tree
 
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+
+// class Node {
+// public:
+//     int data;
+//     Node* left;
+//     Node* right;
+//     Node(int val) { 
+//         data = val;
+//         left = right = NULL;
+//     }
+// };
+
+// int idx = -1;
+// Node* prevNode = NULL;
+// Node* buildTree(vector<int>& preorder) {
+//     idx++;
+//     if (preorder[idx] == -1) return NULL;
+//     Node* root = new Node(preorder[idx]);
+//     root->left = buildTree(preorder);
+//     root->right = buildTree(preorder);
+//     return root;
+// }
+
+// Node* prevNodes = NULL;
+// Node* first = NULL;
+// Node* sec = NULL;
+// void inorder(Node* root){
+//     if(root == NULL){
+//         return;
+//     }
+//     inorder(root->left);
+//     if(prevNodes != NULL && root->data < prevNodes->data){
+//         if(first == NULL){
+//             first = prevNodes;
+//         }
+//         sec = root;
+//     }
+//     prevNodes = root;
+//     inorder(root->right);
+// }
+// void recoverTree(Node* root) {
+//     inorder(root);
+//     int temp = first->data;
+//     first->data = sec->data;
+//     sec->data = temp;
+// }
+
+// void printInorder(Node* root){
+//     if(root == NULL){
+//         return;
+//     }
+//     printInorder(root->left);
+//     cout<<root->data<<" ";
+//     printInorder(root->right);
+// }
+
+// int main() {
+//     vector<int> preOrder = {6, 3, 1, -1, -1, 8, -1, -1, 4, -1, 9, -1, -1};
+//     Node* root = buildTree(preOrder);
+//     printInorder(root);
+//     cout<<endl;
+//     recoverTree(root);
+//     printInorder(root);
+//     return 0;
+// }
+
+
+// Largest BST in Binary Tree
+
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -7382,45 +7454,49 @@ Node* buildTree(vector<int>& preorder) {
     return root;
 }
 
-Node* prevNodes = NULL;
-Node* first = NULL;
-Node* sec = NULL;
-void inorder(Node* root){
-    if(root == NULL){
-        return;
-    }
-    inorder(root->left);
-    if(prevNodes != NULL && root->data < prevNodes->data){
-        if(first == NULL){
-            first = prevNodes;
-        }
-        sec = root;
-    }
-    prevNodes = root;
-    inorder(root->right);
-}
-void recoverTree(Node* root) {
-    inorder(root);
-    int temp = first->data;
-    first->data = sec->data;
-    sec->data = temp;
-}
+class Info{
+public: 
+    int min, max, sz;
 
-void printInorder(Node* root){
-    if(root == NULL){
-        return;
+    Info(int mi, int ma, int size){
+        min = mi;
+        max = ma;
+        sz = size;
     }
-    printInorder(root->left);
-    cout<<root->data<<" ";
-    printInorder(root->right);
+};
+
+Info helper(Node* root){
+    if(root == NULL){
+        return Info(INT16_MAX, INT16_MIN, 0);
+    }
+
+    Info left = helper(root->left);
+    Info right = helper(root->right);
+
+    if(root->data > left.max && root->data < right.min){
+        int currMin = min(root->data, left.min);
+        int currMax = max(root->data, right.max);
+        int currSz = left.sz + right.sz + 1;
+
+        return Info(currMin, currMax, currSz);
+    }
+
+    return Info(INT16_MIN, INT16_MAX, max(left.sz, right.sz));
+}
+ 
+int largestBSTinBT(Node* root){
+    Info info = helper(root);
+    return info.sz;
 }
 
 int main() {
-    vector<int> preOrder = {6, 3, 1, -1, -1, 8, -1, -1, 4, -1, 9, -1, -1};
-    Node* root = buildTree(preOrder);
-    printInorder(root);
-    cout<<endl;
-    recoverTree(root);
-    printInorder(root);
+    Node* root = new Node(10);
+    root->left = new Node(5);
+    root->right = new Node(15);
+    root->left->left = new Node(1);
+    root->left->right = new Node(8);
+    root->right->right = new Node(7);
+
+    cout<<"The Root of Largest BST in Binary Tree : "<<largestBSTinBT(root)<<endl;
     return 0;
 }
