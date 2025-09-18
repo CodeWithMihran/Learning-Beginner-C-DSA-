@@ -7805,7 +7805,11 @@ public:
     void dfs(){
         int src = 0;
         vector<bool> vis(V, false);
-        dfsHelper(src, vis);
+        for(int i=0; i<V; i++){
+            if(!vis[i]){
+                dfsHelper(i, vis);
+            }
+        }
         cout<<endl;
     }
 };
