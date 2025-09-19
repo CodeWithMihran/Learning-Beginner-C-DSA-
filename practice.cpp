@@ -7989,78 +7989,126 @@
 
 // Cycle Detection in Undirected Graph using BFS
 
+// #include<iostream>
+// #include<vector>
+// #include<queue>
+// #include<list>
+// using namespace std;
+
+// class Graph{
+//     int V;
+//     list<int> *l;
+
+// public:
+//     Graph(int V){
+//         this->V = V;
+//         l = new list<int> [V];
+//     }    
+
+//     void addEdge(int u, int v){
+//         l[u].push_back(v);
+//         l[v].push_back(u);
+//     }
+
+//     bool isCycleUndirBFS(int src, vector<bool>& vis){
+//         queue<pair<int,int>> q;
+//         q.push({src, -1});
+//         vis[src] = true;
+
+//         while(q.size() > 0){
+//             int u = q.front().first;
+//             int parU = q.front().second;
+//             q.pop();
+
+//             list<int> neighbors = l[u];
+//             for(int v : neighbors){
+//                 if(!vis[v]){
+//                     q.push({v,u});
+//                     vis[v] = true;
+//                 }
+//                 else if(v != parU){
+//                     return true;
+//                 }
+//             }
+//         }
+//         return false;
+//     }
+
+//     bool isCycle(){
+//         vector<bool> vis(V, false);
+//         for(int i=0; i<V; i++){
+//             if(!vis[i]){
+//                 if(isCycleUndirBFS(i, vis)){
+//                     return true;
+//                 }
+//             }
+//         }
+//         return false;
+//     }
+// };
+
+// int main(){
+//     Graph g(5);
+
+//     g.addEdge(0,1);
+//     g.addEdge(0,2);
+//     g.addEdge(0,3);
+//     g.addEdge(1,2);
+//     g.addEdge(3,4);
+
+//     if(g.isCycle()){
+//         cout<<"The Graph is Cycled."<<endl;
+//     }
+//     else{
+//         cout<<"The Graph is Not Cycled."<<endl;
+//     }
+//     return 0;
+// }
+
+
+// Number of Islands
+
 #include<iostream>
 #include<vector>
-#include<queue>
-#include<list>
 using namespace std;
 
-class Graph{
-    int V;
-    list<int> *l;
+void dfs(int i, int j, vector<vector<bool>>& vis, vector<vector<char>>& grid, int n, int m){
+        if(i<0 || j<0 || i>=n || j>=m || vis[i][j] || grid[i][j] != '1'){
+            return;
+        }
+        vis[i][j] = true;
 
-public:
-    Graph(int V){
-        this->V = V;
-        l = new list<int> [V];
-    }    
-
-    void addEdge(int u, int v){
-        l[u].push_back(v);
-        l[v].push_back(u);
+        dfs(i-1, j, vis, grid, n, m);
+        dfs(i, j+1, vis, grid, n, m);
+        dfs(i+1, j, vis, grid, n, m);
+        dfs(i, j-1, vis, grid, n, m);
     }
+    int numIslands(vector<vector<char>>& grid) {
+        int islands = 0;
+        int n = grid.size();
+        int m = grid[0].size();
+        vector<vector<bool>> vis(n, vector<bool>(m,false));
 
-    bool isCycleUndirBFS(int src, vector<bool>& vis){
-        queue<pair<int,int>> q;
-        q.push({src, -1});
-        vis[src] = true;
-
-        while(q.size() > 0){
-            int u = q.front().first;
-            int parU = q.front().second;
-            q.pop();
-
-            list<int> neighbors = l[u];
-            for(int v : neighbors){
-                if(!vis[v]){
-                    q.push({v,u});
-                    vis[v] = true;
-                }
-                else if(v != parU){
-                    return true;
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(grid[i][j] == '1' && !vis[i][j]){
+                    dfs(i, j, vis, grid, n, m);
+                    islands++;
                 }
             }
         }
-        return false;
+        return islands;
     }
-
-    bool isCycle(){
-        vector<bool> vis(V, false);
-        for(int i=0; i<V; i++){
-            if(!vis[i]){
-                if(isCycleUndirBFS(i, vis)){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-};
 
 int main(){
-    Graph g(5);
+    vector<vector<char>> grid = {
+  {'1','1','0','0','0'},
+  {'1','1','0','0','0'},
+  {'0','0','1','0','0'},
+  {'0','0','0','1','1'}
+};
 
-    g.addEdge(0,1);
-    g.addEdge(0,2);
-    g.addEdge(0,3);
-    g.addEdge(1,2);
-    g.addEdge(3,4);
+    cout<<"The Number of Islands : "<<numIslands(grid)<<endl;
 
-    if(g.isCycle()){
-        cout<<"The Graph is Cycled."<<endl;
-    }
-    else{
-        cout<<"The Graph is Not Cycled."<<endl;
-    }
     return 0;
 }
