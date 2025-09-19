@@ -8068,47 +8068,109 @@
 
 // Number of Islands
 
+// #include<iostream>
+// #include<vector>
+// using namespace std;
+
+// void dfs(int i, int j, vector<vector<bool>>& vis, vector<vector<char>>& grid, int n, int m){
+//         if(i<0 || j<0 || i>=n || j>=m || vis[i][j] || grid[i][j] != '1'){
+//             return;
+//         }
+//         vis[i][j] = true;
+
+//         dfs(i-1, j, vis, grid, n, m);
+//         dfs(i, j+1, vis, grid, n, m);
+//         dfs(i+1, j, vis, grid, n, m);
+//         dfs(i, j-1, vis, grid, n, m);
+//     }
+//     int numIslands(vector<vector<char>>& grid) {
+//         int islands = 0;
+//         int n = grid.size();
+//         int m = grid[0].size();
+//         vector<vector<bool>> vis(n, vector<bool>(m,false));
+
+//         for(int i=0; i<n; i++){
+//             for(int j=0; j<m; j++){
+//                 if(grid[i][j] == '1' && !vis[i][j]){
+//                     dfs(i, j, vis, grid, n, m);
+//                     islands++;
+//                 }
+//             }
+//         }
+//         return islands;
+//     }
+
+// int main(){
+//     vector<vector<char>> grid = {
+//   {'1','1','0','0','0'},
+//   {'1','1','0','0','0'},
+//   {'0','0','1','0','0'},
+//   {'0','0','0','1','1'}
+// };
+
+//     cout<<"The Number of Islands : "<<numIslands(grid)<<endl;
+
+//     return 0;
+// }
+
+
+// Rotting Oranges
+
 #include<iostream>
 #include<vector>
+#include<queue>
 using namespace std;
 
-void dfs(int i, int j, vector<vector<bool>>& vis, vector<vector<char>>& grid, int n, int m){
-        if(i<0 || j<0 || i>=n || j>=m || vis[i][j] || grid[i][j] != '1'){
-            return;
-        }
-        vis[i][j] = true;
-
-        dfs(i-1, j, vis, grid, n, m);
-        dfs(i, j+1, vis, grid, n, m);
-        dfs(i+1, j, vis, grid, n, m);
-        dfs(i, j-1, vis, grid, n, m);
-    }
-    int numIslands(vector<vector<char>>& grid) {
-        int islands = 0;
+int orangesRotting(vector<vector<int>>& grid) {
         int n = grid.size();
         int m = grid[0].size();
+        int ans = 0;
         vector<vector<bool>> vis(n, vector<bool>(m,false));
-
+        queue<pair<pair<int,int>, int>> q;
         for(int i=0; i<n; i++){
             for(int j=0; j<m; j++){
-                if(grid[i][j] == '1' && !vis[i][j]){
-                    dfs(i, j, vis, grid, n, m);
-                    islands++;
+                if(grid[i][j] == 2){
+                    q.push({{i,j}, 0});
+                    vis[i][j] = true;
                 }
             }
         }
-        return islands;
+        while(q.size() > 0){
+            int i = q.front().first.first;
+            int j = q.front().first.second;
+            int time =  q.front().second;
+            q.pop();
+            ans = max(ans,time);
+
+            if(i-1 >= 0 && !vis[i-1][j] && grid[i-1][j] == 1){
+                q.push({{i-1,j},time+1});
+                vis[i-1][j] = true;
+            }
+            if(j+1 < m && !vis[i][j+1] && grid[i][j+1] == 1){
+                q.push({{i,j+1},time+1});
+                vis[i][j+1] = true;
+            }
+            if(i+1 < n && !vis[i+1][j] && grid[i+1][j] == 1){
+                q.push({{i+1,j},time+1});
+                vis[i+1][j] = true;
+            }
+            if(j-1 >= 0 && !vis[i][j-1] && grid[i][j-1] == 1){
+                q.push({{i,j-1},time+1});
+                vis[i][j-1] = true;
+            }
+        }
+         for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(grid[i][j] == 1 && !vis[i][j]){
+                    return -1;
+                }
+            }
+        }
+        return ans;
     }
 
 int main(){
-    vector<vector<char>> grid = {
-  {'1','1','0','0','0'},
-  {'1','1','0','0','0'},
-  {'0','0','1','0','0'},
-  {'0','0','0','1','1'}
-};
-
-    cout<<"The Number of Islands : "<<numIslands(grid)<<endl;
-
+    vector<vector<int>> grid = {{2,1,1},{1,1,0},{0,1,1}};
+    cout<<"The Time taken to Rotten all the Oranges : "<<orangesRotting(grid)<<endl;
     return 0;
 }
